@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PageIntro } from "@/components/shared";
 import { ProductCard } from "@/components/product-card";
+import { MotionSequence } from "@/components/motion-sequence";
+import { Ticker } from "@/components/ticker";
 import { products } from "@/lib/products";
 
 export const metadata: Metadata = {
@@ -17,19 +19,23 @@ export default function Products() {
         title="Small objects. Lasting character."
         description="For a well-loved desk, a favourite reading corner, or a thoughtful gift. Discover the warmth of wood in the everyday."
       />
+      <Ticker
+        items={products.map((product) => product.name)}
+        label="The wooden objects collection"
+      />
       <section
-        className="wrap collection-section"
+        className="wrap collection-section products-page-collection"
         aria-label="Product collection"
       >
         <div className="collection-heading">
           <span>{products.length} wooden pieces</span>
           <span>Explore a piece to enquire on WhatsApp</span>
         </div>
-        <div className="collection-grid">
-          {products.map((product, index) => (
-            <ProductCard key={product.slug} product={product} index={index} />
+        <MotionSequence className="collection-grid">
+          {products.map((product) => (
+            <ProductCard key={product.slug} product={product} />
           ))}
-        </div>
+        </MotionSequence>
       </section>
     </>
   );

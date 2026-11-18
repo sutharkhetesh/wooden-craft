@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, MessageCircle } from "lucide-react";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductCard } from "@/components/product-card";
+import { MotionSequence, MotionItem } from "@/components/motion-sequence";
 import { products, productPhotoUrl } from "@/lib/products";
 import { whatsappUrl } from "@/lib/config";
 
@@ -45,17 +46,27 @@ export default async function ProductDetail({
       </Link>
       <section className="product-detail">
         <ProductGallery photos={product.photos} name={product.name} />
-        <div className="product-information">
-          <p className="eyebrow">{product.category}</p>
-          <h1>{product.name}</h1>
-          <p className="product-tagline">{product.tagline}</p>
-          <p className="product-description">{product.description}</p>
-          <ul className="product-features">
-            {product.details.map((detail) => (
-              <li key={detail}>{detail}</li>
-            ))}
-          </ul>
-          <div className="product-enquiry">
+        <MotionSequence className="product-information">
+          <MotionItem>
+            <p className="eyebrow">{product.category}</p>
+          </MotionItem>
+          <MotionItem>
+            <h1>{product.name}</h1>
+          </MotionItem>
+          <MotionItem>
+            <p className="product-tagline">{product.tagline}</p>
+          </MotionItem>
+          <MotionItem>
+            <p className="product-description">{product.description}</p>
+          </MotionItem>
+          <MotionItem>
+            <ul className="product-features">
+              {product.details.map((detail) => (
+                <li key={detail}>{detail}</li>
+              ))}
+            </ul>
+          </MotionItem>
+          <MotionItem className="product-enquiry">
             <p>Make it part of your everyday.</p>
             <a
               href={whatsappUrl(
@@ -77,8 +88,8 @@ export default async function ProductDetail({
             <span>
               Ask us about price, dimensions, finish and included accessories.
             </span>
-          </div>
-        </div>
+          </MotionItem>
+        </MotionSequence>
       </section>
       <section
         className="related-products"
@@ -92,14 +103,14 @@ export default async function ProductDetail({
             </h2>
           </div>
         </div>
-        <div className="collection-grid">
+        <MotionSequence className="collection-grid">
           {products
             .filter((item) => item.slug !== slug)
             .slice(0, 3)
-            .map((item, index) => (
-              <ProductCard product={item} index={index} key={item.slug} />
+            .map((item) => (
+              <ProductCard product={item} key={item.slug} />
             ))}
-        </div>
+        </MotionSequence>
       </section>
     </div>
   );

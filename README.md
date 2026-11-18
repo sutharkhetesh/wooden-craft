@@ -40,7 +40,9 @@ Existing records in a previously deployed database are not automatically copied 
 - Server validation, honeypot, origin checks, rate limiting, unique references and honest failure states.
 - Contact form submits a consultation enquiry to the same persistent storage.
 - Fluid layouts for phones, tablets and wide desktops, with touch-sized controls and keyboard-accessible mobile navigation.
-- Motion for React scroll reveals, staggered content, animated navigation, project filtering and scroll progress, respecting reduced-motion preferences.
+- Motion for React variants orchestrate headings, product cards, product details and gallery thumbnails. Directional gallery transitions and an animated selection indicator keep product browsing clear.
+- A custom Motion-powered ticker on the homepage and collection page loops smoothly, pauses on hover or with its keyboard-accessible button, and becomes a static strip for reduced motion. The paid Motion+ Ticker package is not required.
+- Animated navigation, project filtering and scroll progress also respect reduced-motion preferences.
 - Keyboard focus, SEO metadata, sitemap, robots and conditional real-business structured data.
 
 ## Validation

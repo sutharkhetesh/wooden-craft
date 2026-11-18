@@ -1,19 +1,12 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  ArrowDown,
-  MoveRight,
-  Leaf,
-  Ruler,
-  HandHeart,
-  Sparkles,
-  Star,
-} from "lucide-react";
+import { ArrowUpRight, ArrowDown, MoveRight, Leaf, Star } from "lucide-react";
 import { Photo, TextLink, ProjectCTA } from "@/components/shared";
 import { Reveal } from "@/components/reveal";
 import { services, projects } from "@/lib/data";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/product-card";
+import { MotionSequence } from "@/components/motion-sequence";
+import { Ticker } from "@/components/ticker";
 const process = [
   [
     "01",
@@ -85,23 +78,15 @@ export default function Home() {
           </span>
         </div>
       </section>
-      <div className="values-strip">
-        <span>
-          <Leaf size={15} /> HONEST MATERIALS
-        </span>
-        <i />
-        <span>
-          <Ruler size={15} /> MADE TO MEASURE
-        </span>
-        <i />
-        <span>
-          <HandHeart size={15} /> CRAFTED WITH CARE
-        </span>
-        <i />
-        <span>
-          <Sparkles size={15} /> TIMELESS BY DESIGN
-        </span>
-      </div>
+      <Ticker
+        items={[
+          "Honest materials",
+          "Made to measure",
+          "Crafted with care",
+          "Timeless by design",
+        ]}
+        label="Materials and approach"
+      />
       <section className="wrap story-section" id="story">
         <Reveal className="story-images">
           <Photo
@@ -210,11 +195,11 @@ export default function Home() {
               <TextLink href="/products">Explore the collection</TextLink>
             </div>
           </Reveal>
-          <div className="collection-grid">
-            {products.slice(0, 3).map((product, index) => (
-              <ProductCard key={product.slug} product={product} index={index} />
+          <MotionSequence className="collection-grid">
+            {products.slice(0, 3).map((product) => (
+              <ProductCard key={product.slug} product={product} />
             ))}
-          </div>
+          </MotionSequence>
         </div>
       </section>
       <section className="wrap process-section">

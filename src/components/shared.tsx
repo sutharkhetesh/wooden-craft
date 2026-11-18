@@ -5,6 +5,7 @@ import { Brand } from "./header";
 import { Button } from "./ui/button";
 import { business, whatsappUrl } from "@/lib/config";
 import { Reveal } from "./reveal";
+import { MotionSequence, MotionItem } from "./motion-sequence";
 export function Photo({
   name,
   alt,
@@ -57,11 +58,17 @@ export function PageIntro({
 }) {
   return (
     <section className="page-intro wrap">
-      <Reveal>
-        <p className="eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p className="intro-description">{description}</p>
-      </Reveal>
+      <MotionSequence>
+        <MotionItem>
+          <p className="eyebrow">{eyebrow}</p>
+        </MotionItem>
+        <MotionItem>
+          <h1>{title}</h1>
+        </MotionItem>
+        <MotionItem>
+          <p className="intro-description">{description}</p>
+        </MotionItem>
+      </MotionSequence>
     </section>
   );
 }

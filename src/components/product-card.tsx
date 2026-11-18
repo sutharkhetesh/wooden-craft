@@ -1,21 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { type Product, productPhotoUrl } from "@/lib/products";
-import { Reveal } from "./reveal";
+import { motion, useReducedMotion } from "framer-motion";
+import { sequenceItemVariants } from "./motion-sequence";
 
-export function ProductCard({
-  product,
-  index = 0,
-}: {
-  product: Product;
-  index?: number;
-}) {
+export function ProductCard({ product }: { product: Product }) {
+  const reduced = useReducedMotion();
   return (
-    <Reveal
+    <motion.article
       className="collection-card"
-      delay={Math.min(index, 3) * 0.06}
-      interactive
+      variants={sequenceItemVariants(reduced)}
+      whileHover={reduced ? undefined : { y: -6 }}
+      transition={{ type: "spring", stiffness: 240, damping: 24 }}
     >
       <Link href={`/products/${product.slug}`} className="collection-card-link">
         <div className="collection-card-photo">
@@ -38,6 +37,6 @@ export function ProductCard({
           </span>
         </div>
       </Link>
-    </Reveal>
+    </motion.article>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { type ProductPhoto, productPhotoUrl } from "@/lib/products";
+import { sequenceVariants, sequenceItemVariants } from "./motion-sequence";
 
 export function ProductGallery({
   photos,
@@ -14,24 +15,58 @@ export function ProductGallery({
   name: string;
 }) {
   const [selected, setSelected] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const selectionId = useId();
   const reduced = useReducedMotion();
   const photo = photos[selected];
+  const selectPhoto = (index: number, movement = index > selected ? 1 : -1) => {
+    setDirection(movement);
+    setSelected(index);
+  };
+  const slide = {
+    enter: (direction: number) => ({
+      opacity: reduced ? 1 : 0,
+      x: reduced ? 0 : direction * 24,
+    }),
+    visible: { opacity: 1, x: 0 },
+    exit: (direction: number) => ({
+      opacity: reduced ? 1 : 0,
+      x: reduced ? 0 : direction * -24,
+    }),
+  };
   return (
-    <div className="product-gallery" aria-label={`${name} photos`}>
-      <div className="product-gallery-toolbar">
+    <motion.div
+      className="product-gallery"
+      aria-label={`${name} photos`}
+      variants={sequenceVariants(reduced)}
+      initial={reduced ? false : "hidden"}
+      animate="visible"
+    >
+      <motion.div
+        className="product-gallery-toolbar"
+        variants={sequenceItemVariants(reduced)}
+      >
         <span className="photo-counter" aria-live="polite">
           {selected + 1} / {photos.length}
         </span>
-      </div>
-      <div className="product-gallery-stage">
-        <AnimatePresence initial={false} mode="wait">
+      </motion.div>
+      <motion.div
+        className="product-gallery-stage"
+        variants={sequenceItemVariants(reduced)}
+      >
+        <AnimatePresence initial={false} mode="wait" custom={direction}>
           <motion.div
             key={photo.id}
             className="product-gallery-image"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduced ? 0 : 0.18 }}
+            custom={direction}
+            variants={slide}
+            initial={reduced ? false : "enter"}
+            animate="visible"
+            exit="exit"
+            transition={{
+              duration: reduced ? 0 : 0.28,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
             <Image
               src={productPhotoUrl(photo.id)}
@@ -44,34 +79,45 @@ export function ProductGallery({
         </AnimatePresence>
         {photos.length > 1 && (
           <div className="gallery-arrows">
-            <button
+            <motion.button
               type="button"
               aria-label="Previous product photo"
               onClick={() =>
-                setSelected((selected + photos.length - 1) % photos.length)
+                selectPhoto((selected + photos.length - 1) % photos.length, -1)
               }
+              whileHover={reduced ? undefined : { scale: 1.06 }}
+              whileTap={reduced ? undefined : { scale: 0.92 }}
             >
               <ArrowLeft size={18} />
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="button"
               aria-label="Next product photo"
-              onClick={() => setSelected((selected + 1) % photos.length)}
+              onClick={() => selectPhoto((selected + 1) % photos.length, 1)}
+              whileHover={reduced ? undefined : { scale: 1.06 }}
+              whileTap={reduced ? undefined : { scale: 0.92 }}
             >
               <ArrowRight size={18} />
-            </button>
+            </motion.button>
           </div>
         )}
-      </div>
+      </motion.div>
       {photos.length > 1 && (
-        <div className="product-thumbnails" aria-label="Choose a product view">
+        <motion.div
+          className="product-thumbnails"
+          aria-label="Choose a product view"
+          variants={sequenceVariants(reduced)}
+        >
           {photos.map((item, index) => (
-            <button
+            <motion.button
               key={item.id}
               type="button"
               aria-label={`View photo ${index + 1} of ${name}`}
               aria-pressed={selected === index}
-              onClick={() => setSelected(index)}
+              onClick={() => selectPhoto(index)}
+              variants={sequenceItemVariants(reduced)}
+              whileHover={reduced ? undefined : { y: -3 }}
+              whileTap={reduced ? undefined : { scale: 0.95 }}
             >
               <Image
                 src={productPhotoUrl(item.id)}
@@ -79,10 +125,17 @@ export function ProductGallery({
                 fill
                 sizes="80px"
               />
-            </button>
+              {selected === index && (
+                <motion.span
+                  className="thumbnail-indicator"
+                  layoutId={selectionId}
+                  transition={{ duration: reduced ? 0 : 0.25 }}
+                />
+              )}
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

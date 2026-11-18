@@ -160,8 +160,88 @@ try {
     (await page.request.get(origin + "/products/not-a-product")).status(),
     404,
   );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto(origin + "/products", { waitUntil: "networkidle" });
+  await page.mouse.move(0, 0);
+  await page.waitForFunction(() => {
+    const track = document.querySelector(".ticker-track");
+    return new DOMMatrixReadOnly(getComputedStyle(track).transform).m41 < -2;
+  });
+  await page.getByRole("button", { name: "Pause scrolling banner" }).click();
+  await page.mouse.move(0, 0);
+  const pausedX = await page
+    .locator(".ticker-track")
+    .evaluate(
+      (element) =>
+        new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
+    );
+  await page.waitForTimeout(200);
+  const stillX = await page
+    .locator(".ticker-track")
+    .evaluate(
+      (element) =>
+        new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
+    );
+  assert.ok(Math.abs(pausedX - stillX) < 0.5, "Ticker must stay paused");
+  await page.getByRole("button", { name: "Resume scrolling banner" }).focus();
+  await page.keyboard.press("Enter");
+  await page.waitForFunction((previous) => {
+    const x = new DOMMatrixReadOnly(
+      getComputedStyle(document.querySelector(".ticker-track")).transform,
+    ).m41;
+    return Math.abs(x - previous) > 2;
+  }, stillX);
+  await page.goto(origin + links[0], { waitUntil: "networkidle" });
+  const initialPhoto = await page
+    .locator(".product-gallery-image img")
+    .getAttribute("src");
+  await page.getByRole("button", { name: "Next product photo" }).focus();
+  await page.keyboard.press("Enter");
+  await page.waitForFunction((previous) => {
+    const image = document.querySelector(".product-gallery-image img");
+    return (
+      image?.complete &&
+      image.naturalWidth > 0 &&
+      image.getAttribute("src") !== previous &&
+      getComputedStyle(image.parentElement).opacity === "1"
+    );
+  }, initialPhoto);
+  assert.equal(await page.locator(".thumbnail-indicator").count(), 1);
+  assert.equal(
+    await page
+      .locator(".product-thumbnails button")
+      .nth(1)
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+  await page.waitForFunction(
+    () =>
+      getComputedStyle(document.querySelector(".product-enquiry")).opacity ===
+      "1",
+  );
+  await page
+    .locator(".related-products .collection-grid")
+    .scrollIntoViewIfNeeded();
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll(".related-products .collection-card")].every(
+      (card) => getComputedStyle(card).opacity === "1",
+    ),
+  );
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.screenshot({
+    path: "/tmp/wooden-craft-product-motion.png",
+    fullPage: true,
+  });
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(origin + "/products", { waitUntil: "networkidle" });
+  assert.equal(await page.locator(".ticker-toggle").isVisible(), false);
+  assert.equal(
+    await page
+      .locator(".ticker-track")
+      .evaluate((element) => getComputedStyle(element).transform),
+    "none",
+  );
   await page.screenshot({
     path: "/tmp/wooden-craft-products-mobile.png",
     fullPage: true,
@@ -173,7 +253,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: four product pages, 13 generated views, no original controls or public originals, removed collection returns 404, gallery navigation, WhatsApp and sitemap",
+    "PASS: four products, 13 generated views, ticker scrolling/pause/keyboard resume, variant/gallery animations, reduced motion, WhatsApp, removed originals and sitemap",
   );
 } finally {
   await browser?.close();

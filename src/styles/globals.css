@@ -251,9 +251,6 @@ img {
 .text-link:hover svg {
   transform: translate(3px, -3px);
 }
-.text-link.light {
-  color: white;
-}
 .site-header {
   position: sticky;
   top: 0;
@@ -1092,14 +1089,6 @@ img {
   border-bottom: 1px solid var(--line);
   margin-bottom: 24px;
   padding-bottom: 10px;
-}
-.demo-banner {
-  font-size: 10px;
-  color: #8c7054;
-  background: #eee7dc;
-  padding: 12px 18px;
-  display: inline-block;
-  margin-top: 24px;
 }
 .enquiry-layout {
   display: grid;

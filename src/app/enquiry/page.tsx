@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { PageIntro } from "@/components/shared";
-import { EnquiryForm } from "@/components/enquiry-form";
+import { PageIntro } from "@/components/shared/page-intro";
+import { EnquiryForm } from "@/components/forms/enquiry-form";
 export const metadata: Metadata = {
   title: "Start Your Custom Project",
   description:

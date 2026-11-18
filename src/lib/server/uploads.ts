@@ -2,9 +2,9 @@ import "server-only";
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { dataDirectory } from "./storage";
-import type { Attachment } from "./schema";
-import { maxFileSize, imageKind } from "./image-validation";
+import { dataDirectory } from "@/lib/server/storage";
+import type { Attachment } from "@/lib/enquiry/schema";
+import { maxFileSize, imageKind } from "@/lib/enquiry/image-validation";
 export async function storeUploads(files: File[], enquiryId: string) {
   if (files.length > 5) throw new Error("Upload up to 5 reference images.");
   const validated = await Promise.all(

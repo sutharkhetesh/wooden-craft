@@ -98,6 +98,11 @@ try {
     .fill(
       "A beautiful table for six people with rounded corners and a natural finish.",
     );
+  // Blur validation removes error text and moves the Continue button.
+  await page.getByLabel("What would you like us to create?").blur();
+  await page.waitForFunction(
+    () => document.querySelectorAll(".field-error").length === 0,
+  );
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByLabel("Project location / city").fill("Jaipur");
   await page.getByRole("button", { name: "Continue", exact: true }).click();

@@ -1,5 +1,5 @@
-import { enquirySchema } from "../src/lib/schema.ts";
-import { imageKind, maxFileSize } from "../src/lib/image-validation.ts";
+import { enquirySchema } from "../src/lib/enquiry/schema.ts";
+import { imageKind, maxFileSize } from "../src/lib/enquiry/image-validation.ts";
 const json = (body, status = 200, headers = {}) =>
   Response.json(body, {
     status,

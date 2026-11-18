@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { PageIntro, Photo, ProjectCTA } from "@/components/shared";
-import { Reveal } from "@/components/reveal";
+import { PageIntro } from "@/components/shared/page-intro";
+import { Photo } from "@/components/shared/photo";
+import { ProjectCTA } from "@/components/shared/project-cta";
+import { Reveal } from "@/components/motion/reveal";
 export const metadata: Metadata = {
   title: "Our Story",
   description:

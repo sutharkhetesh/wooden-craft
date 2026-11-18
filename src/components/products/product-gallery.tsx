@@ -4,8 +4,8 @@ import { useId, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { type ProductPhoto, productPhotoUrl } from "@/lib/products";
-import { sequenceVariants, sequenceItemVariants } from "./motion-sequence";
+import { type ProductPhoto, productPhotoUrl } from "@/data/products";
+import { sequenceVariants, sequenceItemVariants } from "@/components/motion/motion-sequence";
 
 export function ProductGallery({
   photos,

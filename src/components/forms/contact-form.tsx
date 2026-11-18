@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
-import { defaults } from "@/lib/schema";
+import { defaults } from "@/lib/enquiry/schema";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name.").max(100),

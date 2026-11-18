@@ -1,4 +1,4 @@
-import type { EnquiryInput } from "./schema";
+import type { EnquiryInput } from "@/lib/enquiry/schema";
 
 export const business = {
   name: "Grain & Form",

@@ -11,6 +11,8 @@ import {
 } from "framer-motion";
 import { ArrowUpRight, Menu, X, MessageCircle, Phone } from "lucide-react";
 import { business, whatsappUrl } from "@/lib/config";
+import { Brand } from "./brand";
+
 const links = [
   ["Home", "/"],
   ["Our Story", "/about"],
@@ -20,24 +22,6 @@ const links = [
   ["Custom Enquiry", "/enquiry"],
   ["Contact", "/contact"],
 ];
-export function Brand() {
-  return (
-    <Link href="/" className="brand" aria-label="Grain and Form home">
-      <span className="brand-emblem" aria-hidden="true">
-        <span className="brand-mark">
-          <i />
-          <i />
-          <i />
-          <i />
-        </span>
-      </span>
-      <span>
-        GRAIN <span className="brand-amp">&</span> FORM
-        <small>BESPOKE WOODWORK</small>
-      </span>
-    </Link>
-  );
-}
 export function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowUpRight, ArrowLeft } from "lucide-react";
-import { projects } from "@/lib/data";
-import { PageIntro, Photo } from "@/components/shared";
+import { projects } from "@/data/studio";
+import { PageIntro } from "@/components/shared/page-intro";
+import { Photo } from "@/components/shared/photo";
 export function generateStaticParams() {
   return projects.map(({ slug }) => ({ slug }));
 }

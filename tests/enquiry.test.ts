@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { enquirySchema, defaults } from "../src/lib/schema";
-import { imageKind } from "../src/lib/image-validation";
+import { enquirySchema, defaults } from "../src/lib/enquiry/schema";
+import { imageKind } from "../src/lib/enquiry/image-validation";
 import { createWorker } from "../hosting/worker.mjs";
 const valid = {
   ...defaults,

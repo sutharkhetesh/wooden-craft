@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { type Product, productPhotoUrl } from "@/lib/products";
+import { type Product, productPhotoUrl } from "@/data/products";
 import { motion, useReducedMotion } from "framer-motion";
-import { sequenceItemVariants } from "./motion-sequence";
+import { sequenceItemVariants } from "@/components/motion/motion-sequence";
 
 export function ProductCard({ product }: { product: Product }) {
   const reduced = useReducedMotion();

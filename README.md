@@ -1,4 +1,4 @@
-# wooden-craft
+# Grain & Form
 
 A bespoke furniture and woodwork business website built with **Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4, shadcn-style Radix components, Framer Motion, Lucide, React Hook Form and Zod**. This is an enquiry website; it has no purchasing, payments, checkout or order tracking.
 
@@ -74,10 +74,24 @@ The integration suite tests validation, image signatures, hosted JSON and image 
 
 ## Source map
 
-- `src/app/`: pages, metadata and Node API routes.
-- `src/components/`: reusable sections and enquiry/contact forms.
-- `src/components/ui/`: Radix/shadcn-style button primitives.
-- `src/lib/`: business configuration, replaceable portfolio/service data, schemas, security, storage and upload handling.
+- `src/app/`: Next.js pages, metadata and Node API routes.
+- `src/components/layout/`: header, footer, brand and floating WhatsApp link.
+- `src/components/forms/`: contact and project enquiry forms.
+- `src/components/products/`: product cards and photo gallery.
+- `src/components/work/`: filterable portfolio.
+- `src/components/motion/`: motion provider, sequences, reveals and ticker.
+- `src/components/shared/`: photos, text links, page introductions and project CTA.
+- `src/components/ui/`: Radix/shadcn-style button primitive.
+- `src/data/`: product catalog, portfolio concepts and service content.
+- `src/lib/enquiry/`: shared enquiry schema, types and image validation.
+- `src/lib/server/`: server-only security, file storage and upload handling.
+- `src/lib/config.ts`: business details and WhatsApp helpers.
+- `src/lib/utils.ts`: shared class-name utility.
+- `src/styles/globals.css`: global styles, local fonts and responsive layouts.
+- `public/`: website images, fonts and font licenses.
+- `source-assets/`: archived original photographs and excluded edits, retained for provenance checks.
+- `docs/`: asset sources and product photography documentation.
+- `tests/`: enquiry validation and hosted storage integration tests.
 - `hosting/worker.mjs`: R2 file API and static asset adapter for Sites.
 - `scripts/build-hosted.mjs`: isolated Next.js export and Worker bundle.
 
@@ -91,6 +105,6 @@ Both enquiry forms save the enquiry and then open WhatsApp addressed to +91 8905
 
 ## Photography & fonts
 
-Reference photos are bundled locally from Unsplash and Pexels. They illustrate design possibilities and are not represented as Grain & Form commissions. See `ASSETS.md` for source links. Cormorant Garamond and Manrope are locally bundled Google Fonts under the SIL Open Font License; see `public/fonts/OFL-*.txt`.
+Reference photos are bundled locally from Unsplash and Pexels. They illustrate design possibilities and are not represented as Grain & Form commissions. See `docs/assets.md` for source links. Cormorant Garamond and Manrope are locally bundled Google Fonts under the SIL Open Font License; see `public/fonts/OFL-*.txt`.
 
 Product image sources, untouched originals and the background-edit prompt set are documented in [docs/product-photography.md](docs/product-photography.md).

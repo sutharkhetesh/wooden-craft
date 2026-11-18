@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/header";
-import { Footer, WhatsApp } from "@/components/shared";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { WhatsApp } from "@/components/layout/whatsapp";
 import { business } from "@/lib/config";
-import { MotionProvider } from "@/components/motion-provider";
-import "./globals.css";
+import { MotionProvider } from "@/components/motion/motion-provider";
+import "@/styles/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(business.url),
   title: {

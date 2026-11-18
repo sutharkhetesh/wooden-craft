@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { enquirySchema } from "@/lib/schema";
-import { saveEnquiry } from "@/lib/storage";
-import { storeUploads, removeUploads } from "@/lib/uploads";
-import { sameOrigin, limited, clientKey } from "@/lib/security";
+import { enquirySchema } from "@/lib/enquiry/schema";
+import { saveEnquiry } from "@/lib/server/storage";
+import { storeUploads, removeUploads } from "@/lib/server/uploads";
+import { sameOrigin, limited, clientKey } from "@/lib/server/security";
 export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req))

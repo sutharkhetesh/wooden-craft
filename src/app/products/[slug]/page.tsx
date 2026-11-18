@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, MessageCircle } from "lucide-react";
-import { ProductGallery } from "@/components/product-gallery";
-import { ProductCard } from "@/components/product-card";
-import { MotionSequence, MotionItem } from "@/components/motion-sequence";
-import { products, productPhotoUrl } from "@/lib/products";
+import { ProductGallery } from "@/components/products/product-gallery";
+import { ProductCard } from "@/components/products/product-card";
+import { MotionSequence, MotionItem } from "@/components/motion/motion-sequence";
+import { products, productPhotoUrl } from "@/data/products";
 import { whatsappUrl } from "@/lib/config";
 
 export function generateStaticParams() {

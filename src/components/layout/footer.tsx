@@ -1,102 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, ArrowUp, MessageCircle, Phone } from "lucide-react";
-import { Brand } from "./header";
-import { Button } from "./ui/button";
+import { Brand } from "@/components/layout/brand";
 import { business, whatsappUrl } from "@/lib/config";
-import { Reveal } from "./reveal";
-import { MotionSequence, MotionItem } from "./motion-sequence";
-import { products } from "@/lib/products";
-export function Photo({
-  name,
-  alt,
-  className = "",
-  priority = false,
-  sizes = "(max-width: 768px) 100vw, 50vw",
-}: {
-  name: string;
-  alt: string;
-  className?: string;
-  priority?: boolean;
-  sizes?: string;
-}) {
-  return (
-    <div className={`photo ${className}`}>
-      <Image
-        src={`/images/${name}.jpg`}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes={sizes}
-      />
-    </div>
-  );
-}
-export function TextLink({
-  href,
-  children,
-  light = false,
-}: {
-  href: string;
-  children: React.ReactNode;
-  light?: boolean;
-}) {
-  return (
-    <Link className={`text-link ${light ? "light" : ""}`} href={href}>
-      {children}
-      <ArrowUpRight size={17} />
-    </Link>
-  );
-}
-export function PageIntro({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <section className="page-intro wrap">
-      <MotionSequence>
-        <MotionItem>
-          <p className="eyebrow">{eyebrow}</p>
-        </MotionItem>
-        <MotionItem>
-          <h1>{title}</h1>
-        </MotionItem>
-        <MotionItem>
-          <p className="intro-description">{description}</p>
-        </MotionItem>
-      </MotionSequence>
-    </section>
-  );
-}
-export function ProjectCTA() {
-  return (
-    <section className="project-cta">
-      <Reveal className="wrap cta-inner">
-        <div>
-          <p className="eyebrow">LET’S MAKE IT PERSONAL</p>
-          <h2>
-            Have something
-            <br />
-            <em>unique in mind?</em>
-          </h2>
-          <p>Tell us what you imagine. We’ll help bring it to life in wood.</p>
-        </div>
-        <Button asChild variant="light">
-          <Link href="/enquiry">
-            Start your custom project
-            <ArrowUpRight size={18} />
-          </Link>
-        </Button>
-        <span className="cta-rings" aria-hidden="true" />
-      </Reveal>
-    </section>
-  );
-}
+import { products } from "@/data/products";
 export function Footer() {
   return (
     <footer className="footer">
@@ -198,22 +104,5 @@ export function Footer() {
         illustrative.
       </p>
     </footer>
-  );
-}
-export function WhatsApp() {
-  return (
-    <Link
-      className="whatsapp"
-      href={whatsappUrl()}
-      target={business.whatsapp ? "_blank" : undefined}
-      rel="noopener noreferrer"
-      aria-label={
-        business.whatsapp
-          ? "Discuss your project on WhatsApp"
-          : "Start a custom project enquiry"
-      }
-    >
-      <MessageCircle size={23} />
-    </Link>
   );
 }

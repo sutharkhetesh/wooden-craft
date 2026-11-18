@@ -1,8 +1,8 @@
 export const dynamic = "force-static";
 import type { MetadataRoute } from "next";
 import { business } from "@/lib/config";
-import { projects } from "@/lib/data";
-import { products } from "@/lib/products";
+import { projects } from "@/data/studio";
+import { products } from "@/data/products";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     "",

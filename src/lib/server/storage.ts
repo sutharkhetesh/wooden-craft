@@ -2,7 +2,7 @@ import "server-only";
 import { mkdir, writeFile, rename } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import type { EnquiryRecord } from "./schema";
+import type { EnquiryRecord } from "@/lib/enquiry/schema";
 export const dataDirectory = path.resolve(
   process.env.DATA_DIRECTORY || ".data",
 );

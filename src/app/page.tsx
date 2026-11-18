@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { ArrowUpRight, ArrowDown, MoveRight, Leaf, Star } from "lucide-react";
-import { Photo, TextLink, ProjectCTA } from "@/components/shared";
-import { Reveal } from "@/components/reveal";
-import { services, projects } from "@/lib/data";
-import { products } from "@/lib/products";
-import { ProductCard } from "@/components/product-card";
-import { MotionSequence } from "@/components/motion-sequence";
-import { Ticker } from "@/components/ticker";
+import { Photo } from "@/components/shared/photo";
+import { TextLink } from "@/components/shared/text-link";
+import { ProjectCTA } from "@/components/shared/project-cta";
+import { Reveal } from "@/components/motion/reveal";
+import { services, projects } from "@/data/studio";
+import { products } from "@/data/products";
+import { ProductCard } from "@/components/products/product-card";
+import { MotionSequence } from "@/components/motion/motion-sequence";
+import { Ticker } from "@/components/motion/ticker";
 const process = [
   [
     "01",

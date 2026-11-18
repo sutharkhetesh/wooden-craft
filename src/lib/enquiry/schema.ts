@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { types } from "./data";
+import { types } from "@/data/studio";
 const phone = z
   .string()
   .trim()

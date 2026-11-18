@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { PageIntro, ProjectCTA } from "@/components/shared";
-import { Portfolio } from "@/components/portfolio";
+import { PageIntro } from "@/components/shared/page-intro";
+import { ProjectCTA } from "@/components/shared/project-cta";
+import { Portfolio } from "@/components/work/portfolio";
 export const metadata: Metadata = {
   title: "Selected Work",
   description:

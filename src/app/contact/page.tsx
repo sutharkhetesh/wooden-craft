@@ -8,8 +8,8 @@ import {
   MessageCircle,
   ArrowUpRight,
 } from "lucide-react";
-import { PageIntro } from "@/components/shared";
-import { ContactForm } from "@/components/contact-form";
+import { PageIntro } from "@/components/shared/page-intro";
+import { ContactForm } from "@/components/forms/contact-form";
 import { business, whatsappUrl } from "@/lib/config";
 export const metadata: Metadata = {
   title: "Visit & Contact",

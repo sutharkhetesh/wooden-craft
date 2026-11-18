@@ -2,8 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { projects } from "@/lib/data";
-import { Photo } from "./shared";
+import { projects } from "@/data/studio";
+import { Photo } from "@/components/shared/photo";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 export function Portfolio() {
   const [category, setCategory] = useState("All work");

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { PageIntro } from "@/components/shared";
-import { ProductCard } from "@/components/product-card";
-import { MotionSequence } from "@/components/motion-sequence";
-import { Ticker } from "@/components/ticker";
-import { products } from "@/lib/products";
+import { PageIntro } from "@/components/shared/page-intro";
+import { ProductCard } from "@/components/products/product-card";
+import { MotionSequence } from "@/components/motion/motion-sequence";
+import { Ticker } from "@/components/motion/ticker";
+import { products } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Wooden Objects & Products",

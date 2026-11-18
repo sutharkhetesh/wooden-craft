@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { PageIntro, Photo, ProjectCTA } from "@/components/shared";
-import { services } from "@/lib/data";
-import { Reveal } from "@/components/reveal";
+import { PageIntro } from "@/components/shared/page-intro";
+import { Photo } from "@/components/shared/photo";
+import { ProjectCTA } from "@/components/shared/project-cta";
+import { services } from "@/data/studio";
+import { Reveal } from "@/components/motion/reveal";
 export const metadata: Metadata = {
   title: "Our Expertise",
   description:

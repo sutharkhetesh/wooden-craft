@@ -24,8 +24,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
-import { enquirySchema, defaults, type EnquiryInput } from "@/lib/schema";
-import { types } from "@/lib/data";
+import { enquirySchema, defaults, type EnquiryInput } from "@/lib/enquiry/schema";
+import { types } from "@/data/studio";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
 const labels = [
   "Project type",

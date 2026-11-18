@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { Brand } from "./header";
 import { Button } from "./ui/button";
 import { business, whatsappUrl } from "@/lib/config";
@@ -121,9 +121,6 @@ export function Footer() {
             <br />
             Portfolio concepts and reviews are illustrative.
           </p>
-          <Link href="/admin">
-            Studio admin <ArrowRight size={12} />
-          </Link>
         </div>
       </div>
       <div className="wrap footer-bottom">

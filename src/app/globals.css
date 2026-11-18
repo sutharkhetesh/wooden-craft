@@ -1493,146 +1493,6 @@ textarea::placeholder {
   font-size: 12px;
   color: var(--muted);
 }
-.admin-wrap {
-  padding-block: 60px 90px;
-}
-.admin-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  gap: 20px;
-}
-.admin-header h1 {
-  font-size: 49px;
-}
-.admin-header > div {
-  display: flex;
-  gap: 10px;
-}
-.admin-login {
-  width: 100%;
-  max-width: 460px;
-  margin: 40px auto 80px;
-}
-.admin-login h1 {
-  font-size: 46px;
-  margin-bottom: 15px;
-}
-.admin-login .field {
-  margin-block: 25px;
-}
-.admin-login p {
-  font-size: 12px;
-  color: var(--muted);
-}
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 30px;
-}
-.stat {
-  border: 1px solid var(--line);
-  padding: 20px 24px;
-}
-.stat span {
-  font-size: 10px;
-  color: var(--muted);
-}
-.stat strong {
-  display: block;
-  font-family: var(--serif);
-  font-size: 45px;
-  font-weight: 400;
-}
-.admin-controls {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-.admin-controls input {
-  flex: 1;
-}
-.admin-controls select {
-  max-width: 180px;
-}
-.table-wrap {
-  overflow: auto;
-  border: 1px solid var(--line);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 11px;
-  white-space: nowrap;
-}
-th {
-  background: #eee7dc;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-th,
-td {
-  padding: 15px 18px;
-  border-bottom: 1px solid var(--line);
-}
-tbody tr {
-  cursor: pointer;
-}
-tbody tr:hover {
-  background: #f0eae0;
-}
-.status-badge {
-  display: inline-block;
-  padding: 4px 9px;
-  background: #e8e0d3;
-  font-size: 9px;
-  color: var(--brown);
-}
-.empty-state {
-  padding: 50px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-}
-.admin-detail {
-  margin-top: 30px;
-  border: 1px solid var(--line);
-  padding: 30px;
-  background: #fffdf9;
-}
-.admin-detail h2 {
-  font-size: 35px;
-  margin-bottom: 20px;
-}
-.admin-detail-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 35px;
-}
-.admin-images {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.admin-images img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-.admin-detail .field {
-  margin-bottom: 20px;
-}
-.admin-alert {
-  font-size: 11px;
-  margin-bottom: 20px;
-  background: #e9eddf;
-  padding: 12px 16px;
-}
 .honeypot {
   position: absolute !important;
   left: -9999px;
@@ -1933,15 +1793,6 @@ tbody tr:hover {
   }
   .contact-info h2 {
     font-size: 34px;
-  }
-  .admin-header {
-    flex-wrap: wrap;
-  }
-  .admin-header h1 {
-    font-size: 42px;
-  }
-  .admin-detail-grid {
-    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 600px) {
@@ -2446,41 +2297,6 @@ tbody tr:hover {
   .map-section {
     height: 290px;
     margin-bottom: 50px;
-  }
-  .admin-wrap {
-    padding-block: 40px;
-  }
-  .admin-header h1 {
-    font-size: 37px;
-  }
-  .admin-header > div {
-    flex-wrap: wrap;
-  }
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .stat {
-    padding: 15px 20px;
-  }
-  .stat strong {
-    font-size: 37px;
-  }
-  .admin-controls {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .admin-controls select {
-    max-width: none;
-  }
-  .admin-detail {
-    padding: 20px 15px;
-  }
-  .admin-detail h2 {
-    font-size: 29px;
-  }
-  .admin-login h1 {
-    font-size: 39px;
   }
   .not-found h1 {
     font-size: 48px;

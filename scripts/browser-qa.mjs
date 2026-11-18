@@ -5,7 +5,6 @@ import { randomUUID } from "node:crypto";
 import assert from "node:assert/strict";
 const port = 3102;
 const origin = `http://localhost:${port}`;
-const password = `qa-${randomUUID()}`;
 const data = `/tmp/grain-form-qa-${randomUUID()}`;
 const child = spawn(
   process.execPath,
@@ -13,8 +12,6 @@ const child = spawn(
   {
     env: {
       ...process.env,
-      ADMIN_PASSWORD: password,
-      SESSION_SECRET: randomUUID() + randomUUID(),
       DATA_DIRECTORY: data,
     },
     stdio: ["ignore", "pipe", "pipe"],
@@ -134,39 +131,19 @@ try {
   await page.getByText("Your idea is in").waitFor();
   const reference = await page.locator(".reference-number").innerText();
   assert.match(reference, /^GF-/);
-  await page.goto(origin + "/admin");
-  await page.getByLabel("Admin password").fill(password);
-  await page.getByRole("button", { name: "Open the studio" }).click();
-  await page
-    .getByRole("heading", { name: "Good things in the making." })
-    .waitFor();
-  await page.getByRole("button", { name: `Open enquiry ${reference}` }).click();
-  await page.getByLabel("Enquiry status").selectOption("Quotation Sent");
-  await page
-    .getByLabel("Internal notes")
-    .fill("Browser QA passed: client requests rounded corners.");
-  await page.getByRole("button", { name: "Save changes" }).click();
-  await page.getByText("Enquiry updated.").waitFor();
-  await page.reload();
-  await page.getByRole("button", { name: `Open enquiry ${reference}` }).click();
   assert.equal(
-    await page.getByLabel("Internal notes").inputValue(),
-    "Browser QA passed: client requests rounded corners.",
+    await page.getByRole("link", { name: "Studio admin" }).count(),
+    0,
   );
-  const img = page.locator(".admin-images img");
-  await img.waitFor();
+  assert.equal((await context.request.get(origin + "/admin")).status(), 404);
   assert.equal(
-    await img.evaluate((el) => el.complete && el.naturalWidth > 0),
-    true,
+    (await context.request.get(origin + "/api/admin/login")).status(),
+    404,
   );
-  await page.screenshot({ path: "/tmp/grain-form-admin.png", fullPage: true });
-  const csv = await context.request.get(origin + "/api/admin/export");
-  assert.equal(csv.status(), 200);
-  assert.match(await csv.text(), /Browser QA Client/);
-  await page.getByRole("button", { name: "Sign out" }).click();
-  await page.getByRole("heading", { name: "Welcome back." }).waitFor();
-  const denied = await context.request.get(origin + "/api/admin/enquiries");
-  assert.equal(denied.status(), 401);
+  assert.equal(
+    (await context.request.get(origin + "/api/admin/enquiries")).status(),
+    404,
+  );
   await page.goto(origin + "/contact");
   await page.getByLabel("Full name").fill("WhatsApp Contact Client");
   await page.getByLabel("Email address").fill("contact-qa@example.com");
@@ -218,10 +195,10 @@ try {
   await page.screenshot({ path: "/tmp/grain-form-mobile.png", fullPage: true });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: desktop pages, portfolio filters, enquiry validation + upload + persistence, admin login/status/notes/private images/CSV/logout, mobile navigation and overflow.",
+    "PASS: desktop pages, portfolio filters, enquiry validation + upload + persistence, WhatsApp handoff, removed admin routes, mobile navigation and overflow.",
   );
   console.log(
-    "Screenshots: /tmp/grain-form-{desktop,mobile,enquiry,admin,mobile-enquiry}.png",
+    "Screenshots: /tmp/grain-form-{desktop,mobile,enquiry,mobile-enquiry}.png",
   );
 } catch (e) {
   console.log("SERVER LOGS", logs);

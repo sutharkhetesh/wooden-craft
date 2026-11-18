@@ -160,11 +160,3 @@ export const types = [
   "Wall Panel",
   "Other Custom Work",
 ] as const;
-export const statuses = [
-  "New",
-  "Contacted",
-  "Quotation Sent",
-  "In Progress",
-  "Completed",
-  "Closed",
-] as const;

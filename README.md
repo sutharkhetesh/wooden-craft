@@ -34,6 +34,7 @@ Existing records in a previously deployed database are not automatically copied 
 
 - Editorial homepage, brand story and six detailed service categories.
 - Filterable portfolio with six illustrative concepts and individual project pages.
+- Product collection with four wooden objects, 13 generated studio views, photo galleries and product-specific WhatsApp enquiries.
 - Five-step enquiry: project type; requirements; budget/timeline; optional images; contact details; followed by a full review before submission.
 - JPG, PNG and WebP reference uploads (maximum five, 4 MB each), previews and removal.
 - Server validation, honeypot, origin checks, rate limiting, unique references and honest failure states.
@@ -50,6 +51,7 @@ npm test
 npm run build
 npm run test:browser
 npm run test:responsive
+npm run test:products
 npm run build:hosted
 ```
 
@@ -59,11 +61,12 @@ If a development server is already running, keep its output separate from produc
 NEXT_BUILD_DIRECTORY=.next-qa npm run build
 NEXT_BUILD_DIRECTORY=.next-qa npm run test:browser
 NEXT_BUILD_DIRECTORY=.next-qa npm run test:responsive
+NEXT_BUILD_DIRECTORY=.next-qa npm run test:products
 ```
 
 The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary production server, exercises submissions/uploads/WhatsApp handoff/mobile navigation, verifies that removed admin routes return 404, and deletes its temporary enquiry storage. Run `npm run build` first. Screenshots are written to `/tmp/grain-form-*.png`. Adapt the Chrome executable path in `scripts/browser-qa.mjs` for another OS.
 
-`npm run test:responsive` checks seven routes at 14 widths from 320 to 2560 pixels, short landscape navigation, menu resizing, animated portfolio filters and reduced-motion behavior. It uses the same local Chrome executable and writes screenshots to `/tmp/wooden-craft-*.png`. Build first.
+`npm run test:responsive` checks ten routes at 14 widths from 320 to 2560 pixels, short landscape navigation, menu resizing, animated portfolio filters and reduced-motion behavior. It uses the same local Chrome executable and writes screenshots to `/tmp/wooden-craft-*.png`. Build first. Use `npm run test:responsive -- --widths=320,768,1440` to check selected widths in a shorter run.
 
 The integration suite tests validation, image signatures, hosted JSON and image file persistence, removed admin endpoints, rate limiting, failed-save cleanup and cross-origin rejection.
 
@@ -87,3 +90,5 @@ Both enquiry forms save the enquiry and then open WhatsApp addressed to +91 8905
 ## Photography & fonts
 
 Reference photos are bundled locally from Unsplash and Pexels. They illustrate design possibilities and are not represented as Grain & Form commissions. See `ASSETS.md` for source links. Cormorant Garamond and Manrope are locally bundled Google Fonts under the SIL Open Font License; see `public/fonts/OFL-*.txt`.
+
+Product image sources, untouched originals and the background-edit prompt set are documented in [docs/product-photography.md](docs/product-photography.md).

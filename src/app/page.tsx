@@ -12,6 +12,8 @@ import {
 import { Photo, TextLink, ProjectCTA } from "@/components/shared";
 import { Reveal } from "@/components/reveal";
 import { services, projects } from "@/lib/data";
+import { products } from "@/lib/products";
+import { ProductCard } from "@/components/product-card";
 const process = [
   [
     "01",
@@ -185,6 +187,32 @@ export default function Home() {
                   </div>
                 </article>
               </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="collection-featured">
+        <div className="wrap">
+          <Reveal className="section-heading">
+            <div>
+              <p className="eyebrow">OBJECTS FOR THE EVERYDAY</p>
+              <h2>
+                Little rituals.
+                <br />
+                <em>Beautifully considered.</em>
+              </h2>
+            </div>
+            <div>
+              <p>
+                Wooden pieces for a desk, a reading corner, or a thoughtful
+                gift.
+              </p>
+              <TextLink href="/products">Explore the collection</TextLink>
+            </div>
+          </Reveal>
+          <div className="collection-grid">
+            {products.slice(0, 3).map((product, index) => (
+              <ProductCard key={product.slug} product={product} index={index} />
             ))}
           </div>
         </div>

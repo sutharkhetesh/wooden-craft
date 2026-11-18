@@ -10,7 +10,8 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "build:hosted": "node scripts/build-hosted.mjs",
     "test:browser": "node scripts/browser-qa.mjs",
-    "test:responsive": "node scripts/responsive-qa.mjs"
+    "test:responsive": "node scripts/responsive-qa.mjs",
+    "test:products": "node scripts/product-qa.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

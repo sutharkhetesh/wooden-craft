@@ -44,10 +44,24 @@ try {
     "/work/the-walnut-residence",
     "/enquiry",
     "/contact",
+    "/products",
+    "/products/wooden-desk-organiser",
+    "/products/wooden-quill-holder",
   ];
-  for (const width of [
-    320, 360, 390, 430, 600, 768, 800, 900, 1024, 1150, 1280, 1440, 1920, 2560,
-  ]) {
+  const requestedWidths = process.argv.find((argument) =>
+    argument.startsWith("--widths="),
+  );
+  const widths = requestedWidths
+    ? requestedWidths.slice(9).split(",").map(Number)
+    : [
+        320, 360, 390, 430, 600, 768, 800, 900, 1024, 1150, 1280, 1440, 1920,
+        2560,
+      ];
+  for (const width of widths) {
+    assert.ok(
+      Number.isInteger(width) && width > 0,
+      "Screen widths must be positive integers",
+    );
     await page.setViewportSize({ width, height: 900 });
     for (const route of routes) {
       const response = await page.goto(origin + route, {
@@ -102,7 +116,7 @@ try {
       );
     }
     console.log(
-      `PASS: seven routes at ${width}px, no overflow or clipped controls`,
+      `PASS: ten routes at ${width}px, no overflow or clipped controls`,
     );
   }
   // Short landscape screens must still have a scrollable, usable menu.

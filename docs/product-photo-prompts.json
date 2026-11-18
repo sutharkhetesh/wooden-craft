@@ -1,0 +1,134 @@
+{
+  "mode": "built-in image_gen; background replacement",
+  "duplicates": {
+    "899105cf-1641-43a3-9bc7-58ff33750b6b_1.jpeg": "899105cf-1641-43a3-9bc7-58ff33750b6b.jpeg"
+  },
+  "images": [
+    {
+      "id": "01",
+      "input": "4aa636bd-a2b6-41cb-88fa-3b8ef2c67583.jpeg",
+      "original": "source-assets/product-originals/01.jpeg",
+      "studio": "public/images/products/studio/01.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: the supplied original product photograph. Replace ONLY the white wrinkled cloth background around the wooden objects with an elegant seamless matte warm ivory/limestone studio backdrop and tabletop, with very subtle natural contact shadows. Premium restrained catalog photography. Preserve every original product pixel as closely as possible: all three wooden tray/box components, their exact geometry, framing, positions, compartment shapes, magnets, dark lid and gold square inlay, actual wood grain pattern, colour, polish, scratches and highlights. Do not redraw, redesign, beautify, recolour, rotate or add anything to the products. Same overhead camera and square composition. No props, text, labels or watermark. Background-only replacement; the wood must remain the same original photographed wood.",
+      "originalSha256": "90ef72595a0313b7a7a0554eea504d3f991ac34db3bcfba4fabaa9e409c0f9d2",
+      "active": true
+    },
+    {
+      "id": "02",
+      "input": "5bb365d1-f4bb-4ebc-83ee-a8d243404c5f.jpeg",
+      "original": "source-assets/product-originals/02.jpeg",
+      "studio": "public/images/products/studio/02.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original product photo of triangular wooden book rest, empty central triangular opening and the background visible through it. Replace ONLY the wrinkled white fabric backdrop and tabletop with seamless matte warm ivory/light limestone studio background, very restrained premium catalog styling, subtle natural contact shadows. Keep original camera angle, composition, all object positions and aspect ratio. Keep EVERY product detail unchanged: exact geometry, colour, original wood grain markings, grain direction, joinery, polish, highlights, edges and imperfections. Product must remain the actual original object, never recreated or redesigned. Also preserve any existing props/book/print/text exactly if present. Remove fabric only, including through object openings. No new props, no new text, no watermark. Match a soft warm neutral ivory catalog series.",
+      "originalSha256": "51896d5b9c673859ffec88c869f13afc10504f2ae1e974cffcb43b40fe26439a",
+      "active": true
+    },
+    {
+      "id": "03",
+      "input": "47aeff04-5dbd-4b61-a6e3-62fee4c2e142.jpeg",
+      "original": "source-assets/product-originals/03.jpeg",
+      "studio": "public/images/products/studio/03.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original product photo of triangular book rest WITH its exact Steve Jobs book and glasses, including original printed book cover and visible letters unchanged. Replace ONLY the wrinkled white fabric backdrop and tabletop with seamless matte warm ivory/light limestone studio background, very restrained premium catalog styling, subtle natural contact shadows. Keep original camera angle, composition, all object positions and aspect ratio. Keep EVERY product detail unchanged: exact geometry, colour, original wood grain markings, grain direction, joinery, polish, highlights, edges and imperfections. Product must remain the actual original object, never recreated or redesigned. Also preserve any existing props/book/print/text exactly if present. Remove fabric only, including through object openings. No new props, no new text, no watermark. Match a soft warm neutral ivory catalog series.",
+      "originalSha256": "555e8998c7edb5f0c0fa004101a0517b293d9822c72d3f6b77aefc14521d5c2d",
+      "active": true
+    },
+    {
+      "id": "04",
+      "input": "62a4959f-db2d-435a-b5ad-d57c0839bee0.jpeg",
+      "original": "source-assets/product-originals/04.jpeg",
+      "studio": "public/images/products/studio/04.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original product photo of closed long wooden organiser box with dark lid and square gold inlay. Replace ONLY the wrinkled white fabric backdrop and tabletop with seamless matte warm ivory/light limestone studio background, very restrained premium catalog styling, subtle natural contact shadows. Keep original camera angle, composition, all object positions and aspect ratio. Keep EVERY product detail unchanged: exact geometry, colour, original wood grain markings, grain direction, joinery, polish, highlights, edges and imperfections. Product must remain the actual original object, never recreated or redesigned. Also preserve any existing props/book/print/text exactly if present. Remove fabric only, including through object openings. No new props, no new text, no watermark. Match a soft warm neutral ivory catalog series.",
+      "originalSha256": "8a1cb75da48b8e0d8ef3a6597538233db552eb40abda6cf31ecf9db90a3c6a65",
+      "active": true
+    },
+    {
+      "id": "05",
+      "input": "3209e401-a85e-4a1b-98ce-f195569d2bb3.jpeg",
+      "original": "source-assets/product-originals/05.jpeg",
+      "studio": "public/images/products/studio/05.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original product photo of triangular wooden book rest from the supplied side angle, including the opening. Replace ONLY the wrinkled white fabric backdrop and tabletop with seamless matte warm ivory/light limestone studio background, very restrained premium catalog styling, subtle natural contact shadows. Keep original camera angle, composition, all object positions and aspect ratio. Keep EVERY product detail unchanged: exact geometry, colour, original wood grain markings, grain direction, joinery, polish, highlights, edges and imperfections. Product must remain the actual original object, never recreated or redesigned. Also preserve any existing props/book/print/text exactly if present. Remove fabric only, including through object openings. No new props, no new text, no watermark. Match a soft warm neutral ivory catalog series.",
+      "originalSha256": "c55876814a46297c263945b9cf0d4788c51a0e67902905a4c147f539c03dae6a",
+      "active": true
+    },
+    {
+      "id": "06",
+      "input": "3896b610-ee51-41b8-a5d7-ff3442f3f357.jpeg",
+      "original": "source-assets/product-originals/06.jpeg",
+      "studio": "public/images/products/studio/06.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of small turned wooden quill-holder vase without feather. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "2379f5d451baf8ec7cdf505c99dfd086ecfd579ad303359baac0e8c1d857ea42",
+      "active": true
+    },
+    {
+      "id": "07",
+      "input": "8842fc5a-cae5-4750-a0db-295258164bbb.jpeg",
+      "original": "source-assets/product-originals/07.jpeg",
+      "studio": "public/images/products/studio/07.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of small turned wooden holder AND the exact patterned feather lying beside it; preserve the feather's barbs, stripes and position. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "6c27918a47aabb4880326f5b494a74c0d608194ec4c1d740002677c0f687076d",
+      "active": true
+    },
+    {
+      "id": "08",
+      "input": "8865d75e-7de8-4e78-b254-2a33a8e82f7b.jpeg",
+      "original": "source-assets/product-originals/08.jpeg",
+      "studio": "public/images/products/studio/08.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of open compartment organiser box AND separate dark gold-inlay lid in their exact original layout. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "ede09f6598e4d67a5d095018e8abdcebc9fbb589963a06ae187d3ecaea11aa53",
+      "active": true
+    },
+    {
+      "id": "09",
+      "input": "25274ac7-9229-4af0-b79f-70be6fad0c85.jpeg",
+      "original": "source-assets/product-originals/09.jpeg",
+      "studio": "public/images/products/studio/09.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of wooden quill holder with tall upright patterned feather; keep full feather, barbs and stripes. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "7470bc5fdc57b1a97caca1310a9478fee14a0469dbf2f98eae0851bd2147f3eb",
+      "active": true
+    },
+    {
+      "id": "10",
+      "input": "899105cf-1641-43a3-9bc7-58ff33750b6b.jpeg",
+      "original": "source-assets/product-originals/10.jpeg",
+      "studio": "public/images/products/studio/10.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of wooden quill holder with long curved patterned feather; preserve full feather and stripes. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "c33234776d66960ec063ea5b814d052ab0e6b1317df14b827d094ecbae5d80d1",
+      "active": true
+    },
+    {
+      "id": "12",
+      "input": "ad727924-1590-4257-8874-7a2c425cc0bb.jpeg",
+      "original": "source-assets/product-originals/12.jpeg",
+      "studio": "public/images/products/studio/12.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of long closed wooden organiser box from the front, dark square-inlay lid and original woodgrain. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "36c9f30435783532c992ea82986c11e0de86314d12c8cd07bc4aaecf206352b1",
+      "active": true
+    },
+    {
+      "id": "13",
+      "input": "d5daeb5a-5cca-4b9b-b34c-cd82feeb01db.jpeg",
+      "original": "source-assets/product-originals/13.jpeg",
+      "studio": "public/images/products/studio/13.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of long closed wooden organiser box from the supplied end angle, dark square-inlay lid. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "9f0bd8d088241b268f535d1f275ee9aaa0d0dd02c7d111a257512122957897f4",
+      "active": true
+    },
+    {
+      "id": "14",
+      "input": "e1e93dd3-bac6-4225-98fb-693b3f03eb34.jpeg",
+      "original": "source-assets/product-originals/14.jpeg",
+      "studio": "public/images/products/studio/14.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of turned wooden candle-holder bowl and column with exact black band and dark rim. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "5e4ff956a146074c8a067cdea1e1c4863c89ee4aea07da7e89c2d0498c76383b",
+      "active": true
+    },
+    {
+      "id": "15",
+      "input": "f7070fb0-9c35-495d-9878-c80bde31e38b.jpeg",
+      "original": "source-assets/product-originals/15.jpeg",
+      "studio": "source-assets/product-edits/15.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: original photograph of COMPLETE photographed arrangement: triangular bookrest with Steve Jobs book, wooden organiser box, feather quill holder, candle holder with glass candle jar, and illustrated book lying in front. Keep all objects and all print/labels unchanged. Change ONLY the white wrinkled fabric background and tabletop to seamless matte warm ivory / pale limestone studio backdrop with soft realistic contact shadows, consistent quiet premium catalog look. Preserve actual photographed objects exactly: shape, camera angle, framing, placement, scale, woodgrain pattern and grain direction, colour, joinery, gold inlay or black bands if present, imperfections, reflections and finish. Do not replace, redraw, rotate, redesign, retouch or recolour the products. Preserve all props/feathers/book covers/printed letters already in the target. No new objects, labels, captions or watermark. Same aspect ratio as original; don't crop any part. Only background replacement.",
+      "originalSha256": "f4ed69772e0a191e8e8032b9728d762acc9bdf21d48f6de8a405c7b1a159b91e",
+      "active": false
+    }
+  ]
+}

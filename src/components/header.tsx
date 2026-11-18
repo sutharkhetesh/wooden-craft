@@ -9,6 +9,7 @@ const links = [
   ["Our Story", "/about"],
   ["Our Expertise", "/services"],
   ["Our Work", "/work"],
+  ["Products", "/products"],
   ["Custom Enquiry", "/enquiry"],
   ["Contact", "/contact"],
 ];

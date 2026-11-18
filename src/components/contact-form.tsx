@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
 import { defaults } from "@/lib/schema";
+import { business, enquiryWhatsappUrl } from "@/lib/config";
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name.").max(100),
   email: z.email("Enter a valid email."),
@@ -24,6 +25,7 @@ type Values = z.infer<typeof schema>;
 export function ContactForm() {
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
+  const [whatsappLink, setWhatsappLink] = useState("");
   const {
     register,
     handleSubmit,
@@ -64,6 +66,19 @@ export function ContactForm() {
       if (!res.ok)
         throw new Error(result.error || "Unable to send your message.");
       setReference(result.id);
+      if (business.whatsapp) {
+        const link = enquiryWhatsappUrl(
+          {
+            ...defaults,
+            ...values,
+            title: "Consultation enquiry",
+            location: values.city,
+          },
+          result.id,
+        );
+        setWhatsappLink(link);
+        window.location.assign(link);
+      }
     } catch (e) {
       setError(
         e instanceof Error
@@ -84,6 +99,21 @@ export function ContactForm() {
         <p className="upload-hint">
           Keep this number for your next conversation with the studio.
         </p>
+        {whatsappLink && (
+          <>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button button-dark"
+            >
+              Send on WhatsApp <ArrowUpRight size={16} />
+            </a>
+            <p className="upload-hint">
+              Tap Send in WhatsApp to send your message to the studio.
+            </p>
+          </>
+        )}
       </div>
     );
   return (
@@ -179,6 +209,10 @@ export function ContactForm() {
           </>
         )}
       </button>
+      <p className="upload-hint">
+        After saving, WhatsApp opens with your message. Tap Send to send it to
+        the studio at +{business.whatsapp}.
+      </p>
     </form>
   );
 }

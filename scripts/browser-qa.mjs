@@ -47,6 +47,10 @@ try {
     reducedMotion: "reduce",
   });
   const page = await context.newPage();
+  // A 204 keeps the confirmation visible while verifying the WhatsApp handoff.
+  await context.route("https://wa.me/**", (route) =>
+    route.fulfill({ status: 204 }),
+  );
   page.setDefaultTimeout(15000);
   page.on("response", async (r) => {
     if (r.url().includes("/api/"))
@@ -114,7 +118,19 @@ try {
     path: "/tmp/grain-form-enquiry.png",
     fullPage: true,
   });
+  const whatsappRequest = page.waitForRequest((request) =>
+    request.url().startsWith("https://wa.me/"),
+  );
   await page.getByRole("button", { name: "Submit enquiry" }).click();
+  const whatsapp = new URL((await whatsappRequest).url());
+  assert.equal(
+    whatsapp.pathname,
+    `/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918905089544"}`,
+  );
+  assert.match(
+    whatsapp.searchParams.get("text"),
+    /A bespoke walnut dining table/,
+  );
   await page.getByText("Your idea is in").waitFor();
   const reference = await page.locator(".reference-number").innerText();
   assert.match(reference, /^GF-/);
@@ -151,6 +167,27 @@ try {
   await page.getByRole("heading", { name: "Welcome back." }).waitFor();
   const denied = await context.request.get(origin + "/api/admin/enquiries");
   assert.equal(denied.status(), 401);
+  await page.goto(origin + "/contact");
+  await page.getByLabel("Full name").fill("WhatsApp Contact Client");
+  await page.getByLabel("Email address").fill("contact-qa@example.com");
+  await page.getByLabel("Mobile number").fill("+91 9000000000");
+  await page.getByLabel("Your city").fill("Jaipur");
+  await page
+    .getByLabel("How can we help?")
+    .fill("Please discuss a custom oak desk for my home office.");
+  await page.getByRole("checkbox").check();
+  const contactWhatsappRequest = page.waitForRequest((request) =>
+    request.url().startsWith("https://wa.me/"),
+  );
+  await page.getByRole("button", { name: "Send your message" }).click();
+  const contactWhatsapp = new URL((await contactWhatsappRequest).url());
+  assert.equal(contactWhatsapp.pathname, whatsapp.pathname);
+  assert.match(
+    contactWhatsapp.searchParams.get("text"),
+    /WhatsApp Contact Client/,
+  );
+  assert.match(contactWhatsapp.searchParams.get("text"), /custom oak desk/);
+  await page.getByRole("link", { name: "Send on WhatsApp" }).waitFor();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(origin);
   assert.equal(

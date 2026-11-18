@@ -64,14 +64,19 @@ async function authenticated(req, env) {
   }
 }
 async function limited(env, key, max, period) {
+  // Each Worker instance keeps its own counters; no persistent service is used.
+  let limits = rateLimits.get(env);
+  if (!limits) rateLimits.set(env, (limits = new Map()));
   const now = Date.now();
-  const row = await env.DB.prepare(
-    "INSERT INTO rate_limits (key,count,expires) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET count=CASE WHEN expires < ? THEN 1 ELSE count+1 END, expires=CASE WHEN expires < ? THEN excluded.expires ELSE expires END RETURNING count",
-  )
-    .bind(key, now + period, now, now)
-    .first();
-  return row.count > max;
+  for (const [k, value] of limits) if (value.expires <= now) limits.delete(k);
+  let current = limits.get(key);
+  if (!current) {
+    current = { count: 0, expires: now + period };
+    limits.set(key, current);
+  }
+  return ++current.count > max;
 }
+const rateLimits = new WeakMap();
 function originValid(req) {
   try {
     return new URL(req.headers.get("origin")).host === new URL(req.url).host;
@@ -79,14 +84,32 @@ function originValid(req) {
     return false;
   }
 }
-function record(row) {
-  return {
-    id: row.id,
-    createdAt: row.created_at,
-    status: row.status,
-    notes: row.notes,
-    payload: JSON.parse(row.payload),
-  };
+const recordKey = (id) => `enquiries/${id}.json`;
+async function getEnquiry(env, id) {
+  if (typeof id !== "string" || !/^GF-[A-Z0-9-]{8,50}$/.test(id)) return null;
+  const object = await env.BUCKET.get(recordKey(id));
+  return object ? object.json() : null;
+}
+async function saveEnquiry(env, record) {
+  await env.BUCKET.put(recordKey(record.id), JSON.stringify(record), {
+    httpMetadata: { contentType: "application/json" },
+  });
+}
+async function listEnquiries(env) {
+  const records = [];
+  let cursor;
+  do {
+    const page = await env.BUCKET.list({ prefix: "enquiries/", cursor });
+    const batch = await Promise.all(
+      page.objects.map(async ({ key }) => {
+        const object = await env.BUCKET.get(key);
+        return object ? object.json() : null;
+      }),
+    );
+    records.push(...batch.filter(Boolean));
+    cursor = page.truncated ? page.cursor : undefined;
+  } while (cursor);
+  return records.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 async function api(req, env) {
   const url = new URL(req.url);
@@ -217,17 +240,13 @@ async function api(req, env) {
             .slice(0, 120),
         });
       }
-      await env.DB.prepare(
-        "INSERT INTO enquiries (id,created_at,status,notes,payload) VALUES (?,?,?,?,?)",
-      )
-        .bind(
-          id,
-          new Date().toISOString(),
-          "New",
-          "",
-          JSON.stringify({ ...parsed.data, attachments }),
-        )
-        .run();
+      await saveEnquiry(env, {
+        id,
+        createdAt: new Date().toISOString(),
+        status: "New",
+        notes: "",
+        payload: { ...parsed.data, attachments },
+      });
       return json({ id, message: "Your enquiry has been received." }, 201);
     } catch (error) {
       await Promise.all(
@@ -237,10 +256,7 @@ async function api(req, env) {
     }
   }
   if (p === "/api/admin/enquiries" && method === "GET") {
-    const { results } = await env.DB.prepare(
-      "SELECT * FROM enquiries ORDER BY created_at DESC",
-    ).all();
-    return json({ enquiries: results.map(record) });
+    return json({ enquiries: await listEnquiries(env) });
   }
   if (
     /^\/api\/admin\/enquiries\/GF-[A-Z0-9-]+$/.test(p) &&
@@ -259,19 +275,17 @@ async function api(req, env) {
       data.notes.length > 10000
     )
       return json({ error: "Invalid status or notes." }, 400);
-    const existing = await env.DB.prepare("SELECT id FROM enquiries WHERE id=?")
-      .bind(id)
-      .first();
+    const existing = await getEnquiry(env, id);
     if (!existing) return json({ error: "Enquiry not found." }, 404);
-    await env.DB.prepare("UPDATE enquiries SET status=?,notes=? WHERE id=?")
-      .bind(data.status, data.notes, id)
-      .run();
+    await saveEnquiry(env, {
+      ...existing,
+      status: data.status,
+      notes: data.notes,
+    });
     return json({ ok: true });
   }
   if (p === "/api/admin/export" && method === "GET") {
-    const { results } = await env.DB.prepare(
-      "SELECT * FROM enquiries ORDER BY created_at DESC",
-    ).all();
+    const results = await listEnquiries(env);
     const rows = [
       [
         "Reference",
@@ -296,9 +310,8 @@ async function api(req, env) {
         "Internal notes",
         "Reference image count",
       ],
-      ...results.map((row) => {
-        const r = record(row),
-          v = r.payload;
+      ...results.map((r) => {
+        const v = r.payload;
         return [
           r.id,
           r.createdAt,
@@ -338,11 +351,8 @@ async function api(req, env) {
   if (p.startsWith("/api/admin/files/") && method === "GET") {
     const id = p.split("/").pop();
     const eid = url.searchParams.get("enquiry");
-    const row = await env.DB.prepare("SELECT * FROM enquiries WHERE id=?")
-      .bind(eid)
-      .first();
-    const attachment =
-      row && record(row).payload.attachments.find((a) => a.id === id);
+    const row = await getEnquiry(env, eid);
+    const attachment = row && row.payload.attachments.find((a) => a.id === id);
     if (!attachment) return json({ error: "Image not found." }, 404);
     const object = await env.BUCKET.get(`${eid}/${attachment.filename}`);
     if (!object) return json({ error: "Image unavailable." }, 404);
@@ -363,7 +373,7 @@ export function createWorker(assets) {
       const url = new URL(req.url);
       if (url.pathname.startsWith("/api/")) {
         try {
-          if (!env.DB || !env.BUCKET)
+          if (!env.BUCKET)
             return json({ error: "Storage is not configured." }, 503);
           return await api(req, env);
         } catch {

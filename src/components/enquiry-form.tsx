@@ -26,7 +26,7 @@ import {
 import Link from "next/link";
 import { enquirySchema, defaults, type EnquiryInput } from "@/lib/schema";
 import { types } from "@/lib/data";
-import { business, whatsappUrl } from "@/lib/config";
+import { business, enquiryWhatsappUrl } from "@/lib/config";
 const labels = [
   "Project type",
   "The details",
@@ -144,6 +144,8 @@ export function EnquiryForm() {
       if (!res.ok)
         throw new Error(result.error || "Unable to submit your enquiry.");
       setReference(result.id);
+      if (business.whatsapp)
+        window.location.assign(enquiryWhatsappUrl(data, result.id));
     } catch (error) {
       setServerError(
         error instanceof Error
@@ -152,7 +154,6 @@ export function EnquiryForm() {
       );
     }
   }
-  const summary = `Hello Grain & Form, I would like to discuss my project${reference ? ` (enquiry ${reference})` : ""}.\nProject: ${values.title}\nType: ${values.projectType}\nRequirements: ${values.description}\nDimensions: ${values.dimensions || "To discuss"}\nMaterial: ${values.material}\nQuantity: ${values.quantity}\nFinish: ${values.finish || "To discuss"}\nBudget: ${values.budget}\nTimeline: ${values.timeline}\nLocation: ${values.location}\nName: ${values.name}\nEmail: ${values.email}\nMobile: ${values.mobile}\nReference images are not attached to this WhatsApp message.`;
   function field(
     name: FieldPath<EnquiryInput>,
     label: string,
@@ -224,7 +225,7 @@ export function EnquiryForm() {
         <div className="success-actions">
           {business.whatsapp && (
             <a
-              href={whatsappUrl(summary)}
+              href={enquiryWhatsappUrl(values, reference)}
               target="_blank"
               rel="noopener noreferrer"
               className="button button-dark"
@@ -240,7 +241,8 @@ export function EnquiryForm() {
         </div>
         {business.whatsapp && (
           <p className="upload-hint">
-            WhatsApp opens a text summary. Reference images are not attached.
+            Tap Send in WhatsApp to send your enquiry to the studio. Reference
+            images are not attached; you can add them in WhatsApp.
           </p>
         )}
       </section>
@@ -597,6 +599,11 @@ export function EnquiryForm() {
                 <p className="upload-hint">
                   Submitting is a request for a conversation and custom
                   quotation. It does not place an order or require payment.
+                </p>
+                <p className="upload-hint">
+                  After saving, WhatsApp opens with your enquiry. Tap Send to
+                  send it to the studio. Add reference images in WhatsApp
+                  separately.
                 </p>
                 {process.env.NEXT_PUBLIC_STATIC_PREVIEW === "true" && (
                   <p className="form-error">

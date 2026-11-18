@@ -1,14 +1,13 @@
-# Grain & Form
+# wooden-craft
 
 A bespoke furniture and woodwork business website built with **Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4, shadcn-style Radix components, Framer Motion, Lucide, React Hook Form and Zod**. This is an enquiry website; it has no purchasing, payments, checkout or order tracking.
 
 ## Start locally
 
-Use Node.js 22.13+ (the integration tests use Node's SQLite module).
+Use Node.js 22.13+. The application and tests use no database.
 
 ```bash
 npm ci
-cp .env.example .env.local
 npm run dev
 ```
 
@@ -21,7 +20,7 @@ npm start
 
 ## Business and admin configuration
 
-Set real business values in `.env.local` or the hosting environment. The `NEXT_PUBLIC_` variables are public and are embedded during the build: rebuild after changing them. Contact details are deliberately empty by default; no invented address or phone number is presented. The map appears only when `NEXT_PUBLIC_MAP_QUERY` is set. The floating conversation button leads to the enquiry form until a WhatsApp number is configured. WhatsApp summaries contain text and explicitly say that images are not attached.
+No `.env` file is required to start the website. The contact and WhatsApp number defaults to +91 89050 89544 in `src/lib/config.ts`. Other contact details stay empty until configured. Optional overrides can be set in the hosting environment. The `NEXT_PUBLIC_` variables are public and are embedded during the build: rebuild after changing them. The map appears only when `NEXT_PUBLIC_MAP_QUERY` is set. The floating conversation button opens WhatsApp. WhatsApp summaries contain text and explicitly say that images are not attached.
 
 Admin at `/admin` requires both:
 
@@ -34,9 +33,9 @@ Generate a secret with `node -e "console.log(require('crypto').randomBytes(48).t
 
 **Local/Node default:** enquiries are saved as individual atomic JSON files in `.data/enquiries`; uploads live in `.data/uploads`. These directories are private, excluded from Git and never served as public assets. Use a persistent volume for `DATA_DIRECTORY` on a deployed Node host. A serverless ephemeral filesystem is unsuitable for this mode.
 
-**Optional PostgreSQL:** set `DATABASE_URL`, run `npm run db:push`, then rebuild. Prisma stores enquiry details, statuses and internal notes in PostgreSQL. Uploaded files still need persistent `DATA_DIRECTORY` storage. Without `DATABASE_URL`, no database service is required.
+**Sites hosting:** `npm run build:hosted` exports the Next.js visitor pages in an isolated staging directory and bundles them with a Cloudflare Worker adapter. The hosted adapter implements the same enquiry/admin API contracts using **private R2 files only**: each enquiry is an individual JSON object under `enquiries/`, and reference images are separate private objects. The R2 binding is declared in `.openai/hosting.json`; the database binding is disabled. No database, ORM, SQL migrations or database connection variables are used in either deployment mode.
 
-**Sites hosting:** `npm run build:hosted` exports the Next.js visitor pages in an isolated staging directory and bundles them with a Cloudflare Worker adapter. The hosted adapter implements the same enquiry/admin API contracts using **D1 for enquiries and durable rate limits, and private R2 for images**. Bindings are declared in `.openai/hosting.json`; schema-only D1 migrations are in `drizzle/`. Sites provisions the bindings and applies migrations during deployment. The original Next.js application and API routes remain available for Node or PostgreSQL deployment. The Worker adapter does not use Prisma or the local filesystem.
+Existing records in a previously deployed database are not automatically copied into these files. Export and migrate those records before switching an existing deployment. This change does not delete any remote resources.
 
 Set `ADMIN_PASSWORD` and `SESSION_SECRET` as secret runtime variables in Sites to enable its dashboard, then redeploy the saved version. Do not use local QA credentials. Do not change audience/access permissions as part of deployment. A new Site is private until its owner explicitly changes sharing.
 
@@ -63,7 +62,7 @@ npm run build:hosted
 
 The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary production server with randomly generated QA credentials, exercises submission/upload/admin/CSV/mobile navigation, and deletes its temporary enquiry storage. Run `npm run build` first. Screenshots are written to `/tmp/grain-form-*.png`. Adapt the Chrome executable path in `scripts/browser-qa.mjs` for another OS.
 
-The integration suite tests validation, image signatures, formula-safe CSV export, hosted SQL persistence, image access control, login/session checks, status/notes changes, rate limiting and cross-origin rejection.
+The integration suite tests validation, image signatures, formula-safe CSV export, hosted JSON file persistence, image access control, login/session checks, status/notes changes, rate limiting and cross-origin rejection.
 
 ## Source map
 
@@ -71,18 +70,16 @@ The integration suite tests validation, image signatures, formula-safe CSV expor
 - `src/components/`: reusable sections, enquiry/contact forms and admin interface.
 - `src/components/ui/`: Radix/shadcn-style button primitives.
 - `src/lib/`: business configuration, replaceable portfolio/service data, schemas, security, storage and upload handling.
-- `prisma/`: optional PostgreSQL model.
-- `hosting/worker.mjs`: D1/R2 API and static asset adapter for Sites.
+- `hosting/worker.mjs`: R2 file API and static asset adapter for Sites.
 - `scripts/build-hosted.mjs`: isolated Next.js export and Worker bundle.
-- `drizzle/`: hosted D1 schema migration.
 
 ## Launch considerations
 
 Replace demo branding, reference photography, portfolio concepts and the explicitly labelled illustrative review with real business content. No awards, company age, customer results or completed projects are claimed. Set the canonical site URL before building. Local-business structured data only appears when real phone/address values exist.
 
-The default Node rate limiter is process-local and conservatively shares a quota without trusted proxy information. For multiple Node instances, use a shared rate-limit store at the ingress or application layer. Only set `TRUST_PROXY=true` behind a proxy that overwrites `X-Forwarded-For`. The hosted Worker uses atomic D1 rate limits and Cloudflare's client IP header. Configure your ingress body limit to 22 MB. Back up customer records and files, define a retention policy, and keep admin credentials private.
+The default Node rate limiter is process-local and conservatively shares a quota without trusted proxy information. For multiple Node instances, use a shared rate-limit store at the ingress or application layer. Only set `TRUST_PROXY=true` behind a proxy that overwrites `X-Forwarded-For`. The hosted Worker also uses instance-local memory counters and Cloudflare's client IP header. These counters reset on restart and are not shared across Worker instances; enforce distributed limits at the ingress if needed. Configure your ingress body limit to 22 MB. Back up customer records and files, define a retention policy, and keep admin credentials private.
 
-The app does not send email/SMS notifications: submitted enquiries appear in the dashboard. WhatsApp is available only after configuration and requires the visitor to send the message themselves.
+Both enquiry forms save the enquiry and then open WhatsApp addressed to +91 89050 89544 with the enquiry details filled in. The visitor must tap Send in WhatsApp; messages are not dispatched automatically. Reference images must be attached in WhatsApp separately. A WhatsApp link remains on each confirmation screen if opening WhatsApp fails. Enquiries also appear in the dashboard. The app does not send email/SMS notifications.
 
 ## Photography & fonts
 

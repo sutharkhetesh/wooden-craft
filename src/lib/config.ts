@@ -1,7 +1,12 @@
+import type { EnquiryInput } from "./schema";
+
 export const business = {
   name: "Grain & Form",
-  phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "",
-  whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "").replace(/\D/g, ""),
+  phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+918905089544",
+  whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918905089544").replace(
+    /\D/g,
+    "",
+  ),
   email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "",
   address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "",
   hours: process.env.NEXT_PUBLIC_BUSINESS_HOURS || "",
@@ -14,4 +19,26 @@ export function whatsappUrl(
   return business.whatsapp
     ? `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`
     : "/enquiry";
+}
+
+export function enquiryWhatsappUrl(values: EnquiryInput, reference: string) {
+  const message = `Hello Grain & Form, I would like to discuss my project (enquiry ${reference}).
+Project: ${values.title}
+Type: ${values.projectType}
+Requirements: ${values.description}
+Dimensions: ${values.dimensions || "To discuss"}
+Material: ${values.material}
+Quantity: ${values.quantity}
+Finish: ${values.finish || "To discuss"}
+Budget: ${values.budget}
+Timeline: ${values.timeline}
+Location: ${values.location}
+Name: ${values.name}
+Email: ${values.email}
+Mobile: ${values.mobile}
+WhatsApp: ${values.whatsapp || values.mobile}
+City: ${values.city}
+Instructions: ${values.instructions || "None"}
+Reference images are not attached to this WhatsApp message.`;
+  return whatsappUrl(message);
 }

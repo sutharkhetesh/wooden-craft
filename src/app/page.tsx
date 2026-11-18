@@ -160,7 +160,7 @@ export default function Home() {
           </Reveal>
           <div className="service-grid">
             {services.slice(0, 3).map((s, i) => (
-              <Reveal key={s.id} delay={i * 0.08}>
+              <Reveal key={s.id} delay={i * 0.08} interactive>
                 <article className="service-card">
                   <Link href={`/services#${s.id}`} className="service-photo">
                     <Photo name={s.image} alt={s.name} />
@@ -206,8 +206,8 @@ export default function Home() {
           </p>
         </Reveal>
         <div className="process-grid">
-          {process.map(([n, title, desc]) => (
-            <Reveal key={n}>
+          {process.map(([n, title, desc], i) => (
+            <Reveal key={n} delay={i * 0.08}>
               <div className="process-number">
                 {n}
                 <span />

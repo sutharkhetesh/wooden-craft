@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Footer, WhatsApp } from "@/components/shared";
 import { business } from "@/lib/config";
+import { MotionProvider } from "@/components/motion-provider";
 import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(business.url),
@@ -28,13 +29,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-        <WhatsApp />
+        <MotionProvider>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <WhatsApp />
+        </MotionProvider>
         {business.address && business.phone && (
           <script
             type="application/ld+json"

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/lib/data";
 import { Photo } from "./shared";
-import { Reveal } from "./reveal";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 export function Portfolio() {
   const [category, setCategory] = useState("All work");
+  const reduced = useReducedMotion();
   const categories = ["All work", ...new Set(projects.map((p) => p.category))];
   return (
     <div className="wrap portfolio-wrap">
@@ -22,27 +23,38 @@ export function Portfolio() {
           </button>
         ))}
       </div>
-      <div className="portfolio-grid">
-        {projects
-          .filter((p) => category === "All work" || p.category === category)
-          .map((p) => (
-            <Reveal className="portfolio-card" key={p.slug}>
-              <Link href={`/work/${p.slug}`}>
-                <Photo name={p.image} alt={p.name} />
-                <div className="project-title">
-                  <div>
-                    <p className="eyebrow">
-                      {p.category}
-                      <span className="demo-tag">CONCEPT</span>
-                    </p>
-                    <h3>{p.name}</h3>
+      <motion.div layout className="portfolio-grid">
+        <AnimatePresence initial={false} mode="popLayout">
+          {projects
+            .filter((p) => category === "All work" || p.category === category)
+            .map((p) => (
+              <motion.article
+                layout={reduced ? false : "position"}
+                className="portfolio-card"
+                key={p.slug}
+                initial={reduced ? false : { opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: reduced ? 1 : 0.97 }}
+                whileHover={reduced ? undefined : { y: -5 }}
+                transition={{ duration: reduced ? 0 : 0.28 }}
+              >
+                <Link href={`/work/${p.slug}`}>
+                  <Photo name={p.image} alt={p.name} />
+                  <div className="project-title">
+                    <div>
+                      <p className="eyebrow">
+                        {p.category}
+                        <span className="demo-tag">CONCEPT</span>
+                      </p>
+                      <h3>{p.name}</h3>
+                    </div>
+                    <ArrowUpRight size={22} />
                   </div>
-                  <ArrowUpRight size={22} />
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-      </div>
+                </Link>
+              </motion.article>
+            ))}
+        </AnimatePresence>
+      </motion.div>
       <p className="demo-note">
         All projects are illustrative design concepts using reference
         photography, not claims of completed client work.

@@ -38,7 +38,9 @@ Existing records in a previously deployed database are not automatically copied 
 - JPG, PNG and WebP reference uploads (maximum five, 4 MB each), previews and removal.
 - Server validation, honeypot, origin checks, rate limiting, unique references and honest failure states.
 - Contact form submits a consultation enquiry to the same persistent storage.
-- Responsive mobile menu, reduced-motion support, keyboard focus, SEO metadata, sitemap, robots and conditional real-business structured data.
+- Fluid layouts for phones, tablets and wide desktops, with touch-sized controls and keyboard-accessible mobile navigation.
+- Motion for React scroll reveals, staggered content, animated navigation, project filtering and scroll progress, respecting reduced-motion preferences.
+- Keyboard focus, SEO metadata, sitemap, robots and conditional real-business structured data.
 
 ## Validation
 
@@ -47,10 +49,21 @@ npm run typecheck
 npm test
 npm run build
 npm run test:browser
+npm run test:responsive
 npm run build:hosted
 ```
 
+If a development server is already running, keep its output separate from production QA:
+
+```bash
+NEXT_BUILD_DIRECTORY=.next-qa npm run build
+NEXT_BUILD_DIRECTORY=.next-qa npm run test:browser
+NEXT_BUILD_DIRECTORY=.next-qa npm run test:responsive
+```
+
 The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary production server, exercises submissions/uploads/WhatsApp handoff/mobile navigation, verifies that removed admin routes return 404, and deletes its temporary enquiry storage. Run `npm run build` first. Screenshots are written to `/tmp/grain-form-*.png`. Adapt the Chrome executable path in `scripts/browser-qa.mjs` for another OS.
+
+`npm run test:responsive` checks seven routes at 14 widths from 320 to 2560 pixels, short landscape navigation, menu resizing, animated portfolio filters and reduced-motion behavior. It uses the same local Chrome executable and writes screenshots to `/tmp/wooden-craft-*.png`. Build first.
 
 The integration suite tests validation, image signatures, hosted JSON and image file persistence, removed admin endpoints, rate limiting, failed-save cleanup and cross-origin rejection.
 

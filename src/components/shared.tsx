@@ -4,6 +4,7 @@ import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { Brand } from "./header";
 import { Button } from "./ui/button";
 import { business, whatsappUrl } from "@/lib/config";
+import { Reveal } from "./reveal";
 export function Photo({
   name,
   alt,
@@ -56,16 +57,18 @@ export function PageIntro({
 }) {
   return (
     <section className="page-intro wrap">
-      <p className="eyebrow">{eyebrow}</p>
-      <h1>{title}</h1>
-      <p className="intro-description">{description}</p>
+      <Reveal>
+        <p className="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        <p className="intro-description">{description}</p>
+      </Reveal>
     </section>
   );
 }
 export function ProjectCTA() {
   return (
     <section className="project-cta">
-      <div className="wrap cta-inner">
+      <Reveal className="wrap cta-inner">
         <div>
           <p className="eyebrow">LET’S MAKE IT PERSONAL</p>
           <h2>
@@ -82,7 +85,7 @@ export function ProjectCTA() {
           </Link>
         </Button>
         <span className="cta-rings" aria-hidden="true" />
-      </div>
+      </Reveal>
     </section>
   );
 }

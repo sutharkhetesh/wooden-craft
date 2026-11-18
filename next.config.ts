@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
+  distDir: process.env.NEXT_BUILD_DIRECTORY || ".next",
   poweredByHeader: false,
   images: { formats: ["image/avif", "image/webp"] },
   async headers() {

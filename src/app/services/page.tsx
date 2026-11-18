@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro, Photo, ProjectCTA } from "@/components/shared";
 import { services } from "@/lib/data";
+import { Reveal } from "@/components/reveal";
 export const metadata: Metadata = {
   title: "Our Expertise",
   description:
@@ -20,7 +21,7 @@ export default function Services() {
         {services.map((s, i) => (
           <section className="service-detail" id={s.id} key={s.id}>
             <Photo name={s.image} alt={s.name} />
-            <div>
+            <Reveal>
               <p className="eyebrow">0{i + 1} / OUR EXPERTISE</p>
               <h2>{s.name}</h2>
               <p>{s.description}</p>
@@ -38,7 +39,7 @@ export default function Services() {
                 Request a quote
                 <ArrowUpRight size={17} />
               </Link>
-            </div>
+            </Reveal>
           </section>
         ))}
       </div>

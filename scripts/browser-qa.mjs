@@ -81,9 +81,13 @@ try {
   }
   await page.goto(origin + "/work");
   await page.getByRole("button", { name: "Kitchens", exact: true }).click();
-  assert.equal(await page.locator(".portfolio-card").count(), 1);
+  await page.waitForFunction(
+    () => document.querySelectorAll(".portfolio-card").length === 1,
+  );
   await page.getByRole("button", { name: "All work", exact: true }).click();
-  assert.equal(await page.locator(".portfolio-card").count(), 6);
+  await page.waitForFunction(
+    () => document.querySelectorAll(".portfolio-card").length === 6,
+  );
   await page.goto(origin + "/enquiry?type=Dining%20Table");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByRole("button", { name: "Continue", exact: true }).click();

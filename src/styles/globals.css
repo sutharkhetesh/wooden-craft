@@ -3084,13 +3084,47 @@ html {
   padding: 12px 8px;
   white-space: nowrap;
   border-radius: 4px;
-  transition:
-    color 0.2s,
-    background 0.2s;
+  background: transparent;
+  transition: color 0.2s;
 }
-.desktop-nav a:hover {
+.desktop-nav a:hover,
+.desktop-nav a:focus-visible {
   color: var(--brown);
-  background: #eee6d869;
+}
+.desktop-nav-label {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.desktop-nav a:hover .desktop-nav-label,
+.desktop-nav a:focus-visible .desktop-nav-label {
+  transform: translateY(-2px);
+}
+.desktop-nav a:not(.active)::before {
+  content: "";
+  position: absolute;
+  inset-inline: 8px;
+  bottom: 5px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--oak);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.desktop-nav a:not(.active):hover::before,
+.desktop-nav a:not(.active):focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+@media (prefers-reduced-motion: reduce) {
+  .desktop-nav-label,
+  .desktop-nav a:not(.active)::before {
+    transition: none;
+  }
+  .desktop-nav a:hover .desktop-nav-label,
+  .desktop-nav a:focus-visible .desktop-nav-label {
+    transform: none;
+  }
 }
 .desktop-nav a.active:after {
   display: none;

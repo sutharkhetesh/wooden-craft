@@ -93,10 +93,11 @@ export function Header() {
               className={isActive(url) ? "active" : ""}
               aria-current={isActive(url) ? "page" : undefined}
             >
-              {name}
+              <span className="desktop-nav-label">{name}</span>
               {isActive(url) && (
                 <motion.span
                   className="nav-active-line"
+                  aria-hidden="true"
                   layoutId="main-navigation-active"
                   transition={
                     reduced

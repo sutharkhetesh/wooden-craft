@@ -167,8 +167,8 @@ try {
     const track = document.querySelector(".ticker-track");
     return new DOMMatrixReadOnly(getComputedStyle(track).transform).m41 < -2;
   });
-  await page.getByRole("button", { name: "Pause scrolling banner" }).click();
-  await page.mouse.move(0, 0);
+  assert.equal(await page.locator(".ticker button").count(), 0);
+  await page.locator(".ticker").hover();
   const pausedX = await page
     .locator(".ticker-track")
     .evaluate(
@@ -183,8 +183,7 @@ try {
         new DOMMatrixReadOnly(getComputedStyle(element).transform).m41,
     );
   assert.ok(Math.abs(pausedX - stillX) < 0.5, "Ticker must stay paused");
-  await page.getByRole("button", { name: "Resume scrolling banner" }).focus();
-  await page.keyboard.press("Enter");
+  await page.mouse.move(0, 0);
   await page.waitForFunction((previous) => {
     const x = new DOMMatrixReadOnly(
       getComputedStyle(document.querySelector(".ticker-track")).transform,
@@ -235,7 +234,7 @@ try {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(origin + "/products", { waitUntil: "networkidle" });
-  assert.equal(await page.locator(".ticker-toggle").isVisible(), false);
+  assert.equal(await page.locator(".ticker button").count(), 0);
   assert.equal(
     await page
       .locator(".ticker-track")
@@ -253,7 +252,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: four products, 13 generated views, ticker scrolling/pause/keyboard resume, variant/gallery animations, reduced motion, WhatsApp, removed originals and sitemap",
+    "PASS: four products, 13 generated views, ticker scrolling/hover pause/resume, variant/gallery animations, reduced motion, WhatsApp, removed originals and sitemap",
   );
 } finally {
   await browser?.close();

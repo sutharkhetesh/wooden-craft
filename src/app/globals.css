@@ -2966,13 +2966,12 @@ html {
 }
 .ticker-window {
   overflow: hidden;
-  padding-right: 64px;
   mask-image: linear-gradient(
     90deg,
     transparent,
     #000 4%,
-    #000 calc(100% - 80px),
-    transparent calc(100% - 56px)
+    #000 96%,
+    transparent
   );
 }
 .ticker-track {
@@ -3005,20 +3004,6 @@ html {
   background: var(--oak);
   border-radius: 50%;
 }
-.ticker-toggle {
-  position: absolute;
-  inset-block: 0;
-  right: max(12px, env(safe-area-inset-right));
-  margin-block: auto;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  color: var(--brown);
-  background: var(--bg);
-}
 .products-page-collection {
   padding-top: 40px;
 }
@@ -3050,8 +3035,7 @@ html {
     justify-content: center;
     gap: 18px 28px;
   }
-  .ticker-group:not([data-ticker-copy="0"]),
-  .ticker-toggle {
+  .ticker-group:not([data-ticker-copy="0"]) {
     display: none;
   }
   .ticker-item {

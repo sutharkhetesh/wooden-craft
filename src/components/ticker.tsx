@@ -8,7 +8,6 @@ import {
   useMotionValue,
   useReducedMotion,
 } from "framer-motion";
-import { Pause, Play } from "lucide-react";
 
 /** A custom ticker built with the open-source Motion engine. */
 export function Ticker({
@@ -26,7 +25,6 @@ export function Ticker({
   const x = useMotionValue(0);
   const inView = useInView(region);
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
@@ -43,7 +41,7 @@ export function Ticker({
   }, [x]);
 
   useAnimationFrame((_time, delta) => {
-    if (reduced || paused || hovered || !inView || !groupWidth.current) return;
+    if (reduced || hovered || !inView || !groupWidth.current) return;
     const next = x.get() - (velocity * Math.min(delta, 64)) / 1000;
     x.set(next <= -groupWidth.current ? next + groupWidth.current : next);
   });
@@ -57,7 +55,7 @@ export function Ticker({
         if (event.pointerType === "mouse") setHovered(true);
       }}
       onPointerLeave={() => setHovered(false)}
-      data-ticker-paused={paused || hovered}
+      data-ticker-paused={hovered}
     >
       <ul className="sr-only">
         {items.map((item) => (
@@ -83,17 +81,6 @@ export function Ticker({
           ))}
         </motion.div>
       </div>
-      <button
-        type="button"
-        className="ticker-toggle"
-        onClick={() => setPaused(!paused)}
-        aria-label={
-          paused ? "Resume scrolling banner" : "Pause scrolling banner"
-        }
-        aria-pressed={paused}
-      >
-        {paused ? <Play size={15} /> : <Pause size={15} />}
-      </button>
     </section>
   );
 }

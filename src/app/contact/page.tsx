@@ -35,13 +35,20 @@ export default function Contact() {
             {
               Icon: Phone,
               title: "Call the studio",
-              value: business.phone,
+              value: business.phone
+                ? business.phone.replace(/^\+91(\d{5})(\d{5})$/, "+91 $1 $2")
+                : "",
               link: business.phone ? `tel:${business.phone}` : "",
             },
             {
               Icon: MessageCircle,
               title: "A conversation on WhatsApp",
-              value: business.whatsapp ? `+${business.whatsapp}` : "",
+              value: business.whatsapp
+                ? `+${business.whatsapp}`.replace(
+                    /^\+91(\d{5})(\d{5})$/,
+                    "+91 $1 $2",
+                  )
+                : "",
               link: business.whatsapp ? whatsappUrl() : "",
             },
             {

@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body id="page-top">
         <MotionProvider>
           <a href="#main" className="skip-link">
             Skip to content

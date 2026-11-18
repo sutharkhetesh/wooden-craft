@@ -2,8 +2,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { ArrowUpRight, Menu, X, MessageCircle, Phone } from "lucide-react";
+import { business, whatsappUrl } from "@/lib/config";
 const links = [
   ["Home", "/"],
   ["Our Story", "/about"],
@@ -16,11 +23,13 @@ const links = [
 export function Brand() {
   return (
     <Link href="/" className="brand" aria-label="Grain and Form home">
-      <span className="brand-mark">
-        <i />
-        <i />
-        <i />
-        <i />
+      <span className="brand-emblem" aria-hidden="true">
+        <span className="brand-mark">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
       </span>
       <span>
         GRAIN <span className="brand-amp">&</span> FORM
@@ -32,7 +41,14 @@ export function Brand() {
 export function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (position) =>
+    setScrolled(position > 16),
+  );
   const reduced = useReducedMotion();
+  const isActive = (url: string) =>
+    path === url || (url !== "/" && path.startsWith(`${url}/`));
   const header = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const navigation = useRef<HTMLElement>(null);
@@ -79,29 +95,50 @@ export function Header() {
     };
   }, [open]);
   return (
-    <header className="site-header" ref={header}>
+    <header
+      className={`site-header${scrolled ? " is-scrolled" : ""}`}
+      ref={header}
+    >
       <div className="header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Main navigation">
           {links.map(([name, url]) => (
-            <Link key={url} href={url} className={path === url ? "active" : ""}>
+            <Link
+              key={url}
+              href={url}
+              className={isActive(url) ? "active" : ""}
+              aria-current={isActive(url) ? "page" : undefined}
+            >
               {name}
+              {isActive(url) && (
+                <motion.span
+                  className="nav-active-line"
+                  layoutId="main-navigation-active"
+                  transition={
+                    reduced
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 420, damping: 35 }
+                  }
+                />
+              )}
             </Link>
           ))}
         </nav>
-        <Link href="/enquiry" className="header-quote">
-          Let’s create something <ArrowUpRight size={15} />
-        </Link>
-        <button
-          ref={toggle}
-          className="menu-toggle"
-          aria-controls="mobile-navigation"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        <div className="header-actions">
+          <Link href="/enquiry" className="header-quote">
+            Start a project <ArrowUpRight size={15} />
+          </Link>
+          <button
+            ref={toggle}
+            className="menu-toggle"
+            aria-controls="mobile-navigation"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
       <AnimatePresence>
         {open && (
@@ -115,26 +152,60 @@ export function Header() {
             exit={{ opacity: 0, y: reduced ? 0 : -8 }}
             transition={{ duration: reduced ? 0 : 0.25 }}
           >
-            {links.map(([name, url], i) => (
-              <motion.div
-                key={url}
-                initial={reduced ? false : { opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: reduced ? 0 : 0.3,
-                  delay: reduced ? 0 : i * 0.035,
-                }}
-              >
-                <Link
-                  href={url}
-                  onClick={() => setOpen(false)}
-                  aria-current={path === url ? "page" : undefined}
+            <div className="mobile-menu-intro">
+              <p className="eyebrow">A LITTLE EXPLORATION</p>
+              <p>
+                Something beautiful.
+                <br />
+                <em>Something yours.</em>
+              </p>
+            </div>
+            <div className="mobile-menu-links">
+              {links.map(([name, url], i) => (
+                <motion.div
+                  key={url}
+                  initial={reduced ? false : { opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: reduced ? 0 : 0.3,
+                    delay: reduced ? 0 : i * 0.035,
+                  }}
                 >
-                  {name}
-                  <ArrowUpRight size={20} />
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    href={url}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive(url) ? "page" : undefined}
+                  >
+                    <span className="nav-index" aria-hidden="true">
+                      0{i + 1}
+                    </span>
+                    <span>{name}</span>
+                    <ArrowUpRight size={20} />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+            <div className="mobile-menu-contact">
+              <span>Let’s talk about your next piece.</span>
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+              >
+                <MessageCircle size={17} /> Message us on WhatsApp{" "}
+                <ArrowUpRight size={16} />
+              </a>
+              {business.phone && (
+                <a
+                  href={`tel:${business.phone}`}
+                  onClick={() => setOpen(false)}
+                >
+                  <Phone size={15} />
+                  {business.phone.replace(/^\+91(\d{5})(\d{5})$/, "+91 $1 $2")}
+                </a>
+              )}
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>

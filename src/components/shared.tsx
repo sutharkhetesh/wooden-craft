@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, MessageCircle } from "lucide-react";
+import { ArrowUpRight, ArrowUp, MessageCircle, Phone } from "lucide-react";
 import { Brand } from "./header";
 import { Button } from "./ui/button";
 import { business, whatsappUrl } from "@/lib/config";
 import { Reveal } from "./reveal";
 import { MotionSequence, MotionItem } from "./motion-sequence";
+import { products } from "@/lib/products";
 export function Photo({
   name,
   alt,
@@ -99,47 +100,103 @@ export function ProjectCTA() {
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="wrap footer-grid">
+      <div className="wrap footer-invitation">
         <div>
+          <p className="footer-kicker">GOOD THINGS BEGIN WITH A CONVERSATION</p>
+          <h2>
+            Your next piece.
+            <br />
+            <em>Let’s make it personal.</em>
+          </h2>
+        </div>
+        <div className="footer-invitation-actions">
+          <p>Tell us your idea. Let’s find the right piece for your space.</p>
+          <Link href="/enquiry" className="footer-invitation-link">
+            <span>Start your project</span>
+            <ArrowUpRight size={18} />
+          </Link>
+        </div>
+      </div>
+      <div className="wrap footer-grid">
+        <div className="footer-brand-column">
           <Brand />
           <p>
-            Thoughtfully designed.
+            Wooden objects, thoughtful furniture,
             <br />
-            Beautifully made. Entirely yours.
+            and a little warmth for the everyday.
           </p>
+          <a
+            className="footer-message"
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <MessageCircle size={16} /> Start a conversation{" "}
+            <ArrowUpRight size={14} />
+          </a>
         </div>
-        <div>
-          <h3>Explore</h3>
+        <div
+          className="footer-links"
+          role="navigation"
+          aria-label="Footer navigation"
+        >
+          <h3>Explore the studio</h3>
           <Link href="/about">Our story</Link>
           <Link href="/services">Our expertise</Link>
           <Link href="/work">Selected work</Link>
-          <Link href="/products">Wooden objects & products</Link>
+          <Link href="/products">All products</Link>
+          <Link href="/enquiry">Custom enquiries</Link>
         </div>
-        <div>
+        <div
+          className="footer-links"
+          role="navigation"
+          aria-label="Footer products"
+        >
+          <h3>Wooden objects</h3>
+          {products.map((product) => (
+            <Link key={product.slug} href={`/products/${product.slug}`}>
+              {product.name}
+            </Link>
+          ))}
+        </div>
+        <div className="footer-contact-column">
           <h3>Let’s connect</h3>
-          <Link href="/enquiry">
-            Request a custom quote <ArrowUpRight size={13} />
+          {business.phone && (
+            <a href={`tel:${business.phone}`} className="footer-phone">
+              <Phone size={16} />
+              {business.phone.replace(/^\+91(\d{5})(\d{5})$/, "+91 $1 $2")}
+            </a>
+          )}
+          <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">
+            Chat on WhatsApp <ArrowUpRight size={14} />
+          </a>
+          <Link href="/contact">
+            Contact the studio <ArrowUpRight size={14} />
           </Link>
-          <Link href="/contact">Visit & contact</Link>
           {business.email && (
             <a href={`mailto:${business.email}`}>{business.email}</a>
           )}
-        </div>
-        <div>
-          <h3>A note on this studio</h3>
-          <p>
-            Grain & Form is a demonstration brand.
+          {business.address && <p>{business.address}</p>}
+          {business.hours && <p>{business.hours}</p>}
+          <p className="footer-contact-note">
+            For product details, custom ideas
             <br />
-            Portfolio concepts and reviews are illustrative.
+            and something made for your space.
           </p>
         </div>
       </div>
       <div className="wrap footer-bottom">
         <span>
-          © {new Date().getFullYear()} Grain & Form. Crafted with care.
+          © {new Date().getFullYear()} {business.name}. Crafted with care.
         </span>
-        <span>Natural materials. Lasting relationships.</span>
+        <a href="#page-top" className="footer-back-top">
+          Back to top <ArrowUp size={14} />
+        </a>
       </div>
+      <p className="wrap footer-disclosure">
+        Grain & Form is a demonstration brand. Room concepts and reviews are
+        illustrative.
+      </p>
     </footer>
   );
 }

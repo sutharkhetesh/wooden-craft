@@ -152,6 +152,17 @@ try {
   );
   assert.equal(await page.locator(".scroll-progress").count(), 1);
   await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(
+    await page.locator(".footer-phone").getAttribute("href"),
+    "tel:+918905089544",
+  );
+  assert.ok(
+    (await page.locator(".footer-message").getAttribute("href")).startsWith(
+      "https://wa.me/918905089544",
+    ),
+  );
+  await page.locator(".footer-back-top").click();
+  await page.waitForFunction(() => window.scrollY < 3);
   await page.getByRole("button", { name: "Open menu" }).click();
   await page
     .locator(".mobile-nav")
@@ -186,7 +197,7 @@ try {
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: landscape menu, desktop resize, animated filters, motion preferences, and browser errors",
+    "PASS: landscape menu, desktop resize, footer contacts/back-to-top, animated filters, motion preferences, and browser errors",
   );
 } finally {
   await browser?.close();

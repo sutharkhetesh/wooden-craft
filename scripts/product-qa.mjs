@@ -75,6 +75,12 @@ try {
       200,
     );
     const name = await page.locator("h1").innerText();
+    assert.equal(
+      await page
+        .locator('.desktop-nav a[href="/products"]')
+        .getAttribute("aria-current"),
+      "page",
+    );
     const thumbnails = page.locator(".product-thumbnails button");
     const count = (await thumbnails.count()) || 1;
     for (let index = 0; index < count; index++) {

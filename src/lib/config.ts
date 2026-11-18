@@ -1,5 +1,9 @@
 import type { EnquiryInput } from "@/lib/enquiry/schema";
 
+const address =
+  process.env.NEXT_PUBLIC_BUSINESS_ADDRESS ||
+  "4MMJ+GCQ, Siana- Sirohi Main Road, Shanti Nagar Colony, Siyana, Rajasthan 343024";
+
 export const business = {
   name: "Grain & Form",
   phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+918905089544",
@@ -8,9 +12,9 @@ export const business = {
     "",
   ),
   email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "",
-  address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "",
+  address,
   hours: process.env.NEXT_PUBLIC_BUSINESS_HOURS || "",
-  mapQuery: process.env.NEXT_PUBLIC_MAP_QUERY || "",
+  mapQuery: process.env.NEXT_PUBLIC_MAP_QUERY || address,
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 };
 export function whatsappUrl(

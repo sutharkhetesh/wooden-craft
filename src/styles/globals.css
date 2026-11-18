@@ -3178,6 +3178,12 @@ html {
 .mobile-menu-links a svg {
   color: var(--oak);
 }
+.mobile-menu-links a[aria-current="page"] {
+  background: #ece4d7;
+  color: var(--brown);
+  border-color: transparent;
+  border-radius: 6px;
+}
 .mobile-menu-contact {
   margin-top: 26px;
   padding: 18px 22px;
@@ -3204,6 +3210,27 @@ html {
 .mobile-menu-contact a svg {
   flex-shrink: 0;
   color: var(--oak);
+}
+.mobile-menu-contact .mobile-menu-whatsapp {
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  background: var(--brown);
+  color: #fff8ee;
+  font-size: 13px;
+}
+.mobile-menu-whatsapp svg:last-child {
+  margin-left: auto;
+}
+.mobile-menu-contact .mobile-menu-whatsapp svg {
+  color: inherit;
+}
+.mobile-menu-contact .mobile-menu-phone {
+  justify-content: center;
+  min-height: 48px;
+  color: var(--brown);
+  font-size: 13px;
+  font-weight: 400;
 }
 .footer {
   background: #281f18;
@@ -3335,8 +3362,8 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
 .footer-grid .footer-contact-column > .footer-phone {
   color: #f6efe5;
   font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0.02em;
   font-variant-numeric: lining-nums tabular-nums;
   line-height: 1.3;
@@ -3406,7 +3433,7 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     gap: 14px;
   }
   .footer-grid .footer-contact-column > .footer-phone {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 @media (max-width: 800px) {
@@ -3486,7 +3513,7 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     gap: 4px;
   }
   .footer-grid .footer-contact-column > .footer-phone {
-    font-size: 16px;
+    font-size: 14px;
   }
   .footer-bottom {
     display: flex;
@@ -3513,5 +3540,205 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     min-height: 48px;
     font-size: 24px;
     padding-block: 9px;
+  }
+}
+
+/* Contact form */
+.contact-layout {
+  align-items: start;
+}
+.contact-form {
+  padding: clamp(24px, 3vw, 44px);
+  border-color: #e4ddd2;
+  border-radius: 8px;
+  box-shadow: 0 12px 40px #3b281c06;
+}
+.contact-form-heading {
+  padding-bottom: 26px;
+  border-bottom: 1px solid #e9e2d8;
+  margin-bottom: 24px;
+}
+.contact-form-heading .eyebrow {
+  margin: 0 0 14px;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  color: #896d4c;
+}
+.contact-form h2 {
+  margin: 0 0 12px;
+  font-size: clamp(30px, 2.8vw, 38px);
+  line-height: 1.15;
+  font-weight: 400;
+}
+.contact-form .form-subtitle {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 40ch;
+}
+.contact-form-required {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.contact-form .form-fields {
+  gap: 22px 20px;
+}
+.contact-form .field {
+  gap: 9px;
+}
+.contact-form .field label {
+  font-size: 12px;
+  font-weight: 500;
+}
+.contact-form .field input,
+.contact-form .field textarea {
+  min-height: 48px;
+  padding: 13px 14px;
+  border: 1px solid #dcd5ca;
+  border-radius: 4px;
+  background: #fffefa;
+  font-size: 14px;
+  line-height: 1.6;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.contact-form .field textarea {
+  min-height: 148px;
+}
+.contact-form .field input::placeholder,
+.contact-form .field textarea::placeholder {
+  color: #8c857b;
+  font-size: 12px;
+}
+.contact-form .field input:hover,
+.contact-form .field textarea:hover {
+  border-color: #b7a995;
+}
+.contact-form .field input:focus-visible,
+.contact-form .field textarea:focus-visible {
+  outline: none;
+  border-color: #896d4c;
+  box-shadow: 0 0 0 3px #896d4c14;
+}
+.contact-form .field [aria-invalid="true"] {
+  border-color: #a0372d;
+}
+.contact-field-hint {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.contact-form .field-error {
+  font-size: 11px;
+  line-height: 1.6;
+}
+.contact-form .consent {
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid #e9e2d8;
+  font-size: 11px;
+  line-height: 1.8;
+  cursor: pointer;
+}
+.contact-form .consent input {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  min-height: 17px;
+  margin: 2px 0 0;
+  padding: 0;
+}
+.contact-form .contact-form-submit {
+  width: 100%;
+  min-height: 50px;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding: 14px 20px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.contact-form-next {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.75;
+}
+.contact-form-success > svg {
+  color: #6c7556;
+}
+@media (max-width: 600px) {
+  .contact-form .field input,
+  .contact-form .field textarea {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .menu-toggle[aria-expanded="true"] {
+    background: #ece4d7;
+    border-color: #d7c6ad;
+  }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 20px max(24px, env(safe-area-inset-bottom));
+    box-shadow: none;
+    scrollbar-width: thin;
+  }
+  .mobile-menu-intro {
+    flex-shrink: 0;
+    margin-bottom: 22px;
+  }
+  .mobile-menu-intro .eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    margin-bottom: 10px;
+  }
+  .mobile-menu-intro > p:last-child {
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.3px;
+  }
+  .mobile-menu-links {
+    flex-shrink: 0;
+    margin-inline: -8px;
+  }
+  .mobile-menu-links a {
+    grid-template-columns: minmax(0, 1fr) 28px;
+    min-height: 52px;
+    padding: 12px 12px;
+    gap: 12px;
+    font-size: 23px;
+    font-weight: 400;
+    border-color: #e7e0d5;
+  }
+  .mobile-menu-links .nav-index {
+    display: none;
+  }
+  .mobile-menu-links a > svg {
+    justify-self: end;
+    width: 18px;
+    height: 18px;
+  }
+  .mobile-menu-links a:active {
+    background: #ece4d7;
+  }
+  .mobile-menu-contact {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 24px 0 0;
+    border: 0;
+    background: transparent;
+  }
+  .mobile-menu-contact > span {
+    margin-bottom: 12px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .mobile-menu-contact .mobile-menu-phone {
+    margin-top: 4px;
   }
 }

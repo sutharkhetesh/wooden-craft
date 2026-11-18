@@ -89,7 +89,10 @@ export function ContactForm() {
   }
   if (reference)
     return (
-      <div className="form-panel" role="status">
+      <div
+        className="form-panel contact-form contact-form-success"
+        role="status"
+      >
         <Check size={30} />
         <h2 style={{ marginTop: 20 }}>A conversation, started.</h2>
         <p className="form-subtitle">
@@ -117,11 +120,20 @@ export function ContactForm() {
       </div>
     );
   return (
-    <form className="form-panel" onSubmit={handleSubmit(submit)} noValidate>
-      <h2>Tell us what’s on your mind.</h2>
-      <p className="form-subtitle">
-        Have a question or want to discuss an idea? Start here.
-      </p>
+    <form
+      className="form-panel contact-form"
+      onSubmit={handleSubmit(submit)}
+      aria-labelledby="contact-form-title"
+      noValidate
+    >
+      <div className="contact-form-heading">
+        <p className="eyebrow">CONTACT THE STUDIO</p>
+        <h2 id="contact-form-title">Tell us what’s on your mind.</h2>
+        <p className="form-subtitle">
+          Share your idea or ask a question. We’d love to hear from you.
+        </p>
+      </div>
+      <p className="contact-form-required">All fields are required.</p>
       {error && (
         <p className="form-error" role="alert">
           {error}
@@ -157,9 +169,23 @@ export function ContactForm() {
                       : "address-level2"
               }
               aria-invalid={!!errors[name]}
+              aria-describedby={
+                errors[name] ? `contact-${name}-error` : undefined
+              }
+              required
+              placeholder={
+                {
+                  name: "Your full name",
+                  email: "you@example.com",
+                  mobile: "e.g. +91 98765 43210",
+                  city: "City or town",
+                }[name]
+              }
             />
             {errors[name] && (
-              <span className="field-error">{errors[name].message}</span>
+              <span className="field-error" id={`contact-${name}-error`}>
+                {errors[name].message}
+              </span>
             )}
           </div>
         ))}
@@ -168,12 +194,23 @@ export function ContactForm() {
           <textarea
             id="contact-description"
             {...register("description")}
-            placeholder="A little about your project or question…"
+            placeholder="Tell us about the piece you have in mind, your space, or how we can help."
             rows={5}
             aria-invalid={!!errors.description}
+            aria-describedby={
+              errors.description
+                ? "contact-description-hint contact-description-error"
+                : "contact-description-hint"
+            }
+            required
           />
+          <span className="contact-field-hint" id="contact-description-hint">
+            Please include at least 20 characters.
+          </span>
           {errors.description && (
-            <span className="field-error">{errors.description.message}</span>
+            <span className="field-error" id="contact-description-error">
+              {errors.description.message}
+            </span>
           )}
         </div>
       </div>
@@ -182,18 +219,27 @@ export function ContactForm() {
         <input id="contact-website" {...register("website")} tabIndex={-1} />
       </div>
       <label className="consent">
-        <input type="checkbox" {...register("consent")} />
+        <input
+          type="checkbox"
+          {...register("consent")}
+          required
+          aria-invalid={!!errors.consent}
+          aria-describedby={
+            errors.consent ? "contact-consent-error" : undefined
+          }
+        />
         <span>
           I agree to be contacted about my message and to have these details
           stored for the studio to review.
         </span>
       </label>
       {errors.consent && (
-        <p className="field-error">{errors.consent.message}</p>
+        <p className="field-error" id="contact-consent-error">
+          {errors.consent.message}
+        </p>
       )}
       <button
-        style={{ marginTop: 22 }}
-        className="button button-dark"
+        className="button button-dark contact-form-submit"
         disabled={isSubmitting}
         type="submit"
       >
@@ -209,10 +255,12 @@ export function ContactForm() {
           </>
         )}
       </button>
-      <p className="upload-hint">
-        After saving, WhatsApp opens with your message. Tap Send to send it to
-        the studio at +{business.whatsapp}.
-      </p>
+      {business.whatsapp && (
+        <p className="contact-form-next">
+          Your message is saved first, then WhatsApp opens. Tap Send in WhatsApp
+          to share it with the studio.
+        </p>
+      )}
     </form>
   );
 }

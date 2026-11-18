@@ -87,8 +87,7 @@ export default function Contact() {
             </div>
           ))}
           <p className="contact-note">
-            This is a demonstration studio. For a project conversation, share your
-            ideas using the enquiry form.
+            Planning a visit? Call or message us to arrange a time.
           </p>
           <Link className="text-link" href="/enquiry">
             Have a specific project? Start here <ArrowUpRight size={16} />

@@ -164,7 +164,7 @@ export function Header() {
                       0{i + 1}
                     </span>
                     <span>{name}</span>
-                    <ArrowUpRight size={20} />
+                    <ArrowUpRight size={20} aria-hidden="true" />
                   </Link>
                 </motion.div>
               ))}
@@ -172,20 +172,23 @@ export function Header() {
             <div className="mobile-menu-contact">
               <span>Let’s talk about your next piece.</span>
               <a
+                className="mobile-menu-whatsapp"
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
               >
-                <MessageCircle size={17} /> Message us on WhatsApp{" "}
-                <ArrowUpRight size={16} />
+                <MessageCircle size={18} aria-hidden="true" />
+                <span>Chat on WhatsApp</span>
+                <ArrowUpRight size={16} aria-hidden="true" />
               </a>
               {business.phone && (
                 <a
+                  className="mobile-menu-phone"
                   href={`tel:${business.phone}`}
                   onClick={() => setOpen(false)}
                 >
-                  <Phone size={15} />
+                  <Phone size={16} aria-hidden="true" />
                   {business.phone.replace(/^\+91(\d{5})(\d{5})$/, "+91 $1 $2")}
                 </a>
               )}

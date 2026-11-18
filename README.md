@@ -20,7 +20,7 @@ npm start
 
 ## Business configuration
 
-No `.env` file is required to start the website. The contact and WhatsApp number defaults to +91 89050 89544 in `src/lib/config.ts`. Other contact details stay empty until configured. Optional overrides can be set in the hosting environment. The `NEXT_PUBLIC_` variables are public and are embedded during the build: rebuild after changing them. The map appears only when `NEXT_PUBLIC_MAP_QUERY` is set. The floating conversation button opens WhatsApp. WhatsApp summaries contain text and explicitly say that images are not attached.
+No `.env` file is required to start the website. The contact and WhatsApp number defaults to +91 89050 89544 in `src/lib/config.ts`. The studio address defaults to 4MMJ+GCQ, Siana- Sirohi Main Road, Shanti Nagar Colony, Siyana, Rajasthan 343024. Email and opening hours stay empty until configured. Optional overrides can be set in the hosting environment. The `NEXT_PUBLIC_` variables are public and are embedded during the build: rebuild after changing them. The map uses the studio address by default; `NEXT_PUBLIC_MAP_QUERY` can override its search location. The floating conversation button opens WhatsApp. WhatsApp summaries contain text and explicitly say that images are not attached.
 
 ## Enquiry storage
 

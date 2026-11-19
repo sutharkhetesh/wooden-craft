@@ -1,5 +1,6 @@
 import { enquirySchema } from "../src/lib/enquiry/schema.ts";
 import { imageKind, maxFileSize } from "../src/lib/enquiry/image-validation.ts";
+import { saveDatabaseEnquiry } from "./database.mjs";
 const json = (body, status = 200, headers = {}) =>
   Response.json(body, {
     status,
@@ -32,6 +33,10 @@ function originValid(req) {
 }
 const recordKey = (id) => `enquiries/${id}.json`;
 async function saveEnquiry(env, record) {
+  if (env.DATABASE_URL) {
+    await saveDatabaseEnquiry(env.DATABASE_URL, record);
+    return;
+  }
   await env.BUCKET.put(recordKey(record.id), JSON.stringify(record), {
     httpMetadata: { contentType: "application/json" },
   });

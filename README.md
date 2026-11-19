@@ -4,7 +4,7 @@ A bespoke furniture and woodwork business website built with **Next.js 15 App Ro
 
 ## Start locally
 
-Use Node.js 22.13+. The application and tests use no database.
+Use Node.js 22.13+. The application supports Neon PostgreSQL for enquiry records. Tests run without a live database.
 
 ```bash
 npm ci
@@ -24,11 +24,40 @@ No `.env` file is required to start the website. The contact and WhatsApp number
 
 ## Enquiry storage
 
-**Local/Node default:** enquiries are saved as individual atomic JSON files in `.data/enquiries`; uploads live in `.data/uploads`. These directories are private, excluded from Git and never served as public assets. Use a persistent volume for `DATA_DIRECTORY` on a deployed Node host. A serverless ephemeral filesystem is unsuitable for this mode.
+Set the pooled `DATABASE_URL` and direct `DIRECT_URL` in the untracked `.env` file (see `.env.example`). Prisma Client uses the pooled connection for application queries. Prisma CLI uses `DIRECT_URL`, falling back to `DATABASE_URL` when omitted. Credentials are loaded by `prisma.config.ts` and are never public build variables.
 
-**Sites hosting:** `npm run build:hosted` exports the Next.js visitor pages in an isolated staging directory and bundles them with a Cloudflare Worker adapter. The hosted adapter implements the same enquiry API contract using **private R2 files only**: each enquiry is an individual JSON object under `enquiries/`, and reference images are separate private objects. The R2 binding is declared in `.openai/hosting.json`; the database binding is disabled. No database, ORM, SQL migrations or database connection variables are used in either deployment mode.
+```bash
+npm run db:generate
+npm run db:migrate
+npm run db:check
+```
 
-Existing records in a previously deployed database are not automatically copied into these files. Export and migrate those records before switching an existing deployment. This change does not delete any remote resources.
+`prisma/schema.prisma` defines three models:
+
+| Model | Table | Data |
+| --- | --- | --- |
+| `ContactMessage` | `contact_messages` | Name, email, mobile, city, message, consent, status, notes and creation time |
+| `Enquiry` | `enquiries` | Contact details, project type, title, description, dimensions, material, integer quantity, finish, budget, timeline, location, WhatsApp, instructions and consent |
+| `Attachment` | `attachments` | Private filename, display name, MIME type, byte size and submission foreign key |
+
+Form values are stored in typed columns. Attachment metadata belongs to exactly one contact message or enquiry; SQL checks enforce ownership, supported byte sizes and quantity limits. Foreign keys cascade metadata when a parent record is deleted. Image bytes remain private files, rather than database blobs.
+
+**Node API:** Prisma Client uses the Neon WebSocket adapter with native TLS over IPv4. Records and related attachments use a nested create, so they commit or roll back together. On failed saves, the API cleans up uploaded files and reports failure. `DATA_DIRECTORY` needs a persistent volume for `.data/uploads` on deployed Node hosts. Without `DATABASE_URL`, development retains the private JSON-file storage fallback.
+
+**Sites hosting:** `npm run build:hosted` bundles the visitor pages and Worker adapter. Configure `DATABASE_URL` as a hosted runtime secret. The Worker uses parameterized Neon HTTPS transactions against the same Prisma-managed structured tables, with private R2 storage for image bytes. Without the secret it retains the R2 JSON fallback. Database migrations run before publishing; database credentials do not belong in `.openai/hosting.json` or client code.
+
+**Migrations:** `prisma/migrations/` is the migration history. `0_baseline` describes the previous JSON schema, and `202611190001_structured_submissions` backfills typed fields, moves legacy contact records into their own table, creates attachment relations, and removes the old payload/source columns in a transaction. The existing Neon database was baselined before applying the upgrade. A private pre-upgrade backup is in the ignored `.data/backups` directory. Existing filesystem/R2 JSON objects are not automatically imported into PostgreSQL.
+
+```bash
+npm run db:schema:validate
+npm run db:schema:format
+npm run db:status
+npm run db:migrate:dev -- --name describe_change
+```
+
+Use `db:migrate:dev` against a development database. `db:migrate` applies reviewed migrations to deployment databases without resetting their data. New installations apply both migrations automatically. See [Prisma's existing-database migration guidance](https://www.prisma.io/docs/orm/v7/prisma-migrate/getting-started).
+
+The opt-in `npm run test:db:migration` exercises backfill using synthetic records in a temporary Neon schema and removes it afterward. It checks message text, typed quantity, optional values, timestamps, notes and attachment ownership. Normal `npm test` runs without database access. The opt-in `npm run test:db:submissions` expects a temporary server started with `NEXT_BUILD_DIRECTORY=.next-qa DATA_DIRECTORY=/tmp/grain-form-prisma-qa npm run dev -- --port 3127`. It verifies Node and Worker submissions in Neon, attachment foreign keys, nested-write rollback and orphan rejection, then deletes its own synthetic records and uploads.
 
 ## Visitor experience
 
@@ -84,15 +113,16 @@ The integration suite tests validation, image signatures, hosted JSON and image 
 - `src/components/ui/`: Radix/shadcn-style button primitive.
 - `src/data/`: product catalog, portfolio concepts and service content.
 - `src/lib/enquiry/`: shared enquiry schema, types and image validation.
-- `src/lib/server/`: server-only security, file storage and upload handling.
+- `src/lib/server/`: Prisma persistence, form-to-column mapping, security and upload handling.
+- `prisma/`: typed database models, Prisma configuration and versioned SQL migrations.
 - `src/lib/config.ts`: business details and WhatsApp helpers.
 - `src/lib/utils.ts`: shared class-name utility.
 - `src/styles/globals.css`: global styles, local fonts and responsive layouts.
 - `public/`: website images, fonts and font licenses.
 - `source-assets/`: archived original photographs and excluded edits, retained for provenance checks.
 - `docs/`: asset sources and product photography documentation.
-- `tests/`: enquiry validation and hosted storage integration tests.
-- `hosting/worker.mjs`: R2 file API and static asset adapter for Sites.
+- `tests/`: enquiry validation, typed persistence mapping and hosted storage integration tests.
+- `hosting/worker.mjs`: Neon/R2 enquiry API and static asset adapter for Sites.
 - `scripts/build-hosted.mjs`: isolated Next.js export and Worker bundle.
 
 ## Launch considerations

@@ -1,0 +1,75 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  runtime      = "nodejs"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ContactMessage {
+  id          String       @id @db.Text
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  status      String       @default("New") @db.Text
+  notes       String       @default("") @db.Text
+  name        String       @db.VarChar(100)
+  email       String       @db.VarChar(200)
+  mobile      String       @db.VarChar(18)
+  city        String       @db.VarChar(100)
+  consent     Boolean
+  message     String       @db.Text
+  attachments Attachment[]
+
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@map("contact_messages")
+}
+
+model Enquiry {
+  id           String       @id @db.Text
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  status       String       @default("New") @db.Text
+  notes        String       @default("") @db.Text
+  name         String       @db.VarChar(100)
+  email        String       @db.VarChar(200)
+  mobile       String       @db.VarChar(18)
+  city         String       @db.VarChar(100)
+  consent      Boolean
+  projectType  String       @map("project_type") @db.Text
+  title        String       @db.VarChar(120)
+  description  String       @db.Text
+  dimensions   String?      @db.VarChar(200)
+  material     String?      @db.VarChar(100)
+  quantity     Int          @default(1)
+  finish       String?      @db.VarChar(150)
+  budget       String       @db.Text
+  timeline     String       @db.Text
+  location     String       @db.VarChar(150)
+  whatsapp     String?      @db.VarChar(18)
+  instructions String?      @db.Text
+  attachments  Attachment[]
+
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@map("enquiries")
+}
+
+/// Each attachment belongs to exactly one submission (enforced by a SQL check).
+/// Image bytes stay in the existing private filesystem or R2 storage.
+model Attachment {
+  id               String          @id @db.Text
+  filename         String          @db.Text
+  name             String          @db.VarChar(120)
+  mime             String          @db.VarChar(100)
+  size             Int
+  enquiryId        String?         @map("enquiry_id") @db.Text
+  contactMessageId String?         @map("contact_message_id") @db.Text
+  enquiry          Enquiry?        @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  contactMessage   ContactMessage? @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
+
+  @@index([enquiryId])
+  @@index([contactMessageId])
+  @@map("attachments")
+}

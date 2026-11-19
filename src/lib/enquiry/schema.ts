@@ -9,6 +9,7 @@ const phone = z
     return n >= 10 && n <= 15;
   }, "Enter a valid mobile number.");
 export const enquirySchema = z.object({
+  source: z.enum(["contact", "enquiry"]).optional(),
   projectType: z.enum(types, { error: "Choose a project type." }),
   title: z.string().trim().min(3, "Give your project a short title.").max(120),
   description: z
@@ -52,6 +53,7 @@ export const enquirySchema = z.object({
 });
 export type EnquiryInput = z.infer<typeof enquirySchema>;
 export const defaults: EnquiryInput = {
+  source: "enquiry",
   projectType: "Other Custom Work",
   title: "",
   description: "",

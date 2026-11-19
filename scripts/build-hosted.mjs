@@ -98,5 +98,5 @@ await build({
 mkdirSync("dist/.openai", { recursive: true });
 cpSync(".openai/hosting.json", "dist/.openai/hosting.json");
 console.log(
-  `Hosted Worker built with ${Object.keys(assets).length} Next.js assets and private R2 file storage.`,
+  `Hosted Worker built with ${Object.keys(assets).length} Next.js assets, Neon enquiry support and private R2 storage.`,
 );

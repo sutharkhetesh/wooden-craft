@@ -288,34 +288,6 @@ img {
   font-family: var(--sans);
   margin-top: 7px;
 }
-.brand-amp {
-  font-size: 16px;
-  font-style: italic;
-}
-.brand-mark {
-  display: flex;
-  position: relative;
-  width: 28px;
-  height: 37px;
-  gap: 4px;
-  align-items: center;
-  transform: skewY(-18deg);
-}
-.brand-mark i {
-  height: 30px;
-  width: 3px;
-  border: 1px solid #8d683f;
-  display: block;
-}
-.brand-mark i:nth-child(2) {
-  height: 38px;
-}
-.brand-mark i:nth-child(3) {
-  height: 34px;
-}
-.brand-mark i:nth-child(4) {
-  height: 24px;
-}
 .desktop-nav {
   display: flex;
   gap: 29px;
@@ -864,9 +836,6 @@ img {
 }
 .footer .brand {
   font-size: 20px;
-}
-.footer .brand-mark {
-  transform: scale(0.8) skewY(-18deg);
 }
 .footer-grid p {
   font-size: 9px;
@@ -1750,11 +1719,6 @@ textarea::placeholder {
   .brand small {
     font-size: 5.5px;
     letter-spacing: 2.6px;
-  }
-  .brand-mark {
-    width: 23px;
-    gap: 3px;
-    transform: scale(0.85) skewY(-18deg);
   }
   .header-quote {
     font-size: 8px;
@@ -3352,12 +3316,6 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
   border-color: #7e654a;
   background: #c39b6812;
 }
-.footer .brand-mark {
-  transform: skewY(-18deg);
-}
-.footer .brand-mark i {
-  border-color: #c5a47a;
-}
 .footer-grid p {
   font-size: 12px;
   color: #c7baaa;
@@ -3514,10 +3472,6 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     width: 36px;
     height: 42px;
   }
-  .site-header .brand-mark {
-    width: 23px;
-    gap: 3px;
-  }
   .site-header .brand small {
     font-size: 5.8px;
     letter-spacing: 2px;
@@ -3541,10 +3495,6 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
   .footer .brand-emblem {
     width: 42px;
     height: 48px;
-  }
-  .footer .brand-mark {
-    width: 28px;
-    gap: 4px;
   }
   .footer-grid .footer-contact-column > .footer-phone {
     font-size: 14px;

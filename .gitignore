@@ -2,9 +2,11 @@ node_modules/
 .next/
 .next-qa/
 .env*
+!.env.example
 .data/
 *.tsbuildinfo
 
 out/
 dist/
 .sites-build/
+src/generated/prisma/

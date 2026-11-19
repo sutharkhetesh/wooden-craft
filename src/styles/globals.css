@@ -3776,3 +3776,46 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     margin-top: 4px;
   }
 }
+
+/* Enteak identity: an arched wood-grain seal and a serif wordmark. */
+.brand .brand-emblem {
+  width: 44px;
+  height: 52px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #796247;
+}
+.enteak-monogram {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brand .brand-wordmark {
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  line-height: 1;
+}
+.brand .brand-wordmark small {
+  margin-top: 8px;
+  font-size: 7px;
+  letter-spacing: 0.22em;
+  text-align: left;
+}
+.footer .brand .brand-emblem {
+  color: #c5a47a;
+}
+@media (max-width: 600px) {
+  .site-header .brand .brand-emblem {
+    width: 36px;
+    height: 44px;
+  }
+  .site-header .brand-wordmark {
+    font-size: 32px;
+  }
+  .site-header .brand-wordmark small {
+    font-size: 6px;
+    letter-spacing: 0.18em;
+  }
+}

@@ -15,13 +15,16 @@ function sharedData(record: EnquiryRecord) {
     consent,
     attachments: attachments.length
       ? {
-          create: attachments.map(({ id, filename, name, mime, size }) => ({
-            id,
-            filename,
-            name,
-            mime,
-            size,
-          })),
+          create: attachments.map(
+            ({ id, filename, name, mime, size, content }) => ({
+              id,
+              filename,
+              name,
+              mime,
+              size,
+              ...(content ? { content } : {}),
+            }),
+          ),
         }
       : undefined,
   };

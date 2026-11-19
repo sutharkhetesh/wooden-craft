@@ -57,13 +57,14 @@ model Enquiry {
 }
 
 /// Each attachment belongs to exactly one submission (enforced by a SQL check).
-/// Image bytes stay in the existing private filesystem or R2 storage.
+/// Node database uploads store bytes here; legacy filesystem and R2 rows leave content null.
 model Attachment {
   id               String          @id @db.Text
   filename         String          @db.Text
   name             String          @db.VarChar(120)
   mime             String          @db.VarChar(100)
   size             Int
+  content          Bytes?          @db.ByteA
   enquiryId        String?         @map("enquiry_id") @db.Text
   contactMessageId String?         @map("contact_message_id") @db.Text
   enquiry          Enquiry?        @relation(fields: [enquiryId], references: [id], onDelete: Cascade)

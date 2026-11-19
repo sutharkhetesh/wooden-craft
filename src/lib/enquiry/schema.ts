@@ -79,6 +79,7 @@ export type Attachment = {
   mime: string;
   size: number;
   filename: string;
+  content?: Uint8Array<ArrayBuffer>;
 };
 export type EnquiryRecord = {
   id: string;

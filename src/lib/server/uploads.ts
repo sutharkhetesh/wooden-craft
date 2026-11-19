@@ -22,15 +22,21 @@ export async function storeUploads(files: File[], enquiryId: string) {
       return { file, bytes, kind };
     }),
   );
-  requirePersistentFileStorage();
+  // With Neon, keep validated bytes in memory until the nested database write.
+  // The enquiry and its images then commit or roll back together.
+  const databaseUploads = Boolean(process.env.DATABASE_URL);
   const dir = path.join(dataDirectory, "uploads", enquiryId);
-  await mkdir(dir, { recursive: true, mode: 0o700 });
+  if (!databaseUploads) {
+    requirePersistentFileStorage();
+    await mkdir(dir, { recursive: true, mode: 0o700 });
+  }
   const attachments: Attachment[] = [];
   try {
     for (const { file, bytes, kind } of validated) {
       const id = randomUUID();
       const filename = `${id}.${kind.extension}`;
-      await writeFile(path.join(dir, filename), bytes, { mode: 0o600 });
+      if (!databaseUploads)
+        await writeFile(path.join(dir, filename), bytes, { mode: 0o600 });
       attachments.push({
         id,
         filename,
@@ -40,15 +46,17 @@ export async function storeUploads(files: File[], enquiryId: string) {
           .slice(0, 120),
         mime: kind.mime,
         size: file.size,
+        ...(databaseUploads ? { content: bytes } : {}),
       });
     }
     return attachments;
   } catch (error) {
-    await rm(dir, { recursive: true, force: true });
+    if (!databaseUploads) await rm(dir, { recursive: true, force: true });
     throw error;
   }
 }
 export async function removeUploads(id: string) {
+  if (process.env.DATABASE_URL) return;
   await rm(path.join(dataDirectory, "uploads", id), {
     recursive: true,
     force: true,

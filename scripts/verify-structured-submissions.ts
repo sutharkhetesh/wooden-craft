@@ -87,6 +87,12 @@ async function main() {
         assert.equal(row.email, payload.email);
         assert.equal(row.attachments.length, 1);
         assert.equal(row.attachments[0].size, 8);
+        if (mode === "node")
+          assert.deepEqual(
+            row.attachments[0].content,
+            new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]),
+          );
+        else assert.equal(row.attachments[0].content, null);
         assert.equal("payload" in row, false);
         if ("quantity" in row) assert.equal(row.quantity, 2);
         else assert.equal(row.message, payload.description);

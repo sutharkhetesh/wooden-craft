@@ -49,6 +49,22 @@ test("project data uses typed columns and nested attachment creation", () => {
   assert.deepEqual(data.attachments, { create: record.payload.attachments });
 });
 
+test("image bytes are included in nested creates for both submission types", () => {
+  const content = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+  const withImage: EnquiryRecord = {
+    ...record,
+    payload: {
+      ...record.payload,
+      attachments: [{ ...record.payload.attachments[0], content }],
+    },
+  };
+  for (const createData of [contactCreateData, enquiryCreateData]) {
+    assert.deepEqual(createData(withImage).attachments, {
+      create: withImage.payload.attachments,
+    });
+  }
+});
+
 test("contact data stores a message and contact fields without project defaults", () => {
   const data = contactCreateData({
     ...record,

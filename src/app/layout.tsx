@@ -8,15 +8,15 @@ import "@/styles/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(business.url),
   title: {
-    default: "Grain & Form — Crafted From Wood. Designed For You.",
-    template: "%s | Grain & Form",
+    default: "Anteak — Crafted From Wood. Designed For You.",
+    template: "%s | Anteak",
   },
   description:
-    "Thoughtfully handcrafted wooden furniture and bespoke interiors, tailored to your space, style and vision. Begin your custom project with Grain & Form.",
+    "Thoughtfully handcrafted wooden furniture and bespoke interiors, tailored to your space, style and vision. Begin your custom project with Anteak.",
   openGraph: {
     type: "website",
-    siteName: "Grain & Form",
-    title: "Grain & Form — Bespoke Woodwork",
+    siteName: "Anteak",
+    title: "Anteak — Bespoke Woodwork",
     description: "Thoughtfully designed. Beautifully made. Entirely yours.",
     images: [{ url: "/images/hero.jpg", width: 2200, height: 1467 }],
   },

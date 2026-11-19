@@ -100,8 +100,7 @@ export function Footer() {
         </a>
       </div>
       <p className="wrap footer-disclosure">
-        Grain & Form is a demonstration brand. Room concepts and reviews are
-        illustrative.
+        Room concepts and reviews are illustrative.
       </p>
     </footer>
   );

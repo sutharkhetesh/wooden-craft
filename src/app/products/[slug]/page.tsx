@@ -70,7 +70,7 @@ export default async function ProductDetail({
             <p>Make it part of your everyday.</p>
             <a
               href={whatsappUrl(
-                `Hello Grain & Form, I am interested in ${product.name}. Please share the price, dimensions, availability and what is included.`,
+                `Hello Anteak, I am interested in ${product.name}. Please share the price, dimensions, availability and what is included.`,
               )}
               target="_blank"
               rel="noopener noreferrer"

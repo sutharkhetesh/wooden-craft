@@ -6,13 +6,13 @@ import { Reveal } from "@/components/motion/reveal";
 export const metadata: Metadata = {
   title: "Our Story",
   description:
-    "Discover the Grain & Form approach to thoughtful furniture design, honest materials and bespoke woodwork.",
+    "Discover the Anteak approach to thoughtful furniture design, honest materials and bespoke woodwork.",
 };
 export default function About() {
   return (
     <>
       <PageIntro
-        eyebrow="THE GRAIN & FORM PHILOSOPHY"
+        eyebrow="THE ANTEAK PHILOSOPHY"
         title="Good things take shape, thoughtfully."
         description="We believe the most meaningful spaces are personal. And the most beautiful furniture feels like it belongs to you, from the very beginning."
       />
@@ -38,7 +38,7 @@ export default function About() {
             becomes part of our daily story.
           </p>
           <p>
-            Grain & Form is a demonstration of a more personal approach to
+            Anteak takes a more personal approach to
             woodwork: one that begins with listening, makes room for
             collaboration, and treats every detail as a design opportunity.
           </p>
@@ -46,11 +46,6 @@ export default function About() {
             Our philosophy is simple. Let the material be honest. Let the
             proportions feel right. And create something that stays useful, and
             beautiful, for years to come.
-          </p>
-          <p className="demo-note">
-            Demonstration brand. This page describes the studio’s intended
-            approach; it makes no claims about an existing workshop or company
-            history.
           </p>
         </Reveal>
         <Photo name="detail" alt="The tactile beauty of a timber finish" />

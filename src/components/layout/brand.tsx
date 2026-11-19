@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Brand() {
   return (
-    <Link href="/" className="brand" aria-label="Grain and Form home">
+    <Link href="/" className="brand" aria-label="Anteak home">
       <span className="brand-emblem" aria-hidden="true">
         <span className="brand-mark">
           <i />
@@ -12,7 +12,7 @@ export function Brand() {
         </span>
       </span>
       <span>
-        GRAIN <span className="brand-amp">&</span> FORM
+        ANTEAK
         <small>BESPOKE WOODWORK</small>
       </span>
     </Link>

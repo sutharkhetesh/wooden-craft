@@ -106,7 +106,7 @@ export default function Home() {
           <span className="photo-caption">THE BEAUTY IS IN THE DETAILS.</span>
         </Reveal>
         <Reveal className="story-copy">
-          <p className="eyebrow">THE GRAIN & FORM PHILOSOPHY</p>
+          <p className="eyebrow">THE ANTEAK PHILOSOPHY</p>
           <h2>
             More than furniture.
             <br />

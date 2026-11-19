@@ -5,7 +5,7 @@ const address =
   "4MMJ+GCQ, Siana- Sirohi Main Road, Shanti Nagar Colony, Siyana, Rajasthan 343024";
 
 export const business = {
-  name: "Grain & Form",
+  name: "Anteak",
   phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+918905089544",
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "918905089544").replace(
     /\D/g,
@@ -18,7 +18,7 @@ export const business = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 };
 export function whatsappUrl(
-  message = "Hello Grain & Form, I would like to discuss a custom woodwork project.",
+  message = "Hello Anteak, I would like to discuss a custom woodwork project.",
 ) {
   return business.whatsapp
     ? `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`
@@ -26,7 +26,7 @@ export function whatsappUrl(
 }
 
 export function enquiryWhatsappUrl(values: EnquiryInput, reference: string) {
-  const message = `Hello Grain & Form, I would like to discuss my project (enquiry ${reference}).
+  const message = `Hello Anteak, I would like to discuss my project (enquiry ${reference}).
 Project: ${values.title}
 Type: ${values.projectType}
 Requirements: ${values.description}

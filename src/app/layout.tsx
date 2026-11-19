@@ -8,15 +8,15 @@ import "@/styles/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(business.url),
   title: {
-    default: "Anteak — Crafted From Wood. Designed For You.",
-    template: "%s | Anteak",
+    default: "Enteak — Crafted From Wood. Designed For You.",
+    template: "%s | Enteak",
   },
   description:
-    "Thoughtfully handcrafted wooden furniture and bespoke interiors, tailored to your space, style and vision. Begin your custom project with Anteak.",
+    "Thoughtfully handcrafted wooden furniture and bespoke interiors, tailored to your space, style and vision. Begin your custom project with Enteak.",
   openGraph: {
     type: "website",
-    siteName: "Anteak",
-    title: "Anteak — Bespoke Woodwork",
+    siteName: "Enteak",
+    title: "Enteak — Bespoke Woodwork",
     description: "Thoughtfully designed. Beautifully made. Entirely yours.",
     images: [{ url: "/images/hero.jpg", width: 2200, height: 1467 }],
   },

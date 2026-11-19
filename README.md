@@ -1,4 +1,4 @@
-# Anteak
+# Enteak
 
 A bespoke furniture and woodwork business website built with **Next.js 15 App Router, React 19, TypeScript, Tailwind CSS 4, shadcn-style Radix components, Framer Motion, Lucide, React Hook Form and Zod**. This is an enquiry website; it has no purchasing, payments, checkout or order tracking.
 
@@ -105,6 +105,6 @@ Both enquiry forms save the enquiry and then open WhatsApp addressed to +91 8905
 
 ## Photography & fonts
 
-Reference photos are bundled locally from Unsplash and Pexels. They illustrate design possibilities and are not represented as Anteak commissions. See `docs/assets.md` for source links. Cormorant Garamond and Manrope are locally bundled Google Fonts under the SIL Open Font License; see `public/fonts/OFL-*.txt`.
+Reference photos are bundled locally from Unsplash and Pexels. They illustrate design possibilities and are not represented as Enteak commissions. See `docs/assets.md` for source links. Cormorant Garamond and Manrope are locally bundled Google Fonts under the SIL Open Font License; see `public/fonts/OFL-*.txt`.
 
 Product image sources, untouched originals and the background-edit prompt set are documented in [docs/product-photography.md](docs/product-photography.md).

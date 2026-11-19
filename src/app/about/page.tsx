@@ -6,13 +6,13 @@ import { Reveal } from "@/components/motion/reveal";
 export const metadata: Metadata = {
   title: "Our Story",
   description:
-    "Discover the Anteak approach to thoughtful furniture design, honest materials and bespoke woodwork.",
+    "Discover the Enteak approach to thoughtful furniture design, honest materials and bespoke woodwork.",
 };
 export default function About() {
   return (
     <>
       <PageIntro
-        eyebrow="THE ANTEAK PHILOSOPHY"
+        eyebrow="THE ENTEAK PHILOSOPHY"
         title="Good things take shape, thoughtfully."
         description="We believe the most meaningful spaces are personal. And the most beautiful furniture feels like it belongs to you, from the very beginning."
       />
@@ -38,7 +38,7 @@ export default function About() {
             becomes part of our daily story.
           </p>
           <p>
-            Anteak takes a more personal approach to
+            Enteak takes a more personal approach to
             woodwork: one that begins with listening, makes room for
             collaboration, and treats every detail as a design opportunity.
           </p>

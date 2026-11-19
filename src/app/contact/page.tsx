@@ -14,7 +14,7 @@ import { business, whatsappUrl } from "@/lib/config";
 export const metadata: Metadata = {
   title: "Visit & Contact",
   description:
-    "Begin a conversation about custom wooden furniture and bespoke interiors. Contact the Anteak studio.",
+    "Begin a conversation about custom wooden furniture and bespoke interiors. Contact the Enteak studio.",
 };
 export default function Contact() {
   return (
@@ -99,7 +99,7 @@ export default function Contact() {
         {business.mapQuery ? (
           <iframe
             src={`https://maps.google.com/maps?q=${encodeURIComponent(business.mapQuery)}&output=embed`}
-            title="Find the Anteak studio"
+            title="Find the Enteak studio"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />

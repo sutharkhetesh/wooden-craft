@@ -8,7 +8,18 @@ import { saveDatabaseEnquiry } from "@/lib/server/database";
 export const dataDirectory = path.resolve(
   process.env.DATA_DIRECTORY || ".data",
 );
+export function requirePersistentFileStorage() {
+  if (
+    !process.env.DATA_DIRECTORY &&
+    (process.env.VERCEL || process.env.LAMBDA_TASK_ROOT)
+  ) {
+    throw new Error(
+      "File storage is unavailable on this host. Configure persistent upload storage before attaching images.",
+    );
+  }
+}
 async function directory() {
+  requirePersistentFileStorage();
   const dir = path.join(dataDirectory, "enquiries");
   await mkdir(dir, { recursive: true, mode: 0o700 });
   return dir;

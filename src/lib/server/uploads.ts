@@ -2,10 +2,14 @@ import "server-only";
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { dataDirectory } from "@/lib/server/storage";
+import {
+  dataDirectory,
+  requirePersistentFileStorage,
+} from "@/lib/server/storage";
 import type { Attachment } from "@/lib/enquiry/schema";
 import { maxFileSize, imageKind } from "@/lib/enquiry/image-validation";
 export async function storeUploads(files: File[], enquiryId: string) {
+  if (files.length === 0) return [];
   if (files.length > 5) throw new Error("Upload up to 5 reference images.");
   const validated = await Promise.all(
     files.map(async (file) => {
@@ -18,6 +22,7 @@ export async function storeUploads(files: File[], enquiryId: string) {
       return { file, bytes, kind };
     }),
   );
+  requirePersistentFileStorage();
   const dir = path.join(dataDirectory, "uploads", enquiryId);
   await mkdir(dir, { recursive: true, mode: 0o700 });
   const attachments: Attachment[] = [];

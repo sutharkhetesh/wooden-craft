@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       { status: 201, headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
-    await removeUploads(id);
+    if (attachments.length > 0) await removeUploads(id);
     console.error(
       "Enquiry storage failed:",
       error instanceof Error ? error.name : "Error",

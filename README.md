@@ -34,11 +34,11 @@ npm run db:check
 
 `prisma/schema.prisma` defines three models:
 
-| Model | Table | Data |
-| --- | --- | --- |
-| `ContactMessage` | `contact_messages` | Name, email, mobile, city, message, consent, status, notes and creation time |
-| `Enquiry` | `enquiries` | Contact details, project type, title, description, dimensions, material, integer quantity, finish, budget, timeline, location, WhatsApp, instructions and consent |
-| `Attachment` | `attachments` | Private filename, display name, MIME type, byte size, optional image bytes and submission foreign key |
+| Model            | Table              | Data                                                                                                                                                              |
+| ---------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ContactMessage` | `contact_messages` | Name, email, mobile, city, message, consent, status, notes and creation time                                                                                      |
+| `Enquiry`        | `enquiries`        | Contact details, project type, title, description, dimensions, material, integer quantity, finish, budget, timeline, location, WhatsApp, instructions and consent |
+| `Attachment`     | `attachments`      | Private filename, display name, MIME type, byte size, optional image bytes and submission foreign key                                                             |
 
 Form values are stored in typed columns. Each attachment belongs to exactly one contact message or enquiry; SQL checks enforce ownership, supported byte sizes and quantity limits. Foreign keys cascade attachments when a parent record is deleted. Node uploads with `DATABASE_URL` store private image bytes in the attachment's `content` column. Existing filesystem and R2 attachments retain null content and keep using their original storage.
 
@@ -97,35 +97,43 @@ NEXT_BUILD_DIRECTORY=.next-qa npm run test:responsive
 NEXT_BUILD_DIRECTORY=.next-qa npm run test:products
 ```
 
-The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary production server, exercises submissions/uploads/WhatsApp handoff/mobile navigation, verifies that removed admin routes return 404, and deletes its temporary enquiry storage. Run `npm run build` first. Screenshots are written to `/tmp/grain-form-*.png`. Adapt the Chrome executable path in `scripts/browser-qa.mjs` for another OS.
+The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary production server, exercises submissions/uploads/WhatsApp handoff/mobile navigation, verifies that removed admin routes return 404, and deletes its temporary enquiry storage. Run `npm run build` first. Screenshots are written to `/tmp/grain-form-*.png`. Adapt the Chrome executable path in `scripts/qa/browser.mjs` for another OS.
 
 `npm run test:responsive` checks ten routes at 14 widths from 320 to 2560 pixels, short landscape navigation, menu resizing, animated portfolio filters and reduced-motion behavior. It uses the same local Chrome executable and writes screenshots to `/tmp/wooden-craft-*.png`. Build first. Use `npm run test:responsive -- --widths=320,768,1440` to check selected widths in a shorter run.
 
 The integration suite tests validation, image signatures, hosted JSON and image file persistence, removed admin endpoints, rate limiting, failed-save cleanup and cross-origin rejection.
 
-## Source map
+## Project structure
 
-- `src/app/`: Next.js pages, metadata and Node API routes.
-- `src/components/layout/`: header, footer, brand and floating WhatsApp link.
-- `src/components/forms/`: contact and project enquiry forms.
-- `src/components/products/`: product cards and photo gallery.
-- `src/components/work/`: filterable portfolio.
-- `src/components/motion/`: motion provider, sequences, reveals and ticker.
-- `src/components/shared/`: photos, text links, page introductions and project CTA.
-- `src/components/ui/`: Radix/shadcn-style button primitive.
-- `src/data/`: product catalog, portfolio concepts and service content.
-- `src/lib/enquiry/`: shared enquiry schema, types and image validation.
-- `src/lib/server/`: Prisma persistence, form-to-column mapping, security and upload handling.
-- `prisma/`: typed database models, Prisma configuration and versioned SQL migrations.
-- `src/lib/config.ts`: business details and WhatsApp helpers.
-- `src/lib/utils.ts`: shared class-name utility.
-- `src/styles/globals.css`: global styles, local fonts and responsive layouts.
-- `public/`: website images, fonts and font licenses.
-- `source-assets/`: archived original photographs and excluded edits, retained for provenance checks.
-- `docs/`: asset sources and product photography documentation.
-- `tests/`: enquiry validation, typed persistence mapping and hosted storage integration tests.
-- `hosting/worker.mjs`: Neon/R2 enquiry API and static asset adapter for Sites.
-- `scripts/build-hosted.mjs`: isolated Next.js export and Worker bundle.
+```text
+src/
+  app/                    # Next.js routes, pages, metadata and API
+  components/             # Forms, layout, motion, products and shared UI
+  data/                   # Product catalog, portfolio and services
+  lib/
+    enquiry/              # Shared schemas, types and image validation
+    server/               # Database, storage, uploads and security
+    config.ts             # Business details and WhatsApp helpers
+    utils.ts              # Shared UI utilities
+  styles/                 # Global styles and bundled font definitions
+  generated/prisma/       # Generated by Prisma; ignored by Git
+prisma/
+  schema.prisma           # Database models
+  migrations/             # Applied migration history
+public/                   # Website images, fonts and licenses
+hosting/                  # Sites Worker API and Neon/R2 adapter
+scripts/
+  build/                  # Hosted build packaging
+  database/               # Connection check and opt-in database verification
+  qa/                     # Browser, product and responsive checks
+tests/                   # Automated tests without database access
+docs/                    # Asset credits and photography provenance
+source-assets/           # Original photographs and archived edits
+```
+
+Run package scripts from the repository root; `package.json` points to the grouped script folders. Database verification uses the Node-only HTTPS helper in `scripts/database/fetch.mjs`; application database code stays in `src/lib/server/`.
+
+`.next/`, `.next-qa/`, `.sites-build/`, `dist/`, `out/` and `*.tsbuildinfo` are generated outputs and are ignored by Git. Builds regenerate them. Original product photographs, image-edit prompts and font licenses are retained for provenance and product QA.
 
 ## Launch considerations
 

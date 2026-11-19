@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import nextEnv from "@next/env";
 import { neon, neonConfig } from "@neondatabase/serverless";
-import { databaseFetch } from "../src/lib/server/database-fetch.mjs";
+import { databaseFetch } from "./fetch.mjs";
 
 nextEnv.loadEnvConfig(process.cwd());
 neonConfig.fetchFunction = databaseFetch;
@@ -15,9 +15,11 @@ async function statements(file) {
     .map((s) => s.trim())
     .filter((s) => s && !/^(BEGIN|COMMIT)$/i.test(s));
 }
-const base = await statements("../prisma/migrations/0_baseline/migration.sql");
+const base = await statements(
+  "../../prisma/migrations/0_baseline/migration.sql",
+);
 const upgrade = await statements(
-  "../prisma/migrations/202611190001_structured_submissions/migration.sql",
+  "../../prisma/migrations/202611190001_structured_submissions/migration.sql",
 );
 const payload = {
   name: "Migration QA",

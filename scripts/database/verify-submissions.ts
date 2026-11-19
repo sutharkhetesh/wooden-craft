@@ -1,15 +1,15 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { loadEnvConfig } from "@next/env";
-import "../src/lib/server/database-node";
+import "../../src/lib/server/database-node";
 import {
   createDatabaseClient,
   saveDatabaseEnquiry,
-} from "../src/lib/server/database";
-import { defaults, type EnquiryRecord } from "../src/lib/enquiry/schema";
-import { createWorker } from "../hosting/worker.mjs";
+} from "../../src/lib/server/database";
+import { defaults, type EnquiryRecord } from "../../src/lib/enquiry/schema";
+import { createWorker } from "../../hosting/worker.mjs";
 import { neonConfig } from "@neondatabase/serverless";
-import { databaseFetch } from "../src/lib/server/database-fetch.mjs";
+import { databaseFetch } from "./fetch.mjs";
 import { rm } from "node:fs/promises";
 
 loadEnvConfig(process.cwd());

@@ -1,6 +1,6 @@
 import { loadEnvConfig } from "@next/env";
-import "../src/lib/server/database-node";
-import { createDatabaseClient } from "../src/lib/server/database";
+import "../../src/lib/server/database-node";
+import { createDatabaseClient } from "../../src/lib/server/database";
 
 loadEnvConfig(process.cwd());
 

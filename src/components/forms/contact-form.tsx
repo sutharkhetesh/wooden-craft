@@ -6,6 +6,7 @@ import { z } from "zod";
 import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
 import { defaults } from "@/lib/enquiry/schema";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
+import { trackEvent } from "@/lib/analytics";
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your name.").max(100),
   email: z.email("Enter a valid email."),
@@ -67,6 +68,7 @@ export function ContactForm() {
       if (!res.ok)
         throw new Error(result.error || "Unable to send your message.");
       setReference(result.id);
+      trackEvent("generate_lead", { form: "contact" });
       if (business.whatsapp) {
         const link = enquiryWhatsappUrl(
           {

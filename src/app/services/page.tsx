@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, absoluteUrl } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/shared/page-intro";
@@ -6,14 +9,29 @@ import { Photo } from "@/components/shared/photo";
 import { ProjectCTA } from "@/components/shared/project-cta";
 import { services } from "@/data/studio";
 import { Reveal } from "@/components/motion/reveal";
-export const metadata: Metadata = {
-  title: "Our Expertise",
+export const metadata: Metadata = pageMetadata({
+  title: "Custom Wooden Furniture, Kitchens & Wardrobes",
   description:
-    "Explore custom wooden furniture, kitchens, wardrobes, doors, panelling and bespoke interior solutions.",
-};
+    "Bespoke wooden furniture, kitchens, wardrobes, doors, wall panelling and office furniture, made to measure for your space. Request a custom quote.",
+  path: "/services",
+});
 export default function Services() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: "Our Expertise", path: "/services" }]),
+          ...services.map((s) => ({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: s.name,
+            description: s.description,
+            url: absoluteUrl(`/services#${s.id}`),
+            areaServed: "IN",
+            provider: { "@id": `${absoluteUrl("/")}#organization` },
+          })),
+        ]}
+      />
       <PageIntro
         eyebrow="WHAT WE CREATE"
         title="Thoughtful woodwork. Endless possibilities."

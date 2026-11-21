@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import Link from "next/link";
 import {
   Phone,
@@ -11,14 +14,18 @@ import {
 import { PageIntro } from "@/components/shared/page-intro";
 import { ContactForm } from "@/components/forms/contact-form";
 import { business, whatsappUrl } from "@/lib/config";
-export const metadata: Metadata = {
-  title: "Visit & Contact",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Enteak — Visit the Studio in Siyana",
   description:
-    "Begin a conversation about custom wooden furniture and bespoke interiors. Contact the Enteak studio.",
-};
+    "Contact the Enteak studio in Siyana, Rajasthan about custom wooden furniture and bespoke interiors. Call, WhatsApp or send an enquiry.",
+  path: "/contact",
+});
 export default function Contact() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])}
+      />
       <PageIntro
         eyebrow="LET’S BEGIN A CONVERSATION"
         title="Good ideas start with hello."

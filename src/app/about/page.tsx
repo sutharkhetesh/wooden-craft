@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { PageIntro } from "@/components/shared/page-intro";
 import { Photo } from "@/components/shared/photo";
 import { ProjectCTA } from "@/components/shared/project-cta";
 import { Reveal } from "@/components/motion/reveal";
-export const metadata: Metadata = {
-  title: "Our Story",
+export const metadata: Metadata = pageMetadata({
+  title: "Our Story — Handcrafted Wooden Furniture",
   description:
-    "Discover the Enteak approach to thoughtful furniture design, honest materials and bespoke woodwork.",
-};
+    "Meet Enteak: a woodworking studio making handcrafted furniture and bespoke interiors from honest materials, designed around the way you live.",
+  path: "/about",
+});
 export default function About() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <PageIntro
         eyebrow="THE ENTEAK PHILOSOPHY"
         title="Good things take shape, thoughtfully."
@@ -38,9 +43,9 @@ export default function About() {
             becomes part of our daily story.
           </p>
           <p>
-            Enteak takes a more personal approach to
-            woodwork: one that begins with listening, makes room for
-            collaboration, and treats every detail as a design opportunity.
+            Enteak takes a more personal approach to woodwork: one that begins
+            with listening, makes room for collaboration, and treats every
+            detail as a design opportunity.
           </p>
           <p>
             Our philosophy is simple. Let the material be honest. Let the

@@ -4,9 +4,14 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, MessageCircle } from "lucide-react";
 import { ProductGallery } from "@/components/products/product-gallery";
 import { ProductCard } from "@/components/products/product-card";
-import { MotionSequence, MotionItem } from "@/components/motion/motion-sequence";
+import {
+  MotionSequence,
+  MotionItem,
+} from "@/components/motion/motion-sequence";
 import { products, productPhotoUrl } from "@/data/products";
 import { whatsappUrl } from "@/lib/config";
+import { JsonLd } from "@/components/seo/json-ld";
+import { absoluteUrl, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return products.map(({ slug }) => ({ slug }));
@@ -20,15 +25,15 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = products.find((product) => product.slug === slug);
   if (!product) return { title: "Product not found" };
-  return {
-    title: product.name,
+  return pageMetadata({
+    title: `${product.name} — Handcrafted Wooden ${product.category.includes("Objects") ? "Accent" : "Piece"}`,
     description: product.description,
-    openGraph: {
-      images: [
-        { url: productPhotoUrl(product.photos[0].id), alt: product.name },
-      ],
+    path: `/products/${product.slug}`,
+    image: {
+      url: productPhotoUrl(product.photos[0].id),
+      alt: product.photos[0].alt,
     },
-  };
+  });
 }
 
 export default async function ProductDetail({
@@ -41,6 +46,26 @@ export default async function ProductDetail({
   if (!product) notFound();
   return (
     <div className="wrap product-detail-wrap">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Collection", path: "/products" },
+            { name: product.name, path: `/products/${product.slug}` },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            url: absoluteUrl(`/products/${product.slug}`),
+            image: product.photos.map((p) =>
+              absoluteUrl(productPhotoUrl(p.id)),
+            ),
+            brand: { "@type": "Brand", name: "Enteak" },
+          },
+        ]}
+      />
       <Link href="/products" className="collection-back">
         <ArrowLeft size={15} /> Back to the collection
       </Link>

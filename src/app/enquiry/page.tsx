@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { Suspense } from "react";
 import { PageIntro } from "@/components/shared/page-intro";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
-export const metadata: Metadata = {
-  title: "Start Your Custom Project",
+export const metadata: Metadata = pageMetadata({
+  title: "Request a Custom Quote",
   description:
-    "Share your vision, choose your materials and request a personalised quotation for custom wooden furniture or bespoke interiors.",
-};
+    "Share your vision, materials and dimensions to request a personalised quotation for custom wooden furniture or bespoke interiors.",
+  path: "/enquiry",
+});
 export default function Enquiry() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Request a Custom Quote", path: "/enquiry" },
+        ])}
+      />
       <PageIntro
         eyebrow="SOMETHING BEAUTIFUL STARTS HERE"
         title="Your idea. Let’s give it form."

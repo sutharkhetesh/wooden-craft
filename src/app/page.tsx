@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, ArrowDown, MoveRight, Leaf, Star } from "lucide-react";
 import { Photo } from "@/components/shared/photo";
@@ -31,6 +32,11 @@ const process = [
     "From the first cut to the final installation, your vision takes shape with care.",
   ],
 ];
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
+
 export default function Home() {
   return (
     <>

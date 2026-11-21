@@ -4,63 +4,63 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/font-0.ttf) format("truetype");
+  src: url(/fonts/font-0.woff2) format("woff2");
 }
 @font-face {
   font-family: "Cormorant Garamond";
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/font-1.ttf) format("truetype");
+  src: url(/fonts/font-1.woff2) format("woff2");
 }
 @font-face {
   font-family: "Cormorant Garamond";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/font-2.ttf) format("truetype");
+  src: url(/fonts/font-2.woff2) format("woff2");
 }
 @font-face {
   font-family: "Cormorant Garamond";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/font-3.ttf) format("truetype");
+  src: url(/fonts/font-3.woff2) format("woff2");
 }
 @font-face {
   font-family: "Cormorant Garamond";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/font-4.ttf) format("truetype");
+  src: url(/fonts/font-4.woff2) format("woff2");
 }
 @font-face {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/font-5.ttf) format("truetype");
+  src: url(/fonts/font-5.woff2) format("woff2");
 }
 @font-face {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/fonts/font-6.ttf) format("truetype");
+  src: url(/fonts/font-6.woff2) format("woff2");
 }
 @font-face {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/font-7.ttf) format("truetype");
+  src: url(/fonts/font-7.woff2) format("woff2");
 }
 @font-face {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(/fonts/font-8.ttf) format("truetype");
+  src: url(/fonts/font-8.woff2) format("woff2");
 }
 
 @theme {
@@ -3768,4 +3768,50 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
     font-size: 6px;
     letter-spacing: 0.18em;
   }
+}
+
+/* Analytics consent */
+.consent-banner {
+  position: fixed;
+  left: 16px;
+  right: 84px;
+  bottom: 16px;
+  max-width: 520px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  padding: 14px 18px;
+  background: var(--brown);
+  color: #f8f5ef;
+  font-size: 13px;
+  line-height: 1.5;
+  z-index: 60;
+  box-shadow: 0 6px 24px #302a2433;
+}
+.consent-banner p {
+  margin: 0;
+  flex: 1 1 220px;
+}
+.consent-banner div {
+  display: flex;
+  gap: 8px;
+}
+.consent-banner button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #f8f5ef88;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.consent-banner button:last-child {
+  background: #f8f5ef;
+  color: var(--brown);
+}
+.consent-banner button:focus-visible {
+  outline: 2px solid #f8f5ef;
+  outline-offset: 2px;
 }

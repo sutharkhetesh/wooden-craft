@@ -5,6 +5,8 @@ import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { projects } from "@/data/studio";
 import { PageIntro } from "@/components/shared/page-intro";
 import { Photo } from "@/components/shared/photo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 export function generateStaticParams() {
   return projects.map(({ slug }) => ({ slug }));
 }
@@ -15,10 +17,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return {
-    title: project?.name || "Project not found",
-    description: project?.description,
-  };
+  if (!project) return { title: "Project not found" };
+  return pageMetadata({
+    title: `${project.name} — ${project.category} Concept`,
+    description: project.description,
+    path: `/work/${project.slug}`,
+    image: {
+      url: `/images/${project.image}.jpg`,
+      alt: project.name,
+    },
+  });
 }
 export default async function Project({
   params,
@@ -30,6 +38,12 @@ export default async function Project({
   if (!p) notFound();
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Selected Work", path: "/work" },
+          { name: p.name, path: `/work/${p.slug}` },
+        ])}
+      />
       <PageIntro
         eyebrow={`${p.category.toUpperCase()} / ILLUSTRATIVE CONCEPT`}
         title={p.name}

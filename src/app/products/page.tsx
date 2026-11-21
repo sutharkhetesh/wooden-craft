@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { PageIntro } from "@/components/shared/page-intro";
 import { ProductCard } from "@/components/products/product-card";
 import { MotionSequence } from "@/components/motion/motion-sequence";
 import { Ticker } from "@/components/motion/ticker";
 import { products } from "@/data/products";
 
-export const metadata: Metadata = {
-  title: "Wooden Objects & Products",
+export const metadata: Metadata = pageMetadata({
+  title: "Handcrafted Wooden Desk Accessories & Objects",
   description:
-    "Explore wooden desk organisers, book rests, quill holders and candle pedestals. Browse product photographs and enquire directly on WhatsApp.",
-};
+    "Handcrafted wooden desk organisers, book rests, quill holders and candle pedestals. Browse photographs and enquire directly on WhatsApp.",
+  path: "/products",
+});
 
 export default function Products() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([{ name: "Collection", path: "/products" }])}
+      />
       <PageIntro
         eyebrow="THE WOODEN OBJECTS COLLECTION"
         title="Small objects. Lasting character."

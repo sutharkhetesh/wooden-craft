@@ -15,7 +15,10 @@ export const business = {
   address,
   hours: process.env.NEXT_PUBLIC_BUSINESS_HOURS || "",
   mapQuery: process.env.NEXT_PUBLIC_MAP_QUERY || address,
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://www.enteak.in").replace(
+    /\/$/,
+    "",
+  ),
 };
 export function whatsappUrl(
   message = "Hello Enteak, I would like to discuss a custom woodwork project.",

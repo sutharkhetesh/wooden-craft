@@ -1,34 +1,69 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsApp } from "@/components/layout/whatsapp";
 import { business } from "@/lib/config";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { Analytics } from "@/components/analytics/analytics";
+import { JsonLd } from "@/components/seo/json-ld";
+import { DEFAULT_OG_IMAGE, SITE_NAME, organizationJsonLd } from "@/lib/seo";
 import "@/styles/globals.css";
+
+const HOME_DESCRIPTION =
+  "Discover Enteak's handcrafted wooden furniture, bespoke kitchens, wardrobes and custom interiors. Thoughtful design, natural materials and made-to-measure craftsmanship.";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#f8f5ef",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(business.url),
   title: {
-    default: "Enteak — Crafted From Wood. Designed For You.",
-    template: "%s | Enteak",
+    default: "Enteak | Custom Wooden Furniture & Bespoke Interiors",
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Thoughtfully handcrafted wooden furniture and bespoke interiors, tailored to your space, style and vision. Begin your custom project with Enteak.",
+  description: HOME_DESCRIPTION,
+  applicationName: SITE_NAME,
+  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
-    siteName: "Enteak",
-    title: "Enteak — Bespoke Woodwork",
-    description: "Thoughtfully designed. Beautifully made. Entirely yours.",
-    images: [{ url: "/images/hero.jpg", width: 2200, height: 1467 }],
+    siteName: SITE_NAME,
+    locale: "en_IN",
+    title: "Enteak | Custom Wooden Furniture & Bespoke Interiors",
+    description: HOME_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
   },
-  twitter: { card: "summary_large_image", images: ["/images/hero.jpg"] },
+  twitter: {
+    card: "summary_large_image",
+    title: "Enteak | Custom Wooden Furniture & Bespoke Interiors",
+    description: HOME_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE.url],
+  },
 };
+
+const preloadFonts = ["font-2", "font-5", "font-6"];
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
+      <head>
+        {preloadFonts.map((f) => (
+          <link
+            key={f}
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            href={`/fonts/${f}.woff2`}
+            crossOrigin="anonymous"
+          />
+        ))}
+      </head>
       <body id="page-top">
         <MotionProvider>
           <a href="#main" className="skip-link">
@@ -39,21 +74,8 @@ export default function RootLayout({
           <Footer />
           <WhatsApp />
         </MotionProvider>
-        {business.address && business.phone && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "LocalBusiness",
-                name: business.name,
-                address: business.address,
-                telephone: business.phone,
-                url: business.url,
-              }).replace(/</g, "\\u003c"),
-            }}
-          />
-        )}
+        <Analytics />
+        <JsonLd data={organizationJsonLd()} />
       </body>
     </html>
   );

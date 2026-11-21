@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { trackEvent } from "@/lib/analytics";
 import { useSearchParams } from "next/navigation";
 import { useForm, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +25,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
-import { enquirySchema, defaults, type EnquiryInput } from "@/lib/enquiry/schema";
+import {
+  enquirySchema,
+  defaults,
+  type EnquiryInput,
+} from "@/lib/enquiry/schema";
 import { types } from "@/data/studio";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
 const labels = [
@@ -144,6 +149,10 @@ export function EnquiryForm() {
       if (!res.ok)
         throw new Error(result.error || "Unable to submit your enquiry.");
       setReference(result.id);
+      trackEvent("generate_lead", {
+        form: "custom_quote",
+        project_type: data.projectType,
+      });
       if (business.whatsapp)
         window.location.assign(enquiryWhatsappUrl(data, result.id));
     } catch (error) {

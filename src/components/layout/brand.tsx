@@ -16,7 +16,6 @@ export function Brand() {
       </span>
       <span className="brand-wordmark">
         Enteak
-        <small>BESPOKE WOODWORK</small>
       </span>
     </Link>
   );

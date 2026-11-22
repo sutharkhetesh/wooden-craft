@@ -10,6 +10,8 @@ import { products } from "@/data/products";
 import { ProductCard } from "@/components/products/product-card";
 import { MotionSequence } from "@/components/motion/motion-sequence";
 import { Ticker } from "@/components/motion/ticker";
+import { SplitHeading } from "@/components/motion/split-heading";
+import { ClipReveal } from "@/components/motion/clip-reveal";
 const process = [
   [
     "01",
@@ -46,6 +48,8 @@ export default function Home() {
           alt="Warm, sunlit living room with natural wooden furniture and linen seating"
           priority
           sizes="100vw"
+          parallax
+          parallaxFromTop
         />
         <div className="hero-shade" />
         <div className="wrap hero-content">
@@ -54,11 +58,20 @@ export default function Home() {
               <span className="tiny-line" /> NATURAL WOOD. EXTRAORDINARY
               POSSIBILITIES.
             </p>
-            <h1>
-              Crafted from wood.
-              <br />
-              Designed <em>for you.</em>
-            </h1>
+            <SplitHeading
+              lines={[
+                [
+                  { text: "Crafted" },
+                  { text: "from" },
+                  { text: "wood." },
+                ],
+                [
+                  { text: "Designed" },
+                  { text: "for", em: true },
+                  { text: "you.", em: true },
+                ],
+              ]}
+            />
             <p className="hero-description">
               Beautifully handcrafted wooden furniture and bespoke interiors,
               <br className="desktop-break" /> tailored to your space, style,
@@ -96,10 +109,11 @@ export default function Home() {
         label="Materials and approach"
       />
       <section className="wrap story-section" id="story">
-        <Reveal className="story-images">
+        <ClipReveal className="story-images">
           <Photo
             name="detail"
             alt="Natural timber furniture and the warmth of a carefully finished wood grain"
+            parallax
           />
           <div className="image-note">
             <span>
@@ -110,7 +124,7 @@ export default function Home() {
             <Leaf size={27} />
           </div>
           <span className="photo-caption">THE BEAUTY IS IN THE DETAILS.</span>
-        </Reveal>
+        </ClipReveal>
         <Reveal className="story-copy">
           <p className="eyebrow">THE ENTEAK PHILOSOPHY</p>
           <h2>
@@ -287,7 +301,11 @@ export default function Home() {
         </div>
       </section>
       <section className="why-section wrap">
-        <Photo name="craft" alt="Hands-on craftsmanship in a wood workshop" />
+        <Photo
+          name="craft"
+          alt="Hands-on craftsmanship in a wood workshop"
+          parallax
+        />
         <Reveal className="why-copy">
           <p className="eyebrow">THE DIFFERENCE IS IN THE MAKING</p>
           <h2>

@@ -3815,3 +3815,437 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
   outline: 2px solid #f8f5ef;
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   Premium layer: refined typography, cinematic motion, tactile details.
+   Appended last so it refines the base styles without altering structure.
+   ========================================================================== */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gold: #c9a574;
+  --paper: #fbf9f4;
+}
+body {
+  font-size: 15px;
+  line-height: 1.85;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga";
+}
+body::after {
+  /* A whisper of paper grain across the whole site. */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Typography */
+h1,
+h2 {
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+h3 {
+  letter-spacing: -0.01em;
+}
+em {
+  font-style: italic;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  font-weight: 600;
+}
+.hero .eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+}
+.hero-description {
+  font-size: 15px;
+  line-height: 1.9;
+  max-width: 34em;
+  color: #f1ece3;
+}
+.hero-bottom {
+  font-size: 10px;
+  letter-spacing: 0.26em;
+}
+.hero-count {
+  font-size: 11px;
+}
+.why-copy > p:not(.eyebrow),
+.section-heading p {
+  font-size: 15px;
+  line-height: 1.85;
+}
+.button,
+.text-link,
+.hero-work {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.hero .button {
+  font-size: 11px;
+}
+.section-heading h2,
+.why-copy h2,
+.project-cta h2 {
+  font-size: clamp(2.5rem, 2rem + 2.4vw, 4.25rem);
+}
+.section-heading em,
+.why-copy em,
+.story-copy em {
+  font-weight: 300;
+}
+
+/* Immersive hero */
+.hero {
+  min-height: clamp(36rem, calc(100svh - var(--header-height)), 62rem);
+  overflow: hidden;
+}
+.parallax-frame,
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+}
+.parallax-layer {
+  will-change: transform;
+}
+.hero-shade {
+  background:
+    radial-gradient(120% 90% at 0% 60%, rgb(20 16 12 / 0.7), transparent 70%),
+    linear-gradient(0deg, rgb(20 16 12 / 0.55), transparent 32%),
+    linear-gradient(180deg, rgb(20 16 12 / 0.25), transparent 22%);
+}
+.hero h1 {
+  font-size: clamp(2.9rem, 2.2rem + 4.2vw, 7rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.split-line {
+  display: block;
+}
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room for italic overhang and descenders inside the mask. */
+  padding: 0.06em 0.08em 0.14em;
+  margin: -0.06em -0.08em -0.14em;
+}
+.split-word {
+  display: inline-block;
+  will-change: transform;
+  transform-origin: 0 100%;
+}
+.hero-bottom a svg {
+  animation: nudge-down 2.4s var(--ease-out) infinite;
+}
+@keyframes nudge-down {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* Header: lighter, more gallery-like */
+.site-header {
+  background: rgb(251 249 244 / 0.82);
+  backdrop-filter: blur(22px) saturate(1.3);
+  border-bottom-color: transparent;
+}
+.site-header.is-scrolled {
+  border-bottom-color: rgb(59 40 28 / 0.1);
+}
+.desktop-nav a {
+  letter-spacing: 0.06em;
+}
+
+/* Tactile buttons: a fill that sweeps up on hover */
+.button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color 0.5s var(--ease-out),
+    background 0.5s var(--ease-out),
+    border-color 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--gold);
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease-out);
+}
+.button-dark::before {
+  background: #5d4230;
+}
+.button:hover::before {
+  transform: translateY(0);
+}
+.button-light:hover,
+.button-dark:hover,
+.button-outline:hover {
+  background-color: inherit;
+}
+.button-light:hover {
+  color: var(--brown);
+}
+.button-outline:hover {
+  color: #fff;
+  border-color: var(--brown);
+}
+.button-outline::before {
+  background: var(--brown);
+}
+.button svg {
+  transition: transform 0.5s var(--ease-out);
+}
+.button:hover svg {
+  transform: translate(3px, -3px);
+}
+.text-link,
+.hero-work {
+  position: relative;
+  border-bottom-color: transparent;
+}
+.text-link::after,
+.hero-work::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+  transform-origin: left;
+  transition:
+    transform 0.6s var(--ease-out),
+    opacity 0.3s;
+}
+.text-link:hover::after,
+.hero-work:hover::after {
+  opacity: 1;
+  animation: underline-redraw 0.9s var(--ease-out);
+}
+@keyframes underline-redraw {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Imagery: slower, softer zoom and a warm veil on hover */
+img {
+  transition: transform 1.4s var(--ease-out);
+}
+.service-photo,
+.project-image {
+  isolation: isolate;
+}
+.service-photo::after,
+.project-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgb(32 22 14 / 0.38), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out);
+}
+.service-photo:hover::after,
+.project-image:hover::after {
+  opacity: 1;
+}
+.round-arrow {
+  z-index: 2;
+  transition:
+    transform 0.6s var(--ease-out),
+    background 0.4s,
+    color 0.4s;
+}
+.service-photo:hover .round-arrow {
+  transform: rotate(45deg) scale(1.08);
+  background: var(--gold);
+  color: var(--brown);
+}
+.story-images > .photo,
+.why-section > .photo {
+  box-shadow: 0 40px 80px -40px rgb(48 32 20 / 0.45);
+}
+
+/* Section rhythm: more air, quieter hairlines */
+.story-section,
+.why-section {
+  padding-block: clamp(5rem, 9vw, 9rem);
+}
+.expertise-section,
+.collection-featured,
+.work-section,
+.process-section {
+  padding-block: clamp(4.5rem, 8vw, 8rem);
+}
+.process-number {
+  font-family: var(--serif);
+  font-size: 2.25rem;
+  color: var(--oak);
+}
+.testimonials blockquote {
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.75rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* Scroll progress picks up the brand gold */
+.scroll-progress {
+  background: linear-gradient(90deg, var(--oak), var(--gold));
+}
+
+@media (max-width: 800px) {
+  body::after {
+    display: none;
+  }
+  .hero-description {
+    font-size: 14px;
+  }
+  .eyebrow {
+    letter-spacing: 0.22em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bottom a svg {
+    animation: none;
+  }
+}
+
+/* Lenis handles smooth scrolling; native smooth behaviour would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis,
+html.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Responsive pass
+   ========================================================================== */
+.split-mask {
+  /* Word spacing lives here: a trailing space would collapse in a mask. */
+  margin-right: 0.22em;
+}
+.split-line {
+  white-space: nowrap;
+}
+
+/* Text over photography needs a firmer scrim on narrow screens, where the
+   copy sits across the brightest part of the image. */
+@media (max-width: 800px) {
+  .hero-shade {
+    background:
+      linear-gradient(0deg, rgb(20 16 12 / 0.78), rgb(20 16 12 / 0.45) 55%),
+      linear-gradient(180deg, rgb(20 16 12 / 0.35), transparent 30%);
+  }
+}
+@media (max-width: 380px) {
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+}
+
+:where(:root) {
+  --zoom: 1;
+}
+
+/* Large and ultrawide screens: scale the whole layout proportionally so the
+   composition keeps its balance instead of floating small in the middle.
+   Each step needs both width and height, so ultrawide (32:9) windows do not
+   get blown up beyond what their short height can hold. */
+@media (min-width: 1800px) and (min-height: 1000px) {
+  html {
+    zoom: 1.2;
+    --zoom: 1.2;
+  }
+}
+@media (min-width: 2200px) and (min-height: 1300px) {
+  html {
+    zoom: 1.5;
+    --zoom: 1.5;
+  }
+}
+@media (min-width: 2800px) and (min-height: 1600px) {
+  html {
+    zoom: 1.9;
+    --zoom: 1.9;
+  }
+}
+@media (min-width: 3500px) and (min-height: 2000px) {
+  html {
+    zoom: 2.5;
+    --zoom: 2.5;
+  }
+}
+@media (min-width: 5000px) and (min-height: 2800px) {
+  html {
+    zoom: 3.4;
+    --zoom: 3.4;
+  }
+}
+@media (min-width: 7000px) and (min-height: 3900px) {
+  html {
+    zoom: 4.6;
+    --zoom: 4.6;
+  }
+}
+
+/* Viewport units are not compensated by zoom, so divide the hero back down. */
+.hero {
+  min-height: clamp(
+    36rem,
+    calc(100svh / var(--zoom) - var(--header-height)),
+    62rem
+  );
+}
+@media (min-width: 1800px) and (min-height: 1000px) {
+  .hero {
+    min-height: calc(100svh / var(--zoom) - var(--header-height));
+    max-height: none;
+  }
+}
+
+/* Tablet: let the odd third service card span the row rather than float. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .service-grid > :last-child {
+    width: 100%;
+    justify-self: stretch;
+  }
+  .service-grid > :last-child .service-photo {
+    aspect-ratio: 21 / 9;
+  }
+}

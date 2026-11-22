@@ -8,6 +8,7 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
+import { SmoothScroll } from "./smooth-scroll";
 
 function ScrollProgress() {
   const reduced = useReducedMotion();
@@ -34,6 +35,7 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
       reducedMotion="user"
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
+      <SmoothScroll />
       {mounted && <ScrollProgress />}
       {children}
     </MotionConfig>

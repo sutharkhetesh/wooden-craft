@@ -12,6 +12,7 @@ import {
 import { ArrowUpRight, Menu, X, MessageCircle, Phone } from "lucide-react";
 import { business, whatsappUrl } from "@/lib/config";
 import { Brand } from "./brand";
+import { setSmoothScrollPaused } from "@/components/motion/smooth-scroll";
 
 const links = [
   ["Home", "/"],
@@ -51,6 +52,7 @@ export function Header() {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    setSmoothScrollPaused(true);
     navigation.current?.querySelector("a")?.focus({ preventScroll: true });
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -75,6 +77,7 @@ export function Header() {
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      setSmoothScrollPaused(false);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);

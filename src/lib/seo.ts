@@ -79,6 +79,7 @@ export const organizationJsonLd = () => ({
       "@id": `${absoluteUrl("/")}#organization`,
       name: business.name,
       url: absoluteUrl("/"),
+      logo: absoluteUrl("/icon-512x512.png"),
       image: absoluteUrl(DEFAULT_OG_IMAGE.url),
       description:
         "Handcrafted wooden furniture, bespoke kitchens, wardrobes and custom interior woodwork.",

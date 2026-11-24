@@ -52,6 +52,7 @@ export function Footer() {
           <Link href="/work">Selected work</Link>
           <Link href="/products">All products</Link>
           <Link href="/enquiry">Custom enquiries</Link>
+          <Link href="/#faqs">Common questions</Link>
         </div>
         <div
           className="footer-links"
@@ -100,7 +101,8 @@ export function Footer() {
         </a>
       </div>
       <p className="wrap footer-disclosure">
-        Room concepts and reviews are illustrative.
+        Room concepts are illustrative; collection images use edited studio
+        backgrounds.
       </p>
     </footer>
   );

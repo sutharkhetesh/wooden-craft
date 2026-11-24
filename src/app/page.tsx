@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, ArrowDown, MoveRight, Leaf, Star } from "lucide-react";
+import { ArrowUpRight, ArrowDown, MoveRight, MapPin, Leaf } from "lucide-react";
 import { Photo } from "@/components/shared/photo";
 import { TextLink } from "@/components/shared/text-link";
 import { ProjectCTA } from "@/components/shared/project-cta";
@@ -12,6 +12,9 @@ import { MotionSequence } from "@/components/motion/motion-sequence";
 import { Ticker } from "@/components/motion/ticker";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { ClipReveal } from "@/components/motion/clip-reveal";
+import { ContactForm } from "@/components/forms/contact-form";
+import { ProjectFAQ } from "@/components/shared/project-faq";
+import { business } from "@/lib/config";
 const process = [
   [
     "01",
@@ -60,11 +63,7 @@ export default function Home() {
             </p>
             <SplitHeading
               lines={[
-                [
-                  { text: "Crafted" },
-                  { text: "from" },
-                  { text: "wood." },
-                ],
+                [{ text: "Crafted" }, { text: "from" }, { text: "wood." }],
                 [
                   { text: "Designed" },
                   { text: "for", em: true },
@@ -82,8 +81,8 @@ export default function Home() {
                 Request a custom quote
                 <ArrowUpRight size={17} />
               </Link>
-              <Link href="/work" className="hero-work">
-                Explore our work
+              <Link href="#quick-enquiry" className="hero-work">
+                Make a quick enquiry
                 <MoveRight size={20} />
               </Link>
             </div>
@@ -341,29 +340,42 @@ export default function Home() {
           ))}
         </Reveal>
       </section>
-      <section className="testimonials">
-        <div className="wrap">
+      <section
+        className="wrap quick-enquiry-section"
+        id="quick-enquiry"
+        aria-labelledby="studio-location-title"
+      >
+        <div className="studio-location">
           <p className="eyebrow">
-            THE KIND OF EXPERIENCE WE STRIVE FOR · DEMO REVIEWS
+            <MapPin size={16} /> MEET THE STUDIO
           </p>
-          <Reveal>
-            <div className="stars">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={14} fill="currentColor" />
-              ))}
-            </div>
-            <blockquote>
-              “A piece that feels like it was always meant
-              <br className="desktop-break" /> to be in our home. Beautiful, in
-              every detail.”
-            </blockquote>
-            <p className="review-author">
-              AN ILLUSTRATIVE CLIENT STORY{" "}
-              <span>Custom dining furniture · Demo content</span>
-            </p>
-          </Reveal>
+          <h2 id="studio-location-title">
+            Made personal.
+            <br />
+            <em>From the first hello.</em>
+          </h2>
+          <p>{business.address}</p>
+          <p>
+            Planning a visit? Call ahead to arrange a time. Share your project
+            location so we can confirm delivery and installation options.
+          </p>
+          <div className="studio-links">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.mapQuery)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-link"
+            >
+              Get directions <ArrowUpRight size={16} />
+            </a>
+            <Link href="/enquiry" className="text-link">
+              Send a detailed brief <ArrowUpRight size={16} />
+            </Link>
+          </div>
         </div>
+        <ContactForm quick />
       </section>
+      <ProjectFAQ />
       <ProjectCTA />
     </>
   );

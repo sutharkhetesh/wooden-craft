@@ -10,6 +10,7 @@ export type Product = {
   tagline: string;
   description: string;
   details: string[];
+  finish: string;
   photos: ProductPhoto[];
 };
 
@@ -24,6 +25,7 @@ export const products: Product[] = [
     tagline: "A considered place for the little things.",
     description:
       "A long wooden organiser with sculpted compartments and a contrasting dark lid, finished with a fine square inlay. A quietly distinctive home for the objects you reach for every day.",
+    finish: "Natural wood interior with a contrasting dark lid",
     details: [
       "Sculpted compartments in a natural wood interior",
       "Contrasting dark lid with a square metallic inlay",
@@ -56,6 +58,7 @@ export const products: Product[] = [
     tagline: "Save your place. Make a little space.",
     description:
       "A triangular wooden book rest with broad sloping sides and an open centre. The simple architectural shape brings warmth to a bedside table, reading corner or desk.",
+    finish: "Visible natural wood grain; confirm the coating with the studio",
     details: [
       "Triangular silhouette with an open centre",
       "Broad wooden surfaces with visible natural grain",
@@ -77,6 +80,7 @@ export const products: Product[] = [
     tagline: "A small object with plenty of character.",
     description:
       "A turned wooden holder with a rounded base and a slender neck. Its warm grain and glossy surface create a sculptural accent, shown here with a patterned feather.",
+    finish: "Glossy wood finish",
     details: [
       "Rounded turned-wood base and narrow neck",
       "Glossy finish that reveals the grain",
@@ -102,6 +106,7 @@ export const products: Product[] = [
     tagline: "A warm detail for a quieter corner.",
     description:
       "A sculptural wooden pedestal with a shallow bowl, rounded shoulders and a contrasting dark band. A distinctive piece for a console, shelf or tabletop.",
+    finish: "Natural wood appearance with a contrasting dark band and rim",
     details: [
       "Shallow bowl on a turned wooden pedestal",
       "Contrasting dark band and rim",

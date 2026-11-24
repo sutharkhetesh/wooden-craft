@@ -1,3 +1,4 @@
+import { notifyEnquiry } from "../src/lib/server/notifications.ts";
 import { enquirySchema } from "../src/lib/enquiry/schema.ts";
 import { imageKind, maxFileSize } from "../src/lib/enquiry/image-validation.ts";
 import { saveDatabaseEnquiry } from "./database.mjs";
@@ -122,13 +123,15 @@ async function api(req, env) {
             .slice(0, 120),
         });
       }
-      await saveEnquiry(env, {
+      const record = {
         id,
         createdAt: new Date().toISOString(),
         status: "New",
         notes: "",
         payload: { ...parsed.data, attachments },
-      });
+      };
+      await saveEnquiry(env, record);
+      await notifyEnquiry(env, record);
       return json({ id, message: "Your enquiry has been received." }, 201);
     } catch (error) {
       await Promise.all(

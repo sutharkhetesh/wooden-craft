@@ -4250,3 +4250,107 @@ html.lenis-smooth {
     aspect-ratio: 21 / 9;
   }
 }
+
+.quick-enquiry-section,
+.project-faq {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(28px, 6vw, 90px);
+  padding-top: 90px;
+  padding-bottom: 90px;
+  align-items: start;
+}
+.studio-location > p {
+  max-width: 460px;
+  margin-top: 24px;
+}
+.studio-location .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.studio-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.project-faq {
+  border-top: 1px solid #ddd5c9;
+}
+.project-faq > div > p {
+  margin: 18px 0;
+}
+.faq-list details {
+  border-bottom: 1px solid #ddd5c9;
+}
+.faq-list summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  padding: 22px 0;
+  font-weight: 500;
+  list-style: none;
+}
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+.faq-list summary span {
+  flex-shrink: 0;
+}
+.faq-list details[open] summary span {
+  transform: rotate(45deg);
+}
+.faq-list details p {
+  padding: 0 26px 22px 0;
+  line-height: 1.8;
+}
+.enquiry-shortcut {
+  padding-bottom: 28px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.draft-notice {
+  padding: 18px;
+  margin-bottom: 28px;
+  background: #f5f1e9;
+  border: 1px solid #ddd5c9;
+}
+.draft-notice p {
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+.draft-notice button {
+  font-size: 13px;
+  cursor: pointer;
+}
+.product-specifications {
+  margin: 20px 0;
+  border-top: 1px solid #ddd5c9;
+}
+.product-specifications > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.8fr) 1.2fr;
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid #ddd5c9;
+  font-size: 13px;
+}
+.product-specifications dt {
+  font-weight: 600;
+}
+.product-specifications dd {
+  margin: 0;
+  line-height: 1.65;
+}
+@media (max-width: 800px) {
+  .quick-enquiry-section,
+  .project-faq {
+    grid-template-columns: 1fr;
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+}

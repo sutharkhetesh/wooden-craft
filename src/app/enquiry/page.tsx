@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbJsonLd } from "@/lib/seo";
+import Link from "next/link";
 import { Suspense } from "react";
 import { PageIntro } from "@/components/shared/page-intro";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
@@ -24,6 +25,12 @@ export default function Enquiry() {
         title="Your idea. Let’s give it form."
         description="A few thoughtful questions, a little inspiration, and the beginning of something made just for you. No commitment. Just possibilities."
       />
+      <p className="wrap enquiry-shortcut">
+        Prefer to start small?{" "}
+        <Link href="/#quick-enquiry" className="text-link">
+          Send a quick enquiry ↗
+        </Link>
+      </p>
       <Suspense
         fallback={
           <div className="wrap" style={{ paddingBottom: 80 }}>

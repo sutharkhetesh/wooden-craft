@@ -39,12 +39,12 @@ Quantity: ${values.quantity}
 Finish: ${values.finish || "To discuss"}
 Budget: ${values.budget}
 Timeline: ${values.timeline}
-Location: ${values.location}
+Location: ${values.location || "To discuss"}
 Name: ${values.name}
-Email: ${values.email}
+Email: ${values.email || "Not provided"}
 Mobile: ${values.mobile}
 WhatsApp: ${values.whatsapp || values.mobile}
-City: ${values.city}
+City: ${values.city || "To discuss"}
 Instructions: ${values.instructions || "None"}
 Reference images are not attached to this WhatsApp message.`;
   return whatsappUrl(message);

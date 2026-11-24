@@ -4,6 +4,7 @@ import { enquirySchema } from "@/lib/enquiry/schema";
 import { saveEnquiry } from "@/lib/server/storage";
 import { storeUploads, removeUploads } from "@/lib/server/uploads";
 import { sameOrigin, limited, clientKey } from "@/lib/server/security";
+import { notifyEnquiry } from "@/lib/server/notifications";
 export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req))
@@ -69,13 +70,22 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
-    await saveEnquiry({
+    const record = {
       id,
       createdAt: new Date().toISOString(),
       status: "New",
       notes: "",
       payload: { ...parsed.data, attachments },
-    });
+    };
+    await saveEnquiry(record);
+    await notifyEnquiry(
+      {
+        RESEND_API_KEY: process.env.RESEND_API_KEY,
+        RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+        ENQUIRY_NOTIFICATION_EMAIL: process.env.ENQUIRY_NOTIFICATION_EMAIL,
+      },
+      record,
+    );
     return NextResponse.json(
       { id, message: "Your enquiry has been received." },
       { status: 201, headers: { "Cache-Control": "no-store" } },

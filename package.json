@@ -26,7 +26,8 @@
     "db:migrate:dev": "prisma migrate dev",
     "db:status": "prisma migrate status",
     "test:db:migration": "node scripts/database/verify-migration.mjs",
-    "test:db:submissions": "node --import tsx scripts/database/verify-submissions.ts"
+    "test:db:submissions": "node --import tsx scripts/database/verify-submissions.ts",
+    "test:improvements": "node scripts/qa/improvements.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

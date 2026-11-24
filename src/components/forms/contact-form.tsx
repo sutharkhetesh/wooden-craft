@@ -7,23 +7,30 @@ import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
 import { defaults } from "@/lib/enquiry/schema";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
 import { trackEvent } from "@/lib/analytics";
-const schema = z.object({
-  name: z.string().trim().min(2, "Please enter your name.").max(100),
-  email: z.email("Enter a valid email."),
-  mobile: z
-    .string()
-    .regex(/^\+?[\d\s()-]{10,18}$/, "Enter a valid mobile number."),
-  city: z.string().trim().min(2, "Enter your city.").max(100),
-  description: z
-    .string()
-    .trim()
-    .min(20, "Please tell us a little more (20 characters minimum).")
-    .max(5000),
-  website: z.string().max(0),
-  consent: z.boolean().refine((v) => v, "Please agree to be contacted."),
-});
-type Values = z.infer<typeof schema>;
-export function ContactForm() {
+const makeSchema = (quick: boolean) =>
+  z.object({
+    name: z.string().trim().min(2, "Please enter your name.").max(100),
+    email: quick
+      ? z.union([z.literal(""), z.email("Enter a valid email.")])
+      : z.email("Enter a valid email."),
+    mobile: z
+      .string()
+      .regex(/^\+?[\d\s()-]{10,18}$/, "Enter a valid mobile number."),
+    city: quick
+      ? z.string().trim().max(100)
+      : z.string().trim().min(2, "Enter your city.").max(100),
+    description: z
+      .string()
+      .trim()
+      .min(20, "Please tell us a little more (20 characters minimum).")
+      .max(5000),
+    website: z.string().max(0),
+    consent: z.boolean().refine((v) => v, "Please agree to be contacted."),
+  });
+type Values = z.infer<ReturnType<typeof makeSchema>>;
+export function ContactForm({ quick = false }: { quick?: boolean }) {
+  const schema = makeSchema(quick);
+  const formId = quick ? "quick" : "contact";
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
   const [whatsappLink, setWhatsappLink] = useState("");
@@ -59,7 +66,7 @@ export function ContactForm() {
           ...defaults,
           ...values,
           source: "contact",
-          title: "Consultation enquiry",
+          title: quick ? "Quick enquiry" : "Consultation enquiry",
           location: values.city,
         }),
       );
@@ -68,13 +75,15 @@ export function ContactForm() {
       if (!res.ok)
         throw new Error(result.error || "Unable to send your message.");
       setReference(result.id);
-      trackEvent("generate_lead", { form: "contact" });
+      trackEvent("generate_lead", {
+        form: quick ? "quick_enquiry" : "contact",
+      });
       if (business.whatsapp) {
         const link = enquiryWhatsappUrl(
           {
             ...defaults,
             ...values,
-            title: "Consultation enquiry",
+            title: quick ? "Quick enquiry" : "Consultation enquiry",
             location: values.city,
           },
           result.id,
@@ -126,14 +135,22 @@ export function ContactForm() {
     <form
       className="form-panel contact-form"
       onSubmit={handleSubmit(submit)}
-      aria-labelledby="contact-form-title"
+      aria-labelledby={`${formId}-form-title`}
       noValidate
     >
       <div className="contact-form-heading">
-        <p className="eyebrow">CONTACT THE STUDIO</p>
-        <h2 id="contact-form-title">Tell us what’s on your mind.</h2>
+        <p className="eyebrow">
+          {quick ? "QUICK ENQUIRY" : "CONTACT THE STUDIO"}
+        </p>
+        <h2 id={`${formId}-form-title`}>
+          {quick
+            ? "Let’s start with your idea."
+            : "Tell us what’s on your mind."}
+        </h2>
         <p className="form-subtitle">
-          Share your idea or ask a question. We’d love to hear from you.
+          {quick
+            ? "Just your name, number and a little about what you need. We can discuss the details together."
+            : "Share your idea or ask a question. We’d love to hear from you."}
         </p>
       </div>
       <p className="contact-form-required">All fields are required.</p>
@@ -143,55 +160,61 @@ export function ContactForm() {
         </p>
       )}
       <div className="form-fields">
-        {(["name", "email", "mobile", "city"] as const).map((name) => (
-          <div className="field" key={name}>
-            <label htmlFor={`contact-${name}`}>
-              {
+        {(["name", "email", "mobile", "city"] as const)
+          .filter((name) => !quick || name === "name" || name === "mobile")
+          .map((name) => (
+            <div className="field" key={name}>
+              <label htmlFor={`contact-${name}`}>
                 {
-                  name: "Full name",
-                  email: "Email address",
-                  mobile: "Mobile number",
-                  city: "Your city",
-                }[name]
-              }{" "}
-              *
-            </label>
-            <input
-              id={`contact-${name}`}
-              {...register(name)}
-              type={
-                name === "email" ? "email" : name === "mobile" ? "tel" : "text"
-              }
-              autoComplete={
-                name === "name"
-                  ? "name"
-                  : name === "email"
+                  {
+                    name: "Full name",
+                    email: "Email address",
+                    mobile: "Mobile number",
+                    city: "Your city",
+                  }[name]
+                }{" "}
+                *
+              </label>
+              <input
+                id={`contact-${name}`}
+                {...register(name)}
+                type={
+                  name === "email"
                     ? "email"
                     : name === "mobile"
                       ? "tel"
-                      : "address-level2"
-              }
-              aria-invalid={!!errors[name]}
-              aria-describedby={
-                errors[name] ? `contact-${name}-error` : undefined
-              }
-              required
-              placeholder={
-                {
-                  name: "Your full name",
-                  email: "you@example.com",
-                  mobile: "e.g. +91 98765 43210",
-                  city: "City or town",
-                }[name]
-              }
-            />
-            {errors[name] && (
-              <span className="field-error" id={`contact-${name}-error`}>
-                {errors[name].message}
-              </span>
-            )}
-          </div>
-        ))}
+                      : "text"
+                }
+                autoComplete={
+                  name === "name"
+                    ? "name"
+                    : name === "email"
+                      ? "email"
+                      : name === "mobile"
+                        ? "tel"
+                        : "address-level2"
+                }
+                aria-invalid={!!errors[name]}
+                aria-describedby={
+                  errors[name] ? `contact-${name}-error` : undefined
+                }
+                required
+                placeholder={
+                  {
+                    name: "Your full name",
+                    email: "you@example.com",
+                    mobile: "e.g. +91 98765 43210",
+                    city: "City or town",
+                  }[name]
+                }
+              />
+              {errors[name] && (
+                <span className="field-error" id={`contact-${name}-error`}>
+                  {errors[name].message}
+                </span>
+              )}
+            </div>
+          ))}
         <div className="field full">
           <label htmlFor="contact-description">How can we help? *</label>
           <textarea

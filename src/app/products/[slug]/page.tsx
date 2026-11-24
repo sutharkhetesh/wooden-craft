@@ -91,6 +91,29 @@ export default async function ProductDetail({
               ))}
             </ul>
           </MotionItem>
+          <MotionItem>
+            <dl className="product-specifications">
+              {[
+                ["Price", "Personalised quote from the studio"],
+                ["Dimensions", "Exact measurements to be confirmed"],
+                ["Material", "Wood; species to be confirmed by the studio"],
+                ["Appearance / finish", product.finish],
+                [
+                  "Availability & delivery",
+                  "Confirm for your quantity and location",
+                ],
+                [
+                  "Included accessories",
+                  "Confirm what is included; styling items may be separate",
+                ],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </MotionItem>
           <MotionItem className="product-enquiry">
             <p>Make it part of your everyday.</p>
             <a

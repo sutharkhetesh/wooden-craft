@@ -13,6 +13,7 @@ const child = spawn(
     env: {
       ...process.env,
       DATA_DIRECTORY: data,
+      RESEND_API_KEY: "",
     },
     stdio: ["ignore", "pipe", "pipe"],
   },

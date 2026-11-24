@@ -76,23 +76,25 @@ export default function Contact() {
               value: business.hours,
               link: "",
             },
-          ].map(({ Icon, title, value, link }) => (
-            <div className="contact-detail" key={title}>
-              <Icon />
-              <div>
-                <h3>{title}</h3>
-                {value ? (
-                  link ? (
-                    <a href={link}>{value}</a>
+          ]
+            .filter(({ value }) => Boolean(value))
+            .map(({ Icon, title, value, link }) => (
+              <div className="contact-detail" key={title}>
+                <Icon />
+                <div>
+                  <h3>{title}</h3>
+                  {value ? (
+                    link ? (
+                      <a href={link}>{value}</a>
+                    ) : (
+                      <p>{value}</p>
+                    )
                   ) : (
-                    <p>{value}</p>
-                  )
-                ) : (
-                  <p>Studio details to be announced</p>
-                )}
+                    <p>Studio details to be announced</p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           <p className="contact-note">
             Planning a visit? Call or message us to arrange a time.
           </p>

@@ -197,6 +197,39 @@ try {
     return Math.abs(x - previous) > 2;
   }, stillX);
   await page.goto(origin + links[0], { waitUntil: "networkidle" });
+  const zoomTrigger = page.locator(".gallery-zoom-trigger");
+  await zoomTrigger.hover({ position: { x: 120, y: 140 } });
+  const preview = page.getByRole("region", { name: /Magnified detail/ });
+  await preview.waitFor({ state: "visible" });
+  await page.waitForFunction(() => {
+    const image = document.querySelector(".gallery-zoom-preview img");
+    return image?.complete && image.naturalWidth > 0;
+  });
+  const stageBox = await page.locator(".product-gallery-stage").boundingBox();
+  const previewBox = await preview.boundingBox();
+  assert.ok(
+    previewBox.x >= stageBox.x + stageBox.width,
+    "Desktop detail must appear beside the photo",
+  );
+  const firstPosition = await page
+    .locator(".gallery-zoom-detail")
+    .getAttribute("style");
+  await zoomTrigger.hover({ position: { x: 240, y: 240 } });
+  assert.notEqual(
+    await page.locator(".gallery-zoom-detail").getAttribute("style"),
+    firstPosition,
+  );
+  await page.screenshot({
+    path: "/tmp/wooden-craft-gallery-hover-desktop.png",
+  });
+  await page.mouse.move(0, 0);
+  await preview.waitFor({ state: "detached" });
+  await zoomTrigger.focus();
+  await page.keyboard.press("Enter");
+  await preview.waitFor({ state: "visible" });
+  await page.keyboard.press("Escape");
+  await preview.waitFor({ state: "detached" });
+  await page.locator(".product-thumbnails button").first().click();
   const initialPhoto = await page
     .locator(".product-gallery-image img")
     .getAttribute("src");
@@ -252,13 +285,100 @@ try {
     fullPage: true,
   });
   await page.goto(origin + links[0], { waitUntil: "networkidle" });
+  const mobile = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: "reduce",
+  });
+  const touchPage = await mobile.newPage();
+  await touchPage.goto(origin + links[0], { waitUntil: "networkidle" });
+  const cdp = await mobile.newCDPSession(touchPage);
+  async function swipe(selector, dx, dy = 0) {
+    const target = touchPage.locator(selector);
+    await target.scrollIntoViewIfNeeded();
+    const box = await target.boundingBox();
+    const x = box.x + box.width * (dx < 0 ? 0.8 : 0.2);
+    const y = box.y + box.height / 2;
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x, y }],
+    });
+    for (let step = 1; step <= 6; step++) {
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: x + (dx * step) / 6, y: y + (dy * step) / 6 }],
+      });
+    }
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+  }
+  await swipe(".product-gallery-stage", -150);
+  await touchPage.waitForFunction(
+    () =>
+      document.querySelector(".photo-counter").textContent.trim() === "2 / 5",
+  );
+  assert.equal(
+    await touchPage.getByRole("dialog").count(),
+    0,
+    "Swiping must not open fullscreen",
+  );
+  await swipe(".product-gallery-stage", 150);
+  await touchPage.waitForFunction(
+    () =>
+      document.querySelector(".photo-counter").textContent.trim() === "1 / 5",
+  );
+  await touchPage.locator(".gallery-zoom-trigger").tap();
+  await touchPage.waitForFunction(() =>
+    document
+      .querySelector(".product-gallery-stage")
+      .classList.contains("is-zoomed"),
+  );
+  assert.equal(
+    await touchPage
+      .locator(".product-gallery-stage")
+      .evaluate((element) => element.classList.contains("is-zoomed")),
+    true,
+  );
+  const oldOrigin = await touchPage
+    .locator(".product-gallery-image")
+    .getAttribute("style");
+  await swipe(".product-gallery-stage", -100);
+  assert.equal(
+    await touchPage.locator(".photo-counter").textContent(),
+    "1 / 5",
+    "Zoom panning must not change the photo",
+  );
+  assert.notEqual(
+    await touchPage.locator(".product-gallery-image").getAttribute("style"),
+    oldOrigin,
+  );
+  await touchPage.screenshot({
+    path: "/tmp/wooden-craft-gallery-zoom-mobile.png",
+  });
+  await touchPage.locator(".gallery-zoom-trigger").tap();
+  await touchPage.waitForFunction(
+    () =>
+      !document
+        .querySelector(".product-gallery-stage")
+        .classList.contains("is-zoomed"),
+  );
+  assert.equal(
+    await touchPage
+      .locator(".product-gallery-stage")
+      .evaluate((element) => element.classList.contains("is-zoomed")),
+    false,
+  );
+  await mobile.close();
   await page.screenshot({
     path: "/tmp/wooden-craft-product-detail-mobile.png",
     fullPage: true,
   });
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: four products, 13 generated views, ticker scrolling/hover pause/resume, variant/gallery animations, reduced motion, WhatsApp, removed originals and sitemap",
+    "PASS: four products, 13 generated views, desktop hover detail and moving lens, keyboard zoom/escape, mobile swipe and inline zoom panning, ticker, animations, reduced motion, WhatsApp and sitemap",
   );
 } finally {
   await browser?.close();

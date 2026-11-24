@@ -70,6 +70,7 @@ The opt-in `npm run test:db:migration` exercises backfill using synthetic record
 - Detailed project drafts restore after refresh for seven days on the same device, with a clear-draft control. Contact fields, consent and images are excluded; project descriptions may still contain personal information.
 - Filterable portfolio with six illustrative concepts and individual project pages.
 - Product collection with four wooden objects, 13 generated studio views, photo galleries and product-specific WhatsApp enquiries.
+- Product galleries support touch swipes and arrow-key navigation. Desktop hover shows a magnified detail beside the photo, with a moving lens; mobile tap enables inline zoom with touch panning. Escape closes zoom.
 - Five-step enquiry: project type; requirements; budget/timeline; optional images; contact details; followed by a full review before submission.
 - JPG, PNG and WebP reference uploads (maximum five, 4 MB each), previews and removal.
 - Server validation, honeypot, origin checks, rate limiting, unique references and honest failure states.

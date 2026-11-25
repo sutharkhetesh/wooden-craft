@@ -743,38 +743,6 @@ img {
   margin: 0;
   line-height: 1.9;
 }
-.testimonials {
-  text-align: center;
-  border-top: 1px solid var(--line);
-  padding-block: 66px 75px;
-}
-.testimonials > .wrap > .eyebrow {
-  font-size: 8px;
-}
-.stars {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-  color: var(--oak);
-  margin: 25px 0;
-}
-.testimonials blockquote {
-  font-family: var(--serif);
-  font-size: 35px;
-  line-height: 1.35;
-  margin: 20px auto 30px;
-}
-.review-author {
-  font-size: 8px;
-  letter-spacing: 1.2px;
-}
-.review-author span {
-  display: block;
-  color: var(--muted);
-  font-size: 9px;
-  letter-spacing: 0;
-  margin-top: 7px;
-}
 .project-cta {
   background: var(--brown);
   color: var(--bg);
@@ -1639,9 +1607,6 @@ textarea::placeholder {
   .why-item {
     gap: 13px;
   }
-  .testimonials blockquote {
-    font-size: 31px;
-  }
   .cta-inner {
     min-height: 320px;
   }
@@ -1938,23 +1903,6 @@ textarea::placeholder {
     padding-top: 20px;
     margin-top: 21px;
     gap: 19px;
-  }
-  .testimonials {
-    padding-block: 50px;
-  }
-  .testimonials > .wrap > .eyebrow {
-    font-size: 6px;
-    letter-spacing: 1.2px;
-  }
-  .testimonials blockquote {
-    font-size: 30px;
-    line-height: 1.4;
-  }
-  .review-author {
-    font-size: 7px;
-  }
-  .review-author span {
-    font-size: 8px;
   }
   .cta-inner {
     display: block;
@@ -3904,7 +3852,6 @@ main:has(> .project-cta:last-child) + .footer .footer-invitation {
 :root {
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --gold: #c9a574;
-  --paper: #fbf9f4;
 }
 body {
   font-size: 15px;
@@ -4190,13 +4137,6 @@ img {
   font-family: var(--serif);
   font-size: 2.25rem;
   color: var(--oak);
-}
-.testimonials blockquote {
-  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.75rem);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  font-style: italic;
-  font-weight: 300;
 }
 
 /* Scroll progress picks up the brand gold */

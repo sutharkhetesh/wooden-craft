@@ -67,7 +67,6 @@ The opt-in `npm run test:db:migration` exercises backfill using synthetic record
 - Three-field quick enquiry on the homepage with consent, server validation, durable storage and a reference number; email and city remain required on the detailed enquiry.
 - Native accessible FAQs and studio directions; demonstration reviews have been removed.
 - Product specification summaries distinguish known appearance details from measurements, prices and delivery details that need studio confirmation.
-- Detailed project drafts restore after refresh for seven days on the same device, with a clear-draft control. Contact fields, consent and images are excluded; project descriptions may still contain personal information.
 - Filterable portfolio with six illustrative concepts and individual project pages.
 - Product collection with four wooden objects, 13 generated studio views, photo galleries and product-specific WhatsApp enquiries.
 - Product galleries support touch swipes and arrow-key navigation. Desktop hover shows a magnified detail beside the photo, with a moving lens; mobile tap enables inline zoom with touch panning. Escape closes zoom.
@@ -108,7 +107,7 @@ The browser check uses the existing `/usr/bin/google-chrome`, starts a temporary
 
 `npm run test:responsive` checks ten routes at 14 widths from 320 to 2560 pixels, short landscape navigation, menu resizing, animated portfolio filters and reduced-motion behavior. It uses the same local Chrome executable and writes screenshots to `/tmp/wooden-craft-*.png`. Build first. Use `npm run test:responsive -- --widths=320,768,1440` to check selected widths in a shorter run.
 
-The improvements browser check uses isolated temporary storage with the real database and Resend alerts disabled. It verifies quick enquiry persistence, FAQs, draft restore/clear and overflow at phone, tablet and desktop widths.
+The improvements browser check uses isolated temporary storage with the real database and Resend alerts disabled. It verifies quick enquiry persistence, FAQs, enquiry reset after refresh and overflow at phone, tablet and desktop widths.
 
 The integration suite tests validation, image signatures, hosted JSON and image file persistence, removed admin endpoints, rate limiting, failed-save cleanup and cross-origin rejection.
 

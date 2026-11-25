@@ -90,21 +90,11 @@ try {
 
   await page.goto(origin + "/enquiry", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: /Continue/ }).click();
-  await page.locator("#title").fill("Oak desk draft");
+  await page.locator("#title").fill("Oak desk");
   await page
     .locator("#description")
     .fill("A compact oak desk with storage for books.");
   await page.reload({ waitUntil: "networkidle" });
-  await page
-    .getByText("Your project draft was restored.", { exact: false })
-    .waitFor();
-  await page.getByRole("button", { name: /Continue/ }).click();
-  assert.equal(await page.locator("#title").inputValue(), "Oak desk draft");
-  await page.getByRole("button", { name: "Clear draft & start again" }).click();
-  assert.equal(
-    await page.evaluate(() => localStorage.getItem("enteak-project-draft-v1")),
-    null,
-  );
   await page.getByRole("button", { name: /Continue/ }).click();
   assert.equal(await page.locator("#title").inputValue(), "");
 
@@ -125,7 +115,7 @@ try {
   await page.screenshot({ path: "/tmp/enteak-improvements-mobile.png" });
   assert.deepEqual(errors, []);
   console.log(
-    "Passed: saved quick enquiry, FAQ interaction, draft restore/clear, mobile/tablet/desktop overflow and browser errors.",
+    "Passed: saved quick enquiry, FAQ interaction, enquiry reset after refresh, mobile/tablet/desktop overflow and browser errors.",
   );
 } finally {
   await browser?.close();

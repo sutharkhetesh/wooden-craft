@@ -1,7 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { defaults, enquirySchema } from "../src/lib/enquiry/schema";
-import { decodeDraft, encodeDraft } from "../src/lib/enquiry/draft";
 import { createWorker } from "../hosting/worker.mjs";
 
 const quick = {
@@ -34,22 +33,6 @@ test("quick enquiries allow missing email/city, while full enquiries require the
       enquirySchema.safeParse({ ...quick, ...patch }).success,
       false,
     );
-});
-
-test("draft round trip preserves unfinished project text and excludes contact/consent", () => {
-  const raw = encodeDraft(
-    { ...quick, title: "O", description: "Oak", email: "private@example.com" },
-    1000,
-  );
-  const restored = decodeDraft(raw, 2000)!;
-  assert.equal(restored.title, "O");
-  assert.equal(restored.description, "Oak");
-  for (const key of ["name", "email", "mobile", "consent", "website", "source"])
-    assert.equal(key in restored, false);
-  assert.equal(decodeDraft(raw, 1000 + 8 * 86400000), null);
-  assert.equal(decodeDraft(raw, 999), null);
-  assert.equal(decodeDraft("{broken"), null);
-  assert.equal(decodeDraft(raw.replace('"Flexible"', '"invalid"'), 2000), null);
 });
 
 test("hosted quick enquiry persists without inventing email/city", async () => {

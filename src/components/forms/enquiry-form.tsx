@@ -22,6 +22,7 @@ import {
   Check,
   LoaderCircle,
   MessageCircle,
+  Mail,
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
@@ -32,7 +33,6 @@ import {
 } from "@/lib/enquiry/schema";
 import { types } from "@/data/studio";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
-import { DRAFT_KEY, encodeDraft, decodeDraft } from "@/lib/enquiry/draft";
 const labels = [
   "Project type",
   "The details",
@@ -61,8 +61,6 @@ const stepFields: FieldPath<EnquiryInput>[][] = [
 export function EnquiryForm() {
   const params = useSearchParams();
   const [step, setStep] = useState(0);
-  const [draftState, setDraftState] = useState("");
-  const submitted = useRef(false);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [fileError, setFileError] = useState("");
@@ -89,56 +87,6 @@ export function EnquiryForm() {
     handleSubmit,
   } = form;
   const values = watch();
-  useEffect(() => {
-    try {
-      const draft = decodeDraft(localStorage.getItem(DRAFT_KEY));
-      if (draft) {
-        form.reset({
-          ...defaults,
-          ...draft,
-          ...(params.get("title")
-            ? { title: params.get("title")!.slice(0, 120) }
-            : {}),
-          ...(types.includes(params.get("type") as (typeof types)[number])
-            ? { projectType: params.get("type") as EnquiryInput["projectType"] }
-            : {}),
-        });
-        setDraftState(
-          "Your project draft was restored. Please add reference images again.",
-        );
-      } else localStorage.removeItem(DRAFT_KEY);
-    } catch {
-      setDraftState("Draft saving is unavailable in this browser.");
-    }
-    const subscription = form.watch(() => {
-      if (submitted.current) return;
-      try {
-        localStorage.setItem(DRAFT_KEY, encodeDraft(form.getValues()));
-        setDraftState("Project draft saved on this device for 7 days.");
-      } catch {
-        setDraftState("Draft saving is unavailable in this browser.");
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [form, params]);
-  function clearDraft() {
-    try {
-      localStorage.removeItem(DRAFT_KEY);
-    } catch {
-      /* Browser storage can be disabled. */
-    }
-    form.reset({ ...defaults });
-    try {
-      localStorage.removeItem(DRAFT_KEY);
-    } catch {
-      /* Keep the form usable. */
-    }
-    setFiles([]);
-    setFileError("");
-    setStep(0);
-    setDraftState("Draft cleared. You can start a new project.");
-  }
-
   useEffect(() => {
     const urls = files.map((f) => URL.createObjectURL(f));
     setPreviews(urls);
@@ -201,12 +149,6 @@ export function EnquiryForm() {
       const result = await res.json();
       if (!res.ok)
         throw new Error(result.error || "Unable to submit your enquiry.");
-      submitted.current = true;
-      try {
-        localStorage.removeItem(DRAFT_KEY);
-      } catch {
-        /* Submission is already saved. */
-      }
       setReference(result.id);
       trackEvent("generate_lead", {
         form: "custom_quote",
@@ -348,19 +290,6 @@ export function EnquiryForm() {
         </div>
       </aside>
       <div className="form-panel" ref={panel} style={{ scrollMarginTop: 95 }}>
-        <div className="draft-notice">
-          <p role="status">
-            {draftState ||
-              "Project details save automatically on this device for 7 days."}
-          </p>
-          <p>
-            Contact fields, consent and image files are not saved in the draft.
-            Clear it when using a shared device.
-          </p>
-          <button type="button" className="text-link" onClick={clearDraft}>
-            Clear draft & start again
-          </button>
-        </div>
         <form
           onSubmit={(e) => {
             if (step !== 5) {
@@ -695,6 +624,17 @@ export function EnquiryForm() {
               </>
             )}
           </motion.div>
+          <div className="enquiry-email-note">
+            <span className="enquiry-email-note-icon" aria-hidden="true">
+              <Mail size={20} />
+            </span>
+            <p>
+              <strong>No pricing online.</strong>
+              <span>
+                Our catalogue and your personalised quotation are shared by email.
+              </span>
+            </p>
+          </div>
           <div className="form-buttons">
             {step > 0 ? (
               <button

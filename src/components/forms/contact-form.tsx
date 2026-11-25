@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowUpRight, Check, LoaderCircle } from "lucide-react";
+import { ArrowUpRight, Check, LoaderCircle, ShieldCheck } from "lucide-react";
 import { defaults } from "@/lib/enquiry/schema";
 import { business, enquiryWhatsappUrl } from "@/lib/config";
 import { trackEvent } from "@/lib/analytics";
@@ -102,7 +102,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
   if (reference)
     return (
       <div
-        className="form-panel contact-form contact-form-success"
+        className="form-panel studio-form contact-form contact-form-success"
         role="status"
       >
         <Check size={30} />
@@ -133,7 +133,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
     );
   return (
     <form
-      className="form-panel contact-form"
+      className="form-panel studio-form contact-form"
       onSubmit={handleSubmit(submit)}
       aria-labelledby={`${formId}-form-title`}
       noValidate
@@ -153,7 +153,12 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
             : "Share your idea or ask a question. We’d love to hear from you."}
         </p>
       </div>
-      <p className="contact-form-required">All fields are required.</p>
+      <div className="contact-form-meta">
+        <p className="contact-form-required">All fields are required.</p>
+        <span>
+          <ShieldCheck size={14} aria-hidden="true" /> A personal conversation
+        </span>
+      </div>
       {error && (
         <p className="form-error" role="alert">
           {error}
@@ -164,7 +169,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
           .filter((name) => !quick || name === "name" || name === "mobile")
           .map((name) => (
             <div className="field" key={name}>
-              <label htmlFor={`contact-${name}`}>
+              <label htmlFor={`${formId}-${name}`}>
                 {
                   {
                     name: "Full name",
@@ -176,7 +181,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
                 *
               </label>
               <input
-                id={`contact-${name}`}
+                id={`${formId}-${name}`}
                 {...register(name)}
                 type={
                   name === "email"
@@ -196,7 +201,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
                 }
                 aria-invalid={!!errors[name]}
                 aria-describedby={
-                  errors[name] ? `contact-${name}-error` : undefined
+                  errors[name] ? `${formId}-${name}-error` : undefined
                 }
                 required
                 placeholder={
@@ -209,40 +214,47 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
                 }
               />
               {errors[name] && (
-                <span className="field-error" id={`contact-${name}-error`}>
+                <span className="field-error" id={`${formId}-${name}-error`}>
                   {errors[name].message}
                 </span>
               )}
             </div>
           ))}
         <div className="field full">
-          <label htmlFor="contact-description">How can we help? *</label>
+          <label htmlFor={`${formId}-description`}>How can we help? *</label>
           <textarea
-            id="contact-description"
+            id={`${formId}-description`}
             {...register("description")}
             placeholder="Tell us about the piece you have in mind, your space, or how we can help."
             rows={5}
             aria-invalid={!!errors.description}
             aria-describedby={
               errors.description
-                ? "contact-description-hint contact-description-error"
-                : "contact-description-hint"
+                ? `${formId}-description-hint ${formId}-description-error`
+                : `${formId}-description-hint`
             }
             required
           />
-          <span className="contact-field-hint" id="contact-description-hint">
+          <span
+            className="contact-field-hint"
+            id={`${formId}-description-hint`}
+          >
             Please include at least 20 characters.
           </span>
           {errors.description && (
-            <span className="field-error" id="contact-description-error">
+            <span className="field-error" id={`${formId}-description-error`}>
               {errors.description.message}
             </span>
           )}
         </div>
       </div>
       <div className="honeypot" aria-hidden="true">
-        <label htmlFor="contact-website">Leave blank</label>
-        <input id="contact-website" {...register("website")} tabIndex={-1} />
+        <label htmlFor={`${formId}-website`}>Leave blank</label>
+        <input
+          id={`${formId}-website`}
+          {...register("website")}
+          tabIndex={-1}
+        />
       </div>
       <label className="consent">
         <input
@@ -251,7 +263,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
           required
           aria-invalid={!!errors.consent}
           aria-describedby={
-            errors.consent ? "contact-consent-error" : undefined
+            errors.consent ? `${formId}-consent-error` : undefined
           }
         />
         <span>
@@ -260,7 +272,7 @@ export function ContactForm({ quick = false }: { quick?: boolean }) {
         </span>
       </label>
       {errors.consent && (
-        <p className="field-error" id="contact-consent-error">
+        <p className="field-error" id={`${formId}-consent-error`}>
           {errors.consent.message}
         </p>
       )}

@@ -39,6 +39,7 @@ const labels = [
   "Budget & timeline",
   "Inspiration",
   "Your details",
+  "Review & send",
 ];
 const icons = [
   BedDouble,
@@ -260,14 +261,15 @@ export function EnquiryForm() {
   return (
     <div className="wrap enquiry-layout">
       <aside className="form-sidebar">
-        <div className="step-list">
+        <p className="eyebrow enquiry-sidebar-title">YOUR CUSTOM PROJECT</p>
+        <nav className="step-list" aria-label="Enquiry steps">
           {labels.map((label, i) => (
             <button
               type="button"
               key={label}
               onClick={() => i < step && moveTo(i)}
               disabled={i > step}
-              className={`step-nav ${step === i || (step === 5 && i === 4) ? "current" : ""} ${step > i ? "complete" : ""}`}
+              className={`step-nav ${step === i ? "current" : ""} ${step > i ? "complete" : ""}`}
               aria-current={step === i ? "step" : undefined}
             >
               <span>
@@ -280,7 +282,7 @@ export function EnquiryForm() {
               {label}
             </button>
           ))}
-        </div>
+        </nav>
         <div className="sidebar-note">
           <ShieldCheck size={20} />
           <p style={{ margin: "12px 0 0" }}>
@@ -289,7 +291,11 @@ export function EnquiryForm() {
           </p>
         </div>
       </aside>
-      <div className="form-panel" ref={panel} style={{ scrollMarginTop: 95 }}>
+      <div
+        className="form-panel studio-form enquiry-form-panel"
+        ref={panel}
+        style={{ scrollMarginTop: 95 }}
+      >
         <form
           onSubmit={(e) => {
             if (step !== 5) {
@@ -299,6 +305,19 @@ export function EnquiryForm() {
           }}
           noValidate
         >
+          <div className="enquiry-progress-heading" aria-live="polite">
+            <span>
+              STEP {String(step + 1).padStart(2, "0")} OF{" "}
+              {String(labels.length).padStart(2, "0")}
+            </span>
+            <span>{labels[step]}</span>
+          </div>
+          <progress
+            className="enquiry-progress"
+            value={step + 1}
+            max={labels.length}
+            aria-label="Enquiry progress"
+          />
           <div className="honeypot" aria-hidden="true">
             <label htmlFor="website">Leave this empty</label>
             <input
@@ -343,6 +362,14 @@ export function EnquiryForm() {
                       >
                         <Icon size={29} />
                         {t}
+                        {values.projectType === t && (
+                          <span
+                            className="type-option-check"
+                            aria-hidden="true"
+                          >
+                            <Check size={12} />
+                          </span>
+                        )}
                       </button>
                     );
                   })}
@@ -631,7 +658,8 @@ export function EnquiryForm() {
             <p>
               <strong>No pricing online.</strong>
               <span>
-                Our catalogue and your personalised quotation are shared by email.
+                Our catalogue and your personalised quotation are shared by
+                email.
               </span>
             </p>
           </div>
@@ -647,7 +675,7 @@ export function EnquiryForm() {
                 Back
               </button>
             ) : (
-              <span className="form-step-count">STEP 01 OF 05</span>
+              <span className="form-step-count">SELECT A PROJECT TYPE</span>
             )}
             {step < 5 ? (
               <button

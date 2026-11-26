@@ -15,6 +15,44 @@ test("storage diagnostics retain Prisma codes without private error data", () =>
   });
 });
 
+test("code-less Prisma failures expose nested driver diagnostics without private text", () => {
+  const error = {
+    name: "PrismaClientKnownRequestError",
+    meta: {
+      driverAdapterError: {
+        cause: {
+          kind: "AuthenticationFailed",
+          originalCode: "28P01",
+          originalMessage:
+            'password authentication failed for user "private-user"',
+          user: "private-user",
+        },
+      },
+    },
+  };
+  assert.deepEqual(storageErrorDetails(error), {
+    name: "PrismaClientKnownRequestError",
+    driverCodes: ["28P01"],
+    driverKinds: ["AuthenticationFailed"],
+    signals: ["authentication-failed"],
+  });
+});
+
+test("diagnostics handle cyclic causes and classify code-less connection timeouts", () => {
+  const error = Object.assign(
+    new Error("Connection terminated due to connection timeout"),
+    {
+      name: "PrismaClientKnownRequestError",
+      cause: {} as unknown,
+    },
+  );
+  error.cause = error;
+  assert.deepEqual(storageErrorDetails(error), {
+    name: "PrismaClientKnownRequestError",
+    signals: ["connection-timeout", "connection-closed"],
+  });
+});
+
 test("storage diagnostics discard unknown names, codes, and thrown values", () => {
   for (const error of [
     null,
@@ -23,5 +61,6 @@ test("storage diagnostics discard unknown names, codes, and thrown values", () =
     new Error("private connection string"),
     { name: "private name", code: "private code" },
     { name: "Error", code: "P2021\nprivate data" },
-  ]) assert.deepEqual(storageErrorDetails(error), { name: "Error" });
+  ])
+    assert.deepEqual(storageErrorDetails(error), { name: "Error" });
 });

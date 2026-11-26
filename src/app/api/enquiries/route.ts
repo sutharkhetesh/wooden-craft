@@ -5,6 +5,7 @@ import { saveEnquiry } from "@/lib/server/storage";
 import { storeUploads, removeUploads } from "@/lib/server/uploads";
 import { sameOrigin, limited, clientKey } from "@/lib/server/security";
 import { notifyEnquiry } from "@/lib/server/notifications";
+import { storageErrorDetails } from "@/lib/server/storage-error";
 export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
   if (!sameOrigin(req))
@@ -94,7 +95,7 @@ export async function POST(req: NextRequest) {
     if (attachments.length > 0) await removeUploads(id);
     console.error(
       "Enquiry storage failed:",
-      error instanceof Error ? error.name : "Error",
+      { ...storageErrorDetails(error), reference: id },
     );
     return NextResponse.json(
       { error: "We couldn’t save your enquiry. Please try again shortly." },

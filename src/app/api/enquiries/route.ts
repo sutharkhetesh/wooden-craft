@@ -94,17 +94,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (attachments.length > 0) await removeUploads(id);
     console.error("Enquiry storage failed:", {
-      ...storageErrorDetails(error, [
-        ...Object.values(parsed.data).filter(
-          (value): value is string => typeof value === "string",
-        ),
-        ...attachments.flatMap((attachment) => [
-          attachment.name,
-          attachment.filename,
-        ]),
-        process.env.DATABASE_URL || "",
-        process.env.DIRECT_URL || "",
-      ]),
+      ...storageErrorDetails(error),
       reference: id,
     });
     return NextResponse.json(

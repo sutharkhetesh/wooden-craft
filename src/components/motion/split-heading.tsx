@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
-export type HeadingWord = { text: string; em?: boolean };
+type HeadingWord = { text: string; em?: boolean };
 
 /**
  * Headline that rises word by word out of a mask. Each inner array is a line.

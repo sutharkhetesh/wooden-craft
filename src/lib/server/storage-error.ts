@@ -1,6 +1,9 @@
-// Log only known error types and codes. Prisma messages and metadata can contain
-// connection strings, SQL parameters, and customer details.
-export function storageErrorDetails(error: unknown) {
+// Keep structured diagnostics restricted to known types and codes. Redact
+// private values before extracting a short message; never log raw metadata.
+export function storageErrorDetails(
+  error: unknown,
+  privateValues: string[] = [],
+) {
   if (!error || typeof error !== "object") return { name: "Error" };
   const knownNames = new Set([
     "PrismaClientKnownRequestError",
@@ -106,11 +109,54 @@ export function storageErrorDetails(error: unknown) {
         queue.push(item[field]);
     }
   }
+  // Some adapter failures have neither a code nor a structured cause. Retain
+  // the final error paragraph, omitting Prisma's invocation/argument preamble.
+  let summary: string | undefined;
+  if (
+    name !== "Error" &&
+    "message" in error &&
+    typeof error.message === "string"
+  ) {
+    let message = error.message;
+    const secrets = new Set(privateValues.filter(Boolean));
+    for (const value of privateValues) {
+      try {
+        const url = new URL(value);
+        if (url.password) secrets.add(decodeURIComponent(url.password));
+        if (url.username) secrets.add(decodeURIComponent(url.username));
+      } catch {
+        /* Most private values are form fields, not URLs. */
+      }
+    }
+    for (const value of [...secrets].sort((a, b) => b.length - a.length)) {
+      for (const variant of [
+        value,
+        JSON.stringify(value).slice(1, -1),
+        encodeURIComponent(value),
+      ]) {
+        message = message.split(variant).join("[redacted]");
+      }
+    }
+    message = message.replace(
+      /(?:postgres(?:ql)?|https?|wss?):\/\/[^\s<>"']+/gi,
+      "[redacted-url]",
+    );
+    message = message.replace(
+      /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,
+      "[redacted-email]",
+    );
+    summary = message
+      .trim()
+      .split(/\n\s*\n/)
+      .at(-1)
+      ?.slice(0, 1000);
+  }
   return {
     name,
     ...(code ? { code } : {}),
     ...(driverCodes.size ? { driverCodes: [...driverCodes] } : {}),
     ...(driverKinds.size ? { driverKinds: [...driverKinds] } : {}),
     ...(signals.size ? { signals: [...signals] } : {}),
+    ...(summary ? { summary } : {}),
   };
 }

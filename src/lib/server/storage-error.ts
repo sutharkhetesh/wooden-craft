@@ -6,6 +6,7 @@ export function storageErrorDetails(
 ) {
   if (!error || typeof error !== "object") return { name: "Error" };
   const knownNames = new Set([
+    "DatabaseConfigurationError",
     "PrismaClientKnownRequestError",
     "PrismaClientUnknownRequestError",
     "PrismaClientInitializationError",

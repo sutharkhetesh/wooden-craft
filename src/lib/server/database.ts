@@ -1,5 +1,6 @@
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@/generated/prisma/client";
+import { databaseUrl } from "@/lib/server/database-url";
 import type { EnquiryRecord } from "@/lib/enquiry/schema";
 import {
   contactCreateData,
@@ -10,7 +11,7 @@ import {
 export function createDatabaseClient(connectionString: string) {
   return new PrismaClient({
     adapter: new PrismaNeon({
-      connectionString,
+      connectionString: databaseUrl(connectionString),
       max: 1,
       connectionTimeoutMillis: 10000,
     }),
